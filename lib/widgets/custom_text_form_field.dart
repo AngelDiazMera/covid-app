@@ -22,7 +22,7 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 15),
+      margin: EdgeInsets.only(top: 15),
       width: width,
       child: TextFormField(
         keyboardType: keyboardType,

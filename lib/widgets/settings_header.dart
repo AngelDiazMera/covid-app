@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:persistencia_datos/models/my_user.dart';
 import 'package:persistencia_datos/models/user.dart';
+import 'package:persistencia_datos/theme/theme.dart';
 
 class SettingsHeader extends StatelessWidget {
   User newUser;
@@ -43,7 +45,11 @@ class SettingsHeader extends StatelessWidget {
                   color: Colors.white),
             ),
             TextButton(
-              onPressed: _saveChanges,
+              onPressed: () {
+                MyUser.mine.myUser = newUser;
+                print('Guardado');
+                _mostrarAlert(context);
+              },
               child: Text('Hecho'),
               style: TextButton.styleFrom(primary: Colors.white),
             ),
@@ -53,8 +59,44 @@ class SettingsHeader extends StatelessWidget {
     );
   }
 
-  void _saveChanges() {
-    MyUser.mine.myUser = newUser;
-    print('Guardado');
+  //Llamado desde onpressed
+  void _mostrarAlert(BuildContext context) {
+    showDialog(
+        context: context,
+        barrierDismissible: true, //Para el clikc afuera y salir
+        builder: (context) {
+          return AlertDialog(
+            //Para los bordes redondeados
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            // configuración del diálogo
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize:
+                  MainAxisSize.min, // se adapta al tamaño del contenido
+              children: <Widget>[
+                Icon(
+                  Ionicons.md_happy,
+                  size: 48,
+                  color: applicationColors['font_light'],
+                ),
+                SizedBox(width: 15),
+                Flexible(
+                    child: Text('Su información se actualizó correctamente.')),
+              ],
+            ),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(
+                    'Ok',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  style: TextButton.styleFrom(
+                      primary: applicationColors['medium_purple'])),
+            ],
+          );
+        });
   }
 }

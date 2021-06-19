@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:persistencia_datos/models/user.dart';
-import 'package:persistencia_datos/theme/theme.dart';
-import 'package:persistencia_datos/widgets/form_background_card.dart';
+import 'package:persistencia_datos/widgets/sex_button.dart';
 
 import 'avatar_image.dart';
 import 'custom_text_form_field.dart';
@@ -29,173 +28,238 @@ class _PreferencesFormState extends State<PreferencesForm> {
 
   @override
   void initState() {
-    widget.newUser.isFemale = false;
     super.initState();
     setState(() {
       newUser = widget.newUser;
     });
   }
 
+  // BUILD method
   @override
   Widget build(BuildContext context) {
-    return widget.withBackground
-        ? FormBackgroundCard(
-            horizontalMargin: widget.horizontalMargin, child: _drawFormBody())
-        : Form(
-            child: _drawFormBody(),
-          );
-  }
-
-  Widget _drawFormBody() {
-    return Column(
+    //#region form_definition
+    List inputs = [
+      {
+        'inputs': [
+          {
+            'label': 'Nombre',
+            'value': newUser.name ?? '',
+            'keyboard': TextInputType.name,
+            'onChanged': nameOnChange
+          },
+          {
+            'label': 'Apellidos',
+            'value': newUser.lastName ?? '',
+            'keyboard': TextInputType.name,
+            'onChanged': lastNameOnChange
+          }
+        ],
+        'icon': Icons.person
+      },
+      {
+        'inputs': [
+          {
+            'label': 'Email',
+            'value': newUser.email ?? '',
+            'keyboard': TextInputType.emailAddress,
+            'onChanged': emailOnChange
+          }
+        ],
+        'icon': Icons.alternate_email
+      },
+      {
+        'inputs': [
+          {
+            'label': 'Grupo',
+            'value': newUser.group ?? '',
+            'keyboard': TextInputType.number,
+            'onChanged': groupOnChange
+          }
+        ],
+        'button': {'text': 'Verificar', 'callback': () {}},
+        'icon': Icons.vpn_key_rounded
+      },
+      {
+        'inputs': [
+          {
+            'label': 'Última temperatura',
+            'value': newUser.temperature ?? '',
+            'keyboard': TextInputType.number,
+            'onChanged': temperatureOnChange
+          }
+        ],
+        'icon': Icons.thermostat_rounded
+      },
+    ];
+    //#endregion
+    return Stack(
+      fit: StackFit.loose,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Column(
           children: [
-            SexButton(
-                isSelected: !newUser.isFemale,
-                onPressed: () {
-                  setState(() {
-                    newUser.isFemale = false;
-                  });
-                },
-                icon: Foundation.male_symbol),
-            AvatarImage(
-              size: 150,
-              isElevated: false,
-            ),
-            SexButton(
-                isSelected: newUser.isFemale,
-                onPressed: () {
-                  setState(() {
-                    newUser.isFemale = true;
-                  });
-                },
-                icon: Foundation.female_symbol),
+            SizedBox(height: 35),
+            Form(child: _drawFormBody(inputs)),
           ],
         ),
-        SizedBox(height: 25),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CustomTextFormField(
-              label: 'Nombre',
-              initialValue: newUser.name,
-              icon: Icons.person,
-              keyboardType: TextInputType.name,
-              onChanged: (String value) {
-                setState(() {
-                  newUser.name = value;
-                });
-              },
-              width: (MediaQuery.of(context).size.width / 2) -
-                  7.5 -
-                  widget.horizontalMargin,
-            ),
-            CustomTextFormField(
-              label: 'Apellidos',
-              initialValue: newUser.lastName,
-              keyboardType: TextInputType.name,
-              onChanged: (String value) {
-                setState(() {
-                  newUser.lastName = value;
-                });
-              },
-              width: (MediaQuery.of(context).size.width / 2) -
-                  7.5 -
-                  widget.horizontalMargin,
-            )
-          ],
+        Center(
+          child: AvatarImage(
+            size: 150,
+            isElevated: false,
+          ),
         ),
-        CustomTextFormField(
-          label: 'Email',
-          initialValue: newUser.email,
-          icon: Icons.alternate_email,
-          keyboardType: TextInputType.emailAddress,
-          onChanged: (String value) {
-            setState(() {
-              newUser.email = value;
-            });
-          },
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CustomTextFormField(
-              label: 'Grupo',
-              initialValue:
-                  newUser.group != null ? newUser.group.toString() : '',
-              icon: Icons.vpn_key_rounded,
-              keyboardType: TextInputType.number,
-              onChanged: (String value) {
-                setState(() {
-                  newUser.group = int.parse(value);
-                });
-              },
-              width: MediaQuery.of(context).size.width - 155,
-            ),
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                'Verificar',
-                style: TextStyle(fontSize: 14),
-              ),
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 15),
-                primary: Colors.white,
-                minimumSize: Size(70, 20),
-                backgroundColor: Color.fromRGBO(99, 109, 240, 1),
-              ),
-            )
-          ],
-        ),
-        CustomTextFormField(
-          label: 'Última temperatura',
-          initialValue:
-              newUser.temperature != null ? newUser.temperature.toString() : '',
-          icon: Icons.thermostat_outlined,
-          keyboardType: TextInputType.number,
-          onChanged: (String value) {
-            setState(() {
-              newUser.temperature = double.parse(value);
-            });
-          },
-        )
       ],
     );
   }
-}
 
-class SexButton extends StatelessWidget {
-  bool isSelected;
-  Function onPressed;
-  IconData icon;
+  // draws the body of the form
+  Widget _drawFormBody(List inputs) {
+    // If wants to decore it with a card background
+    BoxDecoration decoration = widget.withBackground
+        ? BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomRight,
+              end: Alignment.topLeft,
+              stops: [0.3, 1],
+              colors: [
+                Color.fromRGBO(250, 250, 250, 0.7),
+                Color.fromRGBO(250, 250, 250, 0.5)
+              ],
+            ),
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(color: Colors.black26, spreadRadius: 0, blurRadius: 15)
+            ],
+          )
+        : null;
+    // Initialices the content of the form
+    List content = <Widget>[_drawFormHeader(), SizedBox(height: 50)];
 
-  SexButton(
-      {Key key,
-      @required this.isSelected,
-      @required this.onPressed,
-      @required this.icon})
-      : super(key: key);
+    // Each row
+    inputs.forEach((row) {
+      List<Widget> inputs = [];
+      // Each input in List
+      row['inputs'].asMap().forEach((index, input) {
+        // Calculating the width of each input
+        double containerWidth = MediaQuery.of(context).size.width -
+            2 * widget.horizontalMargin -
+            30;
+        double inputWidth = (containerWidth / row['inputs'].length) -
+            (row['inputs'].length - 1) * 7.5;
+        // If the row has a button, then change width of the input
+        if (row['button'] != null) inputWidth -= 85;
+        // Adding the input
+        inputs.add(Flexible(
+          child: CustomTextFormField(
+            label: input['label'],
+            initialValue: input['value'].toString(),
+            icon: index == 0 ? row['icon'] : null, // Icon in first elem. only
+            keyboardType: input['keyboard'],
+            onChanged: input['onChanged'],
+            width: inputWidth,
+          ),
+        ));
+        // If the row has a button, then add it
+        if (row['button'] != null)
+          inputs.add(TextButton(
+            onPressed: row['button']['callback'],
+            child: Text(
+              row['button']['text'],
+              style: TextStyle(fontSize: 14),
+            ),
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.symmetric(vertical: 15),
+              primary: Colors.white,
+              minimumSize: Size(70, 20),
+              backgroundColor: Color.fromRGBO(99, 109, 240, 1),
+            ),
+          ));
+      });
+      // Row which contains the inputs
+      content.add(Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: inputs,
+      ));
+    });
 
-  @override
-  Widget build(BuildContext context) {
-    Color color = isSelected
-        ? applicationColors['light_purple']
-        : Theme.of(context).brightness == Brightness.dark
-            ? applicationColors['input_dark']
-            : applicationColors['input_light'];
-
-    return TextButton(
-      onPressed: onPressed,
-      child: Icon(icon),
-      style: TextButton.styleFrom(
-        primary: isSelected ? Colors.white : Colors.black54,
-        backgroundColor: color,
-        shape: CircleBorder(),
-        minimumSize: Size(50, 50),
+    // Form body itself
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: widget.horizontalMargin),
+      decoration: decoration,
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          children: content,
+        ),
       ),
     );
   }
+
+  // Sexbuttons
+  Widget _drawFormHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        SexButton(
+            isSelected: !newUser.isFemale,
+            onPressed: () {
+              setState(() {
+                newUser.isFemale = false;
+              });
+            },
+            icon: Foundation.male_symbol),
+        SexButton(
+            isSelected: newUser.isFemale,
+            onPressed: () {
+              setState(() {
+                newUser.isFemale = true;
+              });
+            },
+            icon: Foundation.female_symbol),
+      ],
+    );
+  }
+
+  //#region onChange_state_functions
+  void maleBtnOnChange() {
+    setState(() {
+      newUser.isFemale = false;
+    });
+  }
+
+  void femaleBtnOnChange() {
+    setState(() {
+      newUser.isFemale = false;
+    });
+  }
+
+  void nameOnChange(String value) {
+    setState(() {
+      newUser.name = value;
+    });
+  }
+
+  void lastNameOnChange(String value) {
+    setState(() {
+      newUser.lastName = value;
+    });
+  }
+
+  void emailOnChange(String value) {
+    setState(() {
+      newUser.email = value;
+    });
+  }
+
+  void groupOnChange(String value) {
+    setState(() {
+      newUser.group = int.parse(value);
+    });
+  }
+
+  void temperatureOnChange(String value) {
+    setState(() {
+      newUser.temperature = double.parse(value);
+    });
+  }
+  //#endregion
 }

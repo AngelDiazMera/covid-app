@@ -33,7 +33,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Stack(
       children: <Widget>[
         ListView(
-          padding: EdgeInsets.only(top: 110, right: 35, left: 35),
+          padding: EdgeInsets.only(top: 110),
           children: _drawSettingsBody(),
         ),
         SettingsHeader(newUser: newUser),
@@ -45,29 +45,33 @@ class _SettingsPageState extends State<SettingsPage> {
     return <Widget>[
       !loading
           ? PreferencesForm(
+              horizontalMargin: 35,
               newUser: newUser,
             )
           : Container(),
       SizedBox(height: 35),
-      Row(
-        children: [
-          SizedBox(width: 15),
-          Icon(Icons.work,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.white30
-                  : Colors.black38),
-          SizedBox(width: 20),
-          Expanded(
-            child: Text(
-              'Universidad Politécnica de Pachuca',
-              style: TextStyle(
-                  fontSize: 16,
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white30
-                      : Colors.black38),
-            ),
-          )
-        ],
+      Container(
+        margin: EdgeInsets.symmetric(horizontal: 35),
+        child: Row(
+          children: [
+            SizedBox(width: 15),
+            Icon(Icons.work,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white30
+                    : Colors.black38),
+            SizedBox(width: 20),
+            Expanded(
+              child: Text(
+                'Universidad Politécnica de Pachuca',
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white30
+                        : Colors.black38),
+              ),
+            )
+          ],
+        ),
       )
     ];
   }
