@@ -25,6 +25,7 @@ class PreferencesForm extends StatefulWidget {
 
 class _PreferencesFormState extends State<PreferencesForm> {
   User newUser;
+  double _avatarSize = 150;
 
   @override
   void initState() {
@@ -102,9 +103,16 @@ class _PreferencesFormState extends State<PreferencesForm> {
           ],
         ),
         Center(
-          child: AvatarImage(
-            size: 150,
-            isElevated: false,
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 250),
+            curve: Curves.fastOutSlowIn,
+            width: _avatarSize,
+            height: _avatarSize,
+            child: AvatarImage(
+              size: 150,
+              isElevated: false,
+              isFemale: newUser.isFemale,
+            ),
           ),
         ),
       ],
@@ -131,6 +139,7 @@ class _PreferencesFormState extends State<PreferencesForm> {
             ],
           )
         : null;
+
     // Initialices the content of the form
     List content = <Widget>[_drawFormHeader(), SizedBox(height: 50)];
 
@@ -145,8 +154,10 @@ class _PreferencesFormState extends State<PreferencesForm> {
             30;
         double inputWidth = (containerWidth / row['inputs'].length) -
             (row['inputs'].length - 1) * 7.5;
+
         // If the row has a button, then change width of the input
         if (row['button'] != null) inputWidth -= 85;
+
         // Adding the input
         inputs.add(Flexible(
           child: CustomTextFormField(
@@ -158,6 +169,7 @@ class _PreferencesFormState extends State<PreferencesForm> {
             width: inputWidth,
           ),
         ));
+
         // If the row has a button, then add it
         if (row['button'] != null)
           inputs.add(TextButton(
@@ -174,6 +186,7 @@ class _PreferencesFormState extends State<PreferencesForm> {
             ),
           ));
       });
+
       // Row which contains the inputs
       content.add(Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -201,19 +214,11 @@ class _PreferencesFormState extends State<PreferencesForm> {
       children: [
         SexButton(
             isSelected: !newUser.isFemale,
-            onPressed: () {
-              setState(() {
-                newUser.isFemale = false;
-              });
-            },
+            onPressed: maleBtnOnChange,
             icon: Foundation.male_symbol),
         SexButton(
             isSelected: newUser.isFemale,
-            onPressed: () {
-              setState(() {
-                newUser.isFemale = true;
-              });
-            },
+            onPressed: femaleBtnOnChange,
             icon: Foundation.female_symbol),
       ],
     );
@@ -222,13 +227,25 @@ class _PreferencesFormState extends State<PreferencesForm> {
   //#region onChange_state_functions
   void maleBtnOnChange() {
     setState(() {
-      newUser.isFemale = false;
+      _avatarSize = 0;
+    });
+    Future.delayed(Duration(milliseconds: 250), () {
+      setState(() {
+        newUser.isFemale = false;
+        _avatarSize = 150;
+      });
     });
   }
 
   void femaleBtnOnChange() {
     setState(() {
-      newUser.isFemale = false;
+      _avatarSize = 0;
+    });
+    Future.delayed(Duration(milliseconds: 250), () {
+      setState(() {
+        newUser.isFemale = true;
+        _avatarSize = 150;
+      });
     });
   }
 

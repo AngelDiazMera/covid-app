@@ -29,31 +29,28 @@ class SettingsHeader extends StatelessWidget {
             BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 15)
           ],
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            TextButton(
-              onPressed: () {},
-              child: Text('Cancelar'),
-              style: TextButton.styleFrom(primary: Colors.white),
-            ),
-            Text(
-              'Preferencias',
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            ),
-            TextButton(
-              onPressed: () {
-                MyUser.mine.myUser = newUser;
-                print('Guardado');
-                _mostrarAlert(context);
-              },
-              child: Text('Hecho'),
-              style: TextButton.styleFrom(primary: Colors.white),
-            ),
-          ],
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Preferencias',
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+              TextButton(
+                onPressed: () {
+                  MyUser.mine.saveMyUser(newUser);
+                  _mostrarAlert(context);
+                },
+                child: Text('Hecho'),
+                style: TextButton.styleFrom(primary: Colors.white),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -79,7 +76,9 @@ class SettingsHeader extends StatelessWidget {
                 Icon(
                   Ionicons.md_happy,
                   size: 48,
-                  color: applicationColors['font_light'],
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? applicationColors['font_dark']
+                      : applicationColors['font_light'],
                 ),
                 SizedBox(width: 15),
                 Flexible(
@@ -94,7 +93,9 @@ class SettingsHeader extends StatelessWidget {
                     style: TextStyle(fontSize: 16),
                   ),
                   style: TextButton.styleFrom(
-                      primary: applicationColors['medium_purple'])),
+                      primary: Theme.of(context).brightness == Brightness.dark
+                          ? applicationColors['lila']
+                          : applicationColors['medium_purple'])),
             ],
           );
         });

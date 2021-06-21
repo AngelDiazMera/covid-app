@@ -5,7 +5,7 @@ import 'package:persistencia_datos/models/user.dart';
 
 import 'package:persistencia_datos/pages/my_account.dart';
 import 'package:persistencia_datos/pages/new_user_page.dart';
-import 'package:persistencia_datos/pages/settings_page.dart';
+import 'package:persistencia_datos/pages/my_account_settings_page.dart';
 
 import 'package:persistencia_datos/widgets/custom_bottom_nav.dart';
 
@@ -26,14 +26,8 @@ class _HomePageState extends State<HomePage> {
   static List<Widget> _selectedPages = <Widget>[];
   User myUser; // Stored user
 
-  // Constructor: Initialices the pages of the PageView
-  _HomePageState(Function changeToDarkMode) {
-    _selectedPages = <Widget>[
-      Container(child: Text('Sintomas')),
-      MyAccountPage(changeToDarkMode: changeToDarkMode),
-      SettingsPage(),
-    ];
-  }
+  _HomePageState(Function changeToDarkMode);
+
   // Load preferences of the user
   @override
   void initState() {
@@ -49,7 +43,6 @@ class _HomePageState extends State<HomePage> {
       _isNew = myUser.name == '';
       _loading = false;
     });
-    print('Es nuevo? $_isNew');
   }
 
   // BUILD method
@@ -65,7 +58,11 @@ class _HomePageState extends State<HomePage> {
         PageController(initialPage: _selectedIndex);
     // If the user is not registered, draws the Welcome page
     if (_isNew) return NewUserPage();
-
+    _selectedPages = <Widget>[
+      Container(child: Text('Sintomas')),
+      MyAccountPage(changeToDarkMode: widget.changeToDarkMode),
+      SettingsPage(newUser: myUser),
+    ];
     // Page of the user
     return Scaffold(
       body: PageView(
@@ -83,7 +80,7 @@ class _HomePageState extends State<HomePage> {
           setState(() {
             _selectedIndex = index;
             controller.animateToPage(index,
-                duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+                duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
           });
         },
         selectedIndex: _selectedIndex,

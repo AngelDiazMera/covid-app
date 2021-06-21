@@ -1,32 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/models/my_user.dart';
+
 import 'package:persistencia_datos/models/user.dart';
+
 import 'package:persistencia_datos/widgets/preferences_form.dart';
 import 'package:persistencia_datos/widgets/settings_header.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class SettingsPage extends StatefulWidget {
-  @override
-  _SettingsPageState createState() => _SettingsPageState();
-}
+class SettingsPage extends StatelessWidget {
+  final User newUser;
 
-class _SettingsPageState extends State<SettingsPage> {
-  User newUser;
-  bool loading = true;
-
-  void _loadPreferences() async {
-    User tempUser = await MyUser.mine.getMyUser();
-    setState(() {
-      newUser = tempUser;
-      loading = false;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _loadPreferences();
-  }
+  const SettingsPage({Key key, @required this.newUser}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,21 +16,19 @@ class _SettingsPageState extends State<SettingsPage> {
       children: <Widget>[
         ListView(
           padding: EdgeInsets.only(top: 110),
-          children: _drawSettingsBody(),
+          children: _drawSettingsBody(context),
         ),
-        SettingsHeader(newUser: newUser),
+        SettingsHeader(newUser: this.newUser),
       ],
     );
   }
 
-  List<Widget> _drawSettingsBody() {
+  List<Widget> _drawSettingsBody(BuildContext context) {
     return <Widget>[
-      !loading
-          ? PreferencesForm(
-              horizontalMargin: 35,
-              newUser: newUser,
-            )
-          : Container(),
+      PreferencesForm(
+        horizontalMargin: 15,
+        newUser: this.newUser,
+      ),
       SizedBox(height: 35),
       Container(
         margin: EdgeInsets.symmetric(horizontal: 35),

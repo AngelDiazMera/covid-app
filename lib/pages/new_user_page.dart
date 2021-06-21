@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:persistencia_datos/pages/get_started_page.dart';
-import 'package:persistencia_datos/pages/register_page.dart';
+import 'package:persistencia_datos/pages/get_started_register_page.dart';
 import 'package:persistencia_datos/widgets/page_index_viewer.dart';
 import 'package:persistencia_datos/widgets/violet_background.dart';
 

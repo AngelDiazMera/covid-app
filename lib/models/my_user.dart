@@ -2,7 +2,7 @@ import 'package:persistencia_datos/models/user.dart';
 import 'package:persistencia_datos/services/preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class MyUser extends User {
+class MyUser {
   static User _myUser;
 
   static final MyUser mine = MyUser._();
@@ -10,14 +10,11 @@ class MyUser extends User {
   MyUser._();
 
   Future<User> getMyUser() async {
-    print('PRUEBA 1: ${_myUser}');
     if (_myUser != null) return _myUser;
-    _myUser = await Preferences.myPrefs.getMyUser();
-    print('PRUEBA 2: ${_myUser}');
-    return _myUser;
+    return await Preferences.myPrefs.getMyUser();
   }
 
-  set myUser(User newUser) {
+  void saveMyUser(User newUser) {
     this._save(newUser);
   }
 

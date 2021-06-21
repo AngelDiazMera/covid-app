@@ -3,15 +3,13 @@ import 'package:persistencia_datos/models/my_user.dart';
 import 'package:persistencia_datos/models/user.dart';
 import 'package:persistencia_datos/theme/theme.dart';
 import 'package:persistencia_datos/widgets/preferences_form.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterPage extends StatelessWidget {
   final User newUser = User();
 
   @override
   Widget build(BuildContext context) {
-    double whiteBoxMargin = 15;
-    double formMargin = 35;
+    double formMargin = 25;
 
     return SafeArea(
       child: Container(
@@ -42,7 +40,7 @@ class RegisterPage extends StatelessWidget {
             Center(
               child: TextButton(
                 onPressed: () {
-                  MyUser.mine.myUser = newUser;
+                  MyUser.mine.saveMyUser(newUser);
                   Navigator.pushNamed(context, '/');
                 },
                 child: Text(

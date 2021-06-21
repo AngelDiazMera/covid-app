@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:persistencia_datos/theme/theme.dart';
 
-class CustomTextFormField extends StatelessWidget {
+class CustomTextFormField extends StatefulWidget {
   final String label;
   final TextInputType keyboardType;
   final Function onChanged;
@@ -9,7 +9,7 @@ class CustomTextFormField extends StatelessWidget {
   final double width;
   final String initialValue;
 
-  const CustomTextFormField(
+  CustomTextFormField(
       {Key key,
       @required this.label,
       @required this.keyboardType,
@@ -20,13 +20,51 @@ class CustomTextFormField extends StatelessWidget {
       : super(key: key);
 
   @override
+  _CustomTextFormFieldState createState() => _CustomTextFormFieldState();
+}
+
+class _CustomTextFormFieldState extends State<CustomTextFormField> {
+  FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(_onFocusChange);
+  }
+
+  void _onFocusChange() {
+    if (!_focusNode.hasFocus)
+      setState(() {
+        _focusNode.unfocus();
+      });
+    else
+      setState(() {
+        _focusNode.requestFocus();
+      });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _focusNode.dispose();
+  }
+
+  Color _getInputColor() {
+    if (Theme.of(context).brightness == Brightness.dark)
+      return _focusNode.hasFocus ? applicationColors['lila'] : Colors.white60;
+    return _focusNode.hasFocus ? applicationColors['lila'] : Colors.black54;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: 15),
-      width: width,
+      width: widget.width,
       child: TextFormField(
-        keyboardType: keyboardType,
-        initialValue: initialValue,
+        // onTap: _requestFocus,
+        focusNode: _focusNode,
+        keyboardType: widget.keyboardType,
+        initialValue: widget.initialValue,
         textCapitalization: TextCapitalization.words,
         decoration: InputDecoration(
           fillColor: Theme.of(context).brightness == Brightness.dark
@@ -35,24 +73,32 @@ class CustomTextFormField extends StatelessWidget {
           filled: true,
           isDense: true,
           contentPadding: EdgeInsets.symmetric(
-              horizontal: 12.5, vertical: icon != null ? 12.5 : 14),
+              horizontal: 12.5, vertical: widget.icon != null ? 12.5 : 14),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.0),
               borderSide: BorderSide.none),
-          prefixIcon: icon != null ? Icon(icon) : null,
-          labelText: label,
+          prefixIcon: widget.icon != null
+              ? Icon(
+                  widget.icon,
+                  color: _getInputColor(),
+                )
+              : null,
+          labelText: widget.label,
           errorStyle: TextStyle(fontSize: 0, height: 0),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
             borderSide: BorderSide(color: Colors.red),
           ),
+          labelStyle: TextStyle(
+            color: _getInputColor(),
+          ),
         ),
         cursorColor: Colors.black,
-        onChanged: onChanged,
+        onChanged: widget.onChanged,
         // The validator receives the text that the user has entered.
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return 'El campo "$label" no puede estar vacío';
+            return 'El campo "${widget.label}" no puede estar vacío';
           }
           return null;
         },

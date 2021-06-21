@@ -39,7 +39,8 @@ class _AccountPageInfoHeaderState extends State<AccountPageInfoHeader> {
         Container(
             margin: EdgeInsets.only(left: 15),
             width: (widget.width / 3) - 15,
-            child: AvatarImage(size: (widget.width / 3) - 15)),
+            child: AvatarImage(
+                isFemale: myUser.isFemale, size: (widget.width / 3) - 15)),
         // Information is shown on the right
         Container(
           width: 2 * widget.width / 3,
@@ -50,7 +51,6 @@ class _AccountPageInfoHeaderState extends State<AccountPageInfoHeader> {
   }
 
   Widget _drawAccountInfo() {
-    print(' MI USUARIO ES: ${myUser}');
     TextStyle textStyle = TextStyle(
         fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white);
     return Column(
