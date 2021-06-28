@@ -9,7 +9,7 @@ List symptoms = <Symptom>[
   Symptom(
     asset: '',
     name: 'Tos seca',
-    description: 'Tos que no produce flema ni moco',
+    description: 'Tos que no produce flema ni moco.',
   ),
   Symptom(
     asset: '',
