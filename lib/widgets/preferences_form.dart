@@ -71,8 +71,8 @@ class _PreferencesFormState extends State<PreferencesForm> {
       {
         'inputs': [
           {
-            'label': 'Grupo',
-            'value': newUser.group ?? '',
+            'label': 'Contraseña',
+            'value': newUser.psw ?? '',
             'keyboard': TextInputType.number,
             'onChanged': groupOnChange
           }
@@ -80,17 +80,7 @@ class _PreferencesFormState extends State<PreferencesForm> {
         'button': {'text': 'Verificar', 'callback': () {}},
         'icon': Icons.vpn_key_rounded
       },
-      {
-        'inputs': [
-          {
-            'label': 'Última temperatura',
-            'value': newUser.temperature ?? '',
-            'keyboard': TextInputType.number,
-            'onChanged': temperatureOnChange
-          }
-        ],
-        'icon': Icons.thermostat_rounded
-      },
+      
     ];
     //#endregion
     return Stack(
@@ -269,14 +259,11 @@ class _PreferencesFormState extends State<PreferencesForm> {
 
   void groupOnChange(String value) {
     setState(() {
-      newUser.group = int.parse(value);
+      newUser.psw = value;
     });
   }
 
-  void temperatureOnChange(String value) {
-    setState(() {
-      newUser.temperature = double.parse(value);
-    });
-  }
+  
+  
   //#endregion
 }

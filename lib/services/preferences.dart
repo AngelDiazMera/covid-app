@@ -20,8 +20,7 @@ class Preferences {
     prefs.setString('name', newUser.name);
     prefs.setString('last_name', newUser.lastName);
     prefs.setString('email', newUser.email);
-    prefs.setInt('group', newUser.group);
-    prefs.setDouble('temperature', newUser.temperature);
+    prefs.setString('psw', newUser.psw);
     prefs.setBool('isFemale', newUser.isFemale);
     print('Guardado');
     return newUser;
@@ -45,8 +44,7 @@ class Preferences {
       name: prefs.getString('name') ?? '',
       lastName: prefs.getString('last_name') ?? '',
       email: prefs.getString('email') ?? '',
-      group: prefs.getInt('group') ?? 0,
-      temperature: prefs.getDouble('temperature') ?? 0,
+      psw: prefs.getString('psw') ?? '',
       isFemale: prefs.getBool('isFemale') ?? false,
       isDarkTheme: prefs.getBool('is_dark_theme') ?? false,
     );

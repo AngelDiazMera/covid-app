@@ -5,8 +5,7 @@ class User {
   String name;
   String lastName;
   String email;
-  int group;
-  double temperature;
+  String psw;
   bool isFemale;
   bool isDarkTheme;
 
@@ -15,8 +14,7 @@ class User {
     this.name = '',
     this.lastName = '',
     this.email = '',
-    this.group,
-    this.temperature,
+    this.psw,
     this.isFemale = false,
     this.isDarkTheme = false,
   });
@@ -28,8 +26,7 @@ class User {
       'name': name,
       'lastName': lastName,
       'email': email,
-      'group': group,
-      'temperatu': temperature,
+      'psw': psw,
       'isFemale': isFemale,
     }.toString();
   }
