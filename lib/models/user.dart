@@ -11,15 +11,23 @@ class User {
 
   User({
     this.id,
-    this.name = '',
-    this.lastName = '',
-    this.email = '',
+    this.name,
+    this.lastName,
+    this.email,
     this.psw,
     this.isFemale = false,
     this.isDarkTheme = false,
   });
-
-  @override
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+        id: json['_id'],
+        name: json['name'],
+        lastName: json['lastName'],
+        isFemale: json['isFamale'],
+        email: json['email'],
+        psw: json['password']);
+  }
+  /*@override
   String toString() {
     return {
       'id': id,
@@ -29,5 +37,5 @@ class User {
       'psw': psw,
       'isFemale': isFemale,
     }.toString();
-  }
+  }*/
 }

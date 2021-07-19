@@ -26,7 +26,7 @@ class PreferencesForm extends StatefulWidget {
 class _PreferencesFormState extends State<PreferencesForm> {
   User newUser;
   double _avatarSize = 150;
-
+  bool vis = true;
   @override
   void initState() {
     super.initState();
@@ -46,13 +46,15 @@ class _PreferencesFormState extends State<PreferencesForm> {
             'label': 'Nombre',
             'value': newUser.name ?? '',
             'keyboard': TextInputType.name,
-            'onChanged': nameOnChange
+            'onChanged': nameOnChange,
+            'obscureText': false
           },
           {
             'label': 'Apellidos',
             'value': newUser.lastName ?? '',
             'keyboard': TextInputType.name,
-            'onChanged': lastNameOnChange
+            'onChanged': lastNameOnChange,
+            'obscureText': false
           }
         ],
         'icon': Icons.person
@@ -63,7 +65,8 @@ class _PreferencesFormState extends State<PreferencesForm> {
             'label': 'Email',
             'value': newUser.email ?? '',
             'keyboard': TextInputType.emailAddress,
-            'onChanged': emailOnChange
+            'onChanged': emailOnChange,
+            'obscureText': false
           }
         ],
         'icon': Icons.alternate_email
@@ -73,14 +76,22 @@ class _PreferencesFormState extends State<PreferencesForm> {
           {
             'label': 'Contraseña',
             'value': newUser.psw ?? '',
-            'keyboard': TextInputType.number,
-            'onChanged': groupOnChange
+            'keyboard': TextInputType.visiblePassword,
+            'onChanged': groupOnChange,
+            'obscureText': vis,
+            'iconButton': IconButton(
+              icon: Icon(vis ? Icons.visibility_off : Icons.visibility),
+              onPressed: () {
+                setState(() {
+                  vis = !vis;
+                });
+              },
+            ),
           }
         ],
-        'button': {'text': 'Verificar', 'callback': () {}},
+        //'button': {'text': 'Verificar', 'callback': () {}},
         'icon': Icons.vpn_key_rounded
       },
-      
     ];
     //#endregion
     return Stack(
@@ -156,6 +167,8 @@ class _PreferencesFormState extends State<PreferencesForm> {
             icon: index == 0 ? row['icon'] : null, // Icon in first elem. only
             keyboardType: input['keyboard'],
             onChanged: input['onChanged'],
+            obscureText: input['obscureText'],
+            iconButton: input['iconButton'],
             width: inputWidth,
           ),
         ));
@@ -263,7 +276,5 @@ class _PreferencesFormState extends State<PreferencesForm> {
     });
   }
 
-  
-  
   //#endregion
 }
