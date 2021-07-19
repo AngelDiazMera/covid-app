@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class MyUser {
   static User _myUser;
-
   static final MyUser mine = MyUser._();
 
   MyUser._();

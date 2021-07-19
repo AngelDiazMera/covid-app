@@ -8,6 +8,8 @@ class CustomTextFormField extends StatefulWidget {
   final IconData icon;
   final double width;
   final String initialValue;
+  final bool obscureText;
+  final IconButton iconButton;
 
   CustomTextFormField(
       {Key key,
@@ -16,7 +18,9 @@ class CustomTextFormField extends StatefulWidget {
       @required this.onChanged,
       this.icon,
       this.width = double.infinity,
-      this.initialValue = ''})
+      this.initialValue = '',
+      this.obscureText,
+      this.iconButton})
       : super(key: key);
 
   @override
@@ -25,7 +29,7 @@ class CustomTextFormField extends StatefulWidget {
 
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
   FocusNode _focusNode = FocusNode();
-
+  bool vis = true;
   @override
   void initState() {
     super.initState();
@@ -83,6 +87,13 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                   color: _getInputColor(),
                 )
               : null,
+          suffixIcon: widget.iconButton != null
+              ? IconButton(
+                  icon: widget.iconButton,
+                  onPressed: () {},
+                  color: _getInputColor(),
+                )
+              : null,
           labelText: widget.label,
           errorStyle: TextStyle(fontSize: 0, height: 0),
           errorBorder: OutlineInputBorder(
@@ -102,6 +113,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           }
           return null;
         },
+        obscureText: widget.obscureText != false,
       ),
     );
   }

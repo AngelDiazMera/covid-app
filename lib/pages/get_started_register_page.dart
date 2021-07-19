@@ -6,7 +6,7 @@ import 'package:persistencia_datos/widgets/preferences_form.dart';
 
 class RegisterPage extends StatelessWidget {
   final User newUser = User();
-
+  static final PreferencesForm con = PreferencesForm();
   @override
   Widget build(BuildContext context) {
     double formMargin = 25;
