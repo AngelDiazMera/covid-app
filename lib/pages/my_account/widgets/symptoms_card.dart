@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:persistencia_datos/config/theme/theme.dart';
 import 'package:persistencia_datos/models/symptom.dart';
-import 'package:persistencia_datos/theme/theme.dart';
 
 class SymptomsCard extends StatelessWidget {
   final Symptom symptom;

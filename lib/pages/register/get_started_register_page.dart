@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/models/my_user.dart';
+import 'package:persistencia_datos/config/theme/theme.dart';
+import 'package:persistencia_datos/services/auth/my_user.dart';
 import 'package:persistencia_datos/models/user.dart';
-import 'package:persistencia_datos/theme/theme.dart';
 import 'package:persistencia_datos/widgets/preferences_form.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -40,8 +40,12 @@ class RegisterPage extends StatelessWidget {
             Center(
               child: TextButton(
                 onPressed: () {
-                  MyUser.mine.saveMyUser(newUser);
-                  Navigator.pushNamed(context, '/');
+                  MyUser.mine.saveMyUser(newUser).then((value) {
+                    print('Cambiando pantallas');
+                    Navigator.pushNamed(context, '/');
+                  }).catchError((error) {
+                    print(error);
+                  });
                 },
                 child: Text(
                   'Registrarme',

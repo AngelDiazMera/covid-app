@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:persistencia_datos/models/my_user.dart';
+import 'package:persistencia_datos/services/auth/my_user.dart';
 import 'package:persistencia_datos/models/user.dart';
 
-import 'package:persistencia_datos/pages/my_account.dart';
-import 'package:persistencia_datos/pages/new_user_page.dart';
-import 'package:persistencia_datos/pages/my_account_settings_page.dart';
+import 'package:persistencia_datos/pages/my_account/my_account.dart';
+import 'package:persistencia_datos/pages/new_user/new_user_page.dart';
 
-import 'package:persistencia_datos/widgets/custom_bottom_nav.dart';
+import 'package:persistencia_datos/pages/home_page/widgets/custom_bottom_nav.dart';
+
+import '../my_settings/my_account_settings_page.dart';
 
 class HomePage extends StatefulWidget {
   // Callback to change the theme
@@ -40,7 +41,7 @@ class _HomePageState extends State<HomePage> {
     User tempUser = await MyUser.mine.getMyUser();
     setState(() {
       myUser = tempUser;
-      _isNew = myUser.name == '';
+      _isNew = tempUser.name == '';
       _loading = false;
     });
   }

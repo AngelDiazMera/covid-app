@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:persistencia_datos/models/my_user.dart';
+import 'package:persistencia_datos/config/theme/theme.dart';
+import 'package:persistencia_datos/services/auth/my_user.dart';
 import 'package:persistencia_datos/models/user.dart';
-import 'package:persistencia_datos/theme/theme.dart';
 
 class SettingsHeader extends StatelessWidget {
   User newUser;

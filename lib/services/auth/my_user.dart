@@ -1,6 +1,6 @@
 import 'package:persistencia_datos/models/user.dart';
-import 'package:persistencia_datos/services/preferences.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:persistencia_datos/services/api/requests.dart';
+import 'package:persistencia_datos/services/preferences/preferences.dart';
 
 class MyUser {
   static User _myUser;
@@ -13,10 +13,6 @@ class MyUser {
     return await Preferences.myPrefs.getMyUser();
   }
 
-  void saveMyUser(User newUser) {
-    this._save(newUser);
-  }
-
   static void setTheme(bool dark) {
     Preferences.myPrefs.setTheme(dark);
     _myUser.isDarkTheme = dark;
@@ -26,7 +22,10 @@ class MyUser {
     return await Preferences.myPrefs.getTheme();
   }
 
-  void _save(User newUser) async {
+  Future<void> saveMyUser(User newUser) async {
+    User user = await signUp(newUser.name, newUser.lastName, newUser.isFemale,
+        newUser.email, newUser.psw);
+    print('Usuario guardado: $user');
     _myUser = await Preferences.myPrefs.saveUser(newUser);
   }
 }

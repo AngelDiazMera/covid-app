@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:persistencia_datos/models/user.dart';
 
 import 'package:persistencia_datos/widgets/preferences_form.dart';
-import 'package:persistencia_datos/widgets/settings_header.dart';
+import 'package:persistencia_datos/pages/my_settings/widgets/settings_header.dart';
 
 class SettingsPage extends StatelessWidget {
   final User newUser;

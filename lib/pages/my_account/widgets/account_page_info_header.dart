@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/models/my_user.dart';
+import 'package:persistencia_datos/services/auth/my_user.dart';
 import 'package:persistencia_datos/models/user.dart';
 import 'package:persistencia_datos/widgets/avatar_image.dart';
 

@@ -1,6 +1,5 @@
-import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/theme/theme.dart';
+import 'package:persistencia_datos/config/theme/theme.dart';
 
 class CustomButtonNavigationBar extends StatelessWidget {
   final Function onItemTapped;
