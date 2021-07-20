@@ -40,9 +40,8 @@ class RegisterPage extends StatelessWidget {
             Center(
               child: TextButton(
                 onPressed: () {
-                  MyUser.mine.saveMyUser(newUser).then((value) {
-                    print('Cambiando pantallas');
-                    Navigator.pushNamed(context, '/');
+                  MyUser.mine.saveMyUser(newUser).then((bool isRegistered) {
+                    if (isRegistered) Navigator.pushNamed(context, '/');
                   }).catchError((error) {
                     print(error);
                   });
