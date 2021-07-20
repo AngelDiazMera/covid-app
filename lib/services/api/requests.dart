@@ -1,17 +1,11 @@
 import 'package:http/http.dart' as http;
+import 'package:persistencia_datos/models/user.dart';
 import 'package:persistencia_datos/services/api/api.dart';
 
-Future<bool> signUp(String name, String lastName, bool isFamale, String email,
-    String psw) async {
-  Map<String, dynamic> requestPayload = {
-    "name": name,
-    "lastName": lastName,
-    "isFamale": isFamale,
-    "access": {"email": email, "password": psw}
-  };
+Future<bool> signUp(User newUser) async {
   try {
     final http.Response response =
-        await Api.post('/user', body: requestPayload);
+        await Api.post('/user/signup', body: newUser.toJson());
     if (response.statusCode == 200) return true;
   } catch (error) {
     print(error);

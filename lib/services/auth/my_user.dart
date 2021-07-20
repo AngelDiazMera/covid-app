@@ -27,8 +27,7 @@ class MyUser {
 
   Future<bool> saveMyUser(User newUser) async {
     // Signup an user by the api
-    bool isRegistered = await signUp(newUser.name, newUser.lastName,
-        newUser.isFemale, newUser.email, newUser.psw);
+    bool isRegistered = await signUp(newUser);
 
     if (isRegistered) {
       // Save data on preferences

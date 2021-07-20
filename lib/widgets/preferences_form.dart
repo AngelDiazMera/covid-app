@@ -112,7 +112,7 @@ class _PreferencesFormState extends State<PreferencesForm> {
             child: AvatarImage(
               size: 150,
               isElevated: false,
-              isFemale: newUser.isFemale,
+              gender: newUser.gender,
             ),
           ),
         ),
@@ -216,11 +216,11 @@ class _PreferencesFormState extends State<PreferencesForm> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SexButton(
-            isSelected: !newUser.isFemale,
+            isSelected: newUser.gender == 'male',
             onPressed: maleBtnOnChange,
             icon: Foundation.male_symbol),
         SexButton(
-            isSelected: newUser.isFemale,
+            isSelected: newUser.gender == 'female',
             onPressed: femaleBtnOnChange,
             icon: Foundation.female_symbol),
       ],
@@ -234,7 +234,7 @@ class _PreferencesFormState extends State<PreferencesForm> {
     });
     Future.delayed(Duration(milliseconds: 250), () {
       setState(() {
-        newUser.isFemale = false;
+        newUser.gender = 'male';
         _avatarSize = 150;
       });
     });
@@ -246,7 +246,7 @@ class _PreferencesFormState extends State<PreferencesForm> {
     });
     Future.delayed(Duration(milliseconds: 250), () {
       setState(() {
-        newUser.isFemale = true;
+        newUser.gender = 'female';
         _avatarSize = 150;
       });
     });

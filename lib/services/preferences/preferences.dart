@@ -18,7 +18,7 @@ class Preferences {
     prefs.setString('last_name', newUser.lastName);
     prefs.setString('email', newUser.email);
     prefs.setString('psw', newUser.psw);
-    prefs.setBool('isFemale', newUser.isFemale);
+    prefs.setString('gender', newUser.gender);
     print('Guardado');
     return newUser;
   }
@@ -42,7 +42,7 @@ class Preferences {
       lastName: prefs.getString('last_name') ?? '',
       email: prefs.getString('email') ?? '',
       psw: prefs.getString('psw') ?? '',
-      isFemale: prefs.getBool('isFemale') ?? false,
+      gender: prefs.getString('gender') ?? 'male',
       isDarkTheme: prefs.getBool('is_dark_theme') ?? false,
     );
     print('REGRESANDO USUARIO: ${newUser}');

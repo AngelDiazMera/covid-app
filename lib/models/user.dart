@@ -6,7 +6,7 @@ class User {
   String lastName;
   String email;
   String psw;
-  bool isFemale;
+  String gender;
   bool isDarkTheme;
 
   User({
@@ -15,7 +15,7 @@ class User {
     this.lastName,
     this.email,
     this.psw,
-    this.isFemale = false,
+    this.gender = 'male',
     this.isDarkTheme = false,
   });
   factory User.fromJson(Map<String, dynamic> json) {
@@ -23,10 +23,18 @@ class User {
         id: json['_id'],
         name: json['name'],
         lastName: json['lastName'],
-        isFemale: json['isFamale'],
+        gender: json['gender'],
         email: json['email'],
         psw: json['password']);
   }
+
+  Map<String, dynamic> toJson() => {
+        'name': this.name,
+        'lastName': this.lastName,
+        'gender': this.gender,
+        'access': {'email': this.email, 'password': this.psw},
+      };
+
   /*@override
   String toString() {
     return {
@@ -35,7 +43,7 @@ class User {
       'lastName': lastName,
       'email': email,
       'psw': psw,
-      'isFemale': isFemale,
+      'gender': gender,
     }.toString();
   }*/
 }
