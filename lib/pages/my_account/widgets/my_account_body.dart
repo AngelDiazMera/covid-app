@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:persistencia_datos/data/symptoms.dart';
-import 'package:persistencia_datos/widgets/covid_know_more.dart';
-import 'package:persistencia_datos/widgets/symptoms_card.dart';
-import 'package:persistencia_datos/widgets/view_more_title.dart';
+import 'package:persistencia_datos/pages/my_account/widgets/covid_know_more.dart';
+import 'package:persistencia_datos/pages/my_account/widgets/symptoms_card.dart';
+import 'package:persistencia_datos/pages/my_account/widgets/view_more_title.dart';
 
 class MyAccountBody extends StatelessWidget {
   @override

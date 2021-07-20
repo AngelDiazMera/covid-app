@@ -1,8 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.persistencia_datos">
    <application
-        android:label="persistencia_datos"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Covid App"
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

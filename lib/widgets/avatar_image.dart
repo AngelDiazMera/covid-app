@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/models/my_user.dart';
-import 'package:persistencia_datos/models/user.dart';
 
 class AvatarImage extends StatelessWidget {
   final double size;
