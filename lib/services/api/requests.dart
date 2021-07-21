@@ -18,7 +18,12 @@ Future<bool> signUp(User newUser) async {
   return false;
 }
 
-Future<User> signIn(String email, String password) async {
+/// Sign an user with email and password
+/// Once is signed, returns the user
+/// Also, when user is signed, the Bearer token is saved on the preferences
+/// If something goes wrong, the return will be null and the callback
+///  onError will be excecuted
+Future<User> signIn(String email, String password, {Function onError}) async {
   try {
     http.Response response = await Api.post('/user/signin', body: {
       'email': email,
@@ -26,7 +31,7 @@ Future<User> signIn(String email, String password) async {
     });
     Map resMap = json.decode(response.body);
     print(resMap);
-
+    // When the user logged successfully
     if (response.statusCode == 200) {
       User newUser = User(
         name: resMap['user']['name'],
@@ -37,8 +42,13 @@ Future<User> signIn(String email, String password) async {
       Preferences.myPrefs.setToken(resMap['token']);
       return newUser;
     }
+    // Otherwise, onError will be called
+    if (onError != null) {
+      onError(json.decode(response.body)['msg']);
+      return null;
+    }
   } catch (error) {
-    print(error);
+    if (onError != null) onError('Ocurrió un problema con el servidor');
     return null;
   }
   return null;

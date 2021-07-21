@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'package:persistencia_datos/models/user.dart';
 import 'package:persistencia_datos/pages/my_settings/widgets/settings_form.dart';
 
 import 'package:persistencia_datos/pages/my_settings/widgets/settings_header.dart';

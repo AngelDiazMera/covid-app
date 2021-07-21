@@ -3,7 +3,6 @@ import 'package:persistencia_datos/config/theme/theme.dart';
 import 'package:persistencia_datos/models/user.dart';
 import 'package:persistencia_datos/services/api/requests.dart';
 import 'package:persistencia_datos/services/auth/my_user.dart';
-import 'package:persistencia_datos/services/preferences/preferences.dart';
 import 'package:persistencia_datos/widgets/custom_form.dart';
 
 class LoginForm extends StatefulWidget {
@@ -12,14 +11,19 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  // State variables of the form
   String _email = '';
   String _psw = '';
-  bool _isPswVisible = false;
-  List<Map> _inputs;
+  bool _isPswVisible = false; // Handle the password visibility
+  // State variables of the request
+  bool _isRequesting = false; // If it's requesting
+  String _reqError = ''; // When request has error, this will be the message
 
   @override
-  void initState() {
-    _inputs = [
+  Widget build(BuildContext context) {
+    double formMargin = 25;
+    // Inputs of the form
+    List<Map> _inputs = [
       {
         'inputs': [
           {
@@ -39,10 +43,10 @@ class _LoginFormState extends State<LoginForm> {
             'value': _psw,
             'keyboard': TextInputType.visiblePassword,
             'onChanged': _pswOnChange,
-            'obscureText': _isPswVisible,
+            'obscureText': !_isPswVisible,
             'iconButton': IconButton(
               icon:
-                  Icon(_isPswVisible ? Icons.visibility_off : Icons.visibility),
+                  Icon(_isPswVisible ? Icons.visibility : Icons.visibility_off),
               onPressed: _setPswVisible,
             ),
           }
@@ -50,23 +54,19 @@ class _LoginFormState extends State<LoginForm> {
         'icon': Icons.vpn_key_rounded
       },
     ];
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    double formMargin = 25;
 
     return Column(
       children: [
+        // Form
         CustomForm(
           inputs: _inputs,
           horizontalMargin: formMargin,
         ),
         SizedBox(height: 20),
+        // Button 'Ingresar'
         Center(
           child: TextButton(
-            onPressed: _signIn,
+            onPressed: () => _isRequesting ? null : _signIn(context),
             child: Text(
               'Ingresar',
               style: TextStyle(fontSize: 14),
@@ -74,7 +74,10 @@ class _LoginFormState extends State<LoginForm> {
             style: TextButton.styleFrom(
               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 35),
               primary: applicationColors['medium_purple'],
-              backgroundColor: Color.fromRGBO(250, 250, 250, 1),
+              backgroundColor:
+                  applicationColors['background_light_1'].withOpacity(
+                _isRequesting ? 0.75 : 1,
+              ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25),
               ),
@@ -85,31 +88,45 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  void _signIn() async {
+  /// Sign the user into the app (it is used as an "onTap" event action)
+  void _signIn(BuildContext context) async {
+    print('Enviando: \n$_email\n$_psw');
+    // Email and password can't be null
     if (_email.isEmpty || _psw.isEmpty) return;
-    User signedUser = await signIn(_email, _psw);
+    // Request
+    setState(() => _isRequesting = true);
+    User signedUser = await signIn(_email, _psw, onError: _handleSignInError);
+    setState(() => _isRequesting = false);
+    // If something goes wrong, the error must have a message
+    // because of the _handleSignInError callback
+    if (_reqError != '') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(_reqError),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      setState(() {
+        _reqError = '';
+      });
+      return;
+    }
+    // If everything is ok
     if (signedUser != null) {
       await MyUser.mine.savePrefs(signedUser);
       Navigator.pushNamed(context, '/');
     }
   }
 
-  void _pswOnChange(String value) {
+  /// Callback if something goes wrong
+  void _handleSignInError(String error) {
     setState(() {
-      _psw = value;
+      _reqError = error;
     });
   }
 
-  void _emailOnChange(String value) {
-    setState(() {
-      _email = value;
-    });
-  }
-
-  void _setPswVisible() {
-    setState(() {
-      _isPswVisible = !_isPswVisible;
-    });
-    print(_isPswVisible);
-  }
+  // Onchange functions
+  void _pswOnChange(String value) => setState(() => _psw = value);
+  void _emailOnChange(String value) => setState(() => _email = value);
+  void _setPswVisible() => setState(() => _isPswVisible = !_isPswVisible);
 }

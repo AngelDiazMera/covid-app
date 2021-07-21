@@ -41,14 +41,14 @@ class _SettingsFormState extends State<SettingsForm> {
             'label': 'Nombre',
             'value': _user.name,
             'keyboard': TextInputType.name,
-            'onChanged': nameOnChange,
+            'onChanged': _nameOnChange,
             'obscureText': false
           },
           {
             'label': 'Apellidos',
             'value': _user.lastName,
             'keyboard': TextInputType.name,
-            'onChanged': lastNameOnChange,
+            'onChanged': _lastNameOnChange,
             'obscureText': false
           }
         ],
@@ -61,7 +61,7 @@ class _SettingsFormState extends State<SettingsForm> {
             'value': _user.email,
             'enabled': false,
             'keyboard': TextInputType.emailAddress,
-            'onChanged': emailOnChange,
+            'onChanged': _emailOnChange,
             'obscureText': false
           }
         ],
@@ -73,7 +73,7 @@ class _SettingsFormState extends State<SettingsForm> {
             'label': 'Contraseña',
             'value': _psw,
             'keyboard': TextInputType.visiblePassword,
-            'onChanged': pswOnChange,
+            'onChanged': _pswOnChange,
             'obscureText': _isPswVisible,
             'iconButton': IconButton(
               icon:
@@ -103,33 +103,11 @@ class _SettingsFormState extends State<SettingsForm> {
     );
   }
 
-  void nameOnChange(String value) {
-    setState(() {
-      _user.name = value;
-    });
-  }
-
-  void lastNameOnChange(String value) {
-    setState(() {
-      _user.lastName = value;
-    });
-  }
-
-  void emailOnChange(String value) {
-    setState(() {
-      _user.email = value;
-    });
-  }
-
-  void pswOnChange(String value) {
-    setState(() {
-      _psw = value;
-    });
-  }
-
-  void _setPswVisible() {
-    setState(() {
-      _isPswVisible = !_isPswVisible;
-    });
-  }
+  // State handlers
+  void _nameOnChange(String value) => setState(() => _user.name = value);
+  void _lastNameOnChange(String value) =>
+      setState(() => _user.lastName = value);
+  void _emailOnChange(String value) => setState(() => _user.email = value);
+  void _pswOnChange(String value) => setState(() => _psw = value);
+  void _setPswVisible() => setState(() => _isPswVisible = !_isPswVisible);
 }
