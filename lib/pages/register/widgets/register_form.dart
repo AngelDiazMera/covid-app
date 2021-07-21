@@ -24,11 +24,12 @@ class _RegisterFormState extends State<RegisterForm> {
   String _repPsw = '';
   bool _isPswVisible = true;
   bool _isRepPswVisible = true;
-  List<Map> _inputs;
 
   @override
-  void initState() {
-    _inputs = [
+  Widget build(BuildContext context) {
+    double formMargin = 25;
+
+    List<Map> _inputs = [
       {
         'inputs': [
           {
@@ -103,12 +104,6 @@ class _RegisterFormState extends State<RegisterForm> {
         'icon': Icons.vpn_key_rounded
       },
     ];
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    double formMargin = 25;
 
     return Column(
       children: [

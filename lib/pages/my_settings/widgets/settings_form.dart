@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:persistencia_datos/models/user.dart';
 import 'package:persistencia_datos/services/auth/my_user.dart';
+import 'package:persistencia_datos/services/preferences/preferences.dart';
 import 'package:persistencia_datos/widgets/custom_form.dart';
 
 class SettingsForm extends StatefulWidget {
@@ -32,6 +33,9 @@ class _SettingsFormState extends State<SettingsForm> {
   @override
   Widget build(BuildContext context) {
     double formMargin = 25;
+
+    // If it is loading
+    if (_user.email == null) return Container();
 
     // Inputs of the form
     List<Map> _inputs = [

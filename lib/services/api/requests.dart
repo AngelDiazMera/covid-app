@@ -5,11 +5,23 @@ import 'package:persistencia_datos/models/user.dart';
 import 'package:persistencia_datos/services/api/api.dart';
 import 'package:persistencia_datos/services/preferences/preferences.dart';
 
+/// Sign un a new user and sign the user, so Bearer token is saved on
+/// the preferences.
 Future<bool> signUp(User newUser) async {
+  // TODO: Hash the password with Bcrypt (10 salt rounds)
+  //  The hash function must be saved on the utils folder
+  //  (if not exists, create it ) which is located in the path
+  //  ../lib/utils/hashing.dart
+
   try {
     final http.Response response =
         await Api.post('/user/signup', body: newUser.toJson());
-    if (response.statusCode == 200) return true;
+    // If the user is signed up successfully
+    if (response.statusCode == 200) {
+      // Save the token
+      await Preferences.myPrefs.setToken(json.decode(response.body)['token']);
+      return true;
+    }
   } catch (error) {
     print(error);
     return false;
@@ -39,7 +51,7 @@ Future<User> signIn(String email, String password, {Function onError}) async {
         gender: resMap['user']['gender'],
         email: resMap['user']['email'],
       );
-      Preferences.myPrefs.setToken(resMap['token']);
+      await Preferences.myPrefs.setToken(resMap['token']);
       return newUser;
     }
     // Otherwise, onError will be called
