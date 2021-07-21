@@ -4,6 +4,7 @@ import 'package:persistencia_datos/pages/register/widgets/register_form.dart';
 import 'package:persistencia_datos/services/auth/my_user.dart';
 import 'package:persistencia_datos/models/user.dart';
 import 'package:persistencia_datos/widgets/custom_form.dart';
+import 'package:persistencia_datos/widgets/violet_background.dart';
 
 class RegisterPage extends StatelessWidget {
   final User newUser = User();
@@ -14,29 +15,35 @@ class RegisterPage extends StatelessWidget {
     double separation = 25;
 
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          margin: EdgeInsets.symmetric(vertical: formMargin),
-          child: ListView(
-            shrinkWrap: true,
-            children: [
-              Text(
-                'Vamos a empezar',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                ),
-                textAlign: TextAlign.center,
+      backgroundColor: Colors.black.withOpacity(0.5),
+      body: Stack(
+        children: [
+          VioletBackground(),
+          SafeArea(
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: formMargin),
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  Text(
+                    'Vamos a empezar',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: separation),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 0),
+                    child: RegisterForm(),
+                  ),
+                ],
               ),
-              SizedBox(height: separation),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 0),
-                child: RegisterForm(),
-              ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

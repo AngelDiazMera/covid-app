@@ -17,7 +17,7 @@ class _NewUserPageState extends State<NewUserPage> {
 
   final List _selectedPages = <Widget>[
     GetStartedPage(),
-    // More "Pages of information"
+    // ... More "Pages of information"
   ];
 
   @override

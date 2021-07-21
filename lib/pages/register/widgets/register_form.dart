@@ -130,12 +130,15 @@ class _RegisterFormState extends State<RegisterForm> {
             onPressed: _signUp,
             child: Text(
               'Registrarme',
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: 14),
             ),
             style: TextButton.styleFrom(
               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 35),
-              primary: applicationColors['font_light'],
+              primary: applicationColors['medium_purple'],
               backgroundColor: Color.fromRGBO(250, 250, 250, 1),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
+              ),
             ),
           ),
         ),
