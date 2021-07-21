@@ -10,7 +10,7 @@ class PageIndexViewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double marginTop = MediaQuery.of(context).size.height - 45;
+    double marginTop = MediaQuery.of(context).size.height - 100;
     return Positioned(
       top: marginTop,
       left: 35,
