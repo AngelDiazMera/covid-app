@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:persistencia_datos/models/user.dart';
 
-import 'package:persistencia_datos/widgets/preferences_form.dart';
+import 'package:persistencia_datos/widgets/custom_form.dart';
 import 'package:persistencia_datos/pages/my_settings/widgets/settings_header.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -25,10 +25,6 @@ class SettingsPage extends StatelessWidget {
 
   List<Widget> _drawSettingsBody(BuildContext context) {
     return <Widget>[
-      PreferencesForm(
-        horizontalMargin: 15,
-        newUser: this.newUser,
-      ),
       SizedBox(height: 35),
       Container(
         margin: EdgeInsets.symmetric(horizontal: 35),

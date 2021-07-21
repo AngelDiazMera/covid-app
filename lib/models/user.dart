@@ -24,8 +24,8 @@ class User {
         name: json['name'],
         lastName: json['lastName'],
         gender: json['gender'],
-        email: json['email'],
-        psw: json['password']);
+        email: json['access']['email'],
+        psw: json['access']['password']);
   }
 
   Map<String, dynamic> toJson() => {
@@ -35,15 +35,8 @@ class User {
         'access': {'email': this.email, 'password': this.psw},
       };
 
-  /*@override
+  @override
   String toString() {
-    return {
-      'id': id,
-      'name': name,
-      'lastName': lastName,
-      'email': email,
-      'psw': psw,
-      'gender': gender,
-    }.toString();
-  }*/
+    return toJson().toString();
+  }
 }

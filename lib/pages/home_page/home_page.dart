@@ -5,7 +5,6 @@ import 'package:persistencia_datos/models/user.dart';
 
 import 'package:persistencia_datos/pages/my_account/my_account.dart';
 import 'package:persistencia_datos/pages/new_user/new_user_page.dart';
-
 import 'package:persistencia_datos/pages/home_page/widgets/custom_bottom_nav.dart';
 
 import '../my_settings/my_account_settings_page.dart';
@@ -69,19 +68,22 @@ class _HomePageState extends State<HomePage> {
       body: PageView(
         controller: controller,
         scrollDirection: Axis.horizontal,
+        children: _selectedPages,
         onPageChanged: (int index) {
           setState(() {
             _selectedIndex = index;
           });
         },
-        children: _selectedPages,
       ),
       bottomNavigationBar: CustomButtonNavigationBar(
         onItemTapped: (int index) {
           setState(() {
             _selectedIndex = index;
-            controller.animateToPage(index,
-                duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+            controller.animateToPage(
+              index,
+              duration: Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
           });
         },
         selectedIndex: _selectedIndex,

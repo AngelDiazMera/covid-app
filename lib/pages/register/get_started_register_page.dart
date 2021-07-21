@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:persistencia_datos/config/theme/theme.dart';
+import 'package:persistencia_datos/pages/register/widgets/register_form.dart';
 import 'package:persistencia_datos/services/auth/my_user.dart';
 import 'package:persistencia_datos/models/user.dart';
-import 'package:persistencia_datos/widgets/preferences_form.dart';
+import 'package:persistencia_datos/widgets/custom_form.dart';
 
 class RegisterPage extends StatelessWidget {
   final User newUser = User();
-  static final PreferencesForm con = PreferencesForm();
   @override
   Widget build(BuildContext context) {
     double formMargin = 25;
+    // Separation between title and form
+    double separation = 25;
 
     return SafeArea(
       child: Container(
@@ -26,37 +28,11 @@ class RegisterPage extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: separation),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 0),
-              child: PreferencesForm(
-                horizontalMargin: formMargin,
-                isNew: true,
-                newUser: newUser,
-                withBackground: true,
-              ),
+              child: RegisterForm(),
             ),
-            SizedBox(height: 20),
-            Center(
-              child: TextButton(
-                onPressed: () {
-                  MyUser.mine.saveMyUser(newUser).then((bool isRegistered) {
-                    if (isRegistered) Navigator.pushNamed(context, '/');
-                  }).catchError((error) {
-                    print(error);
-                  });
-                },
-                child: Text(
-                  'Registrarme',
-                  style: TextStyle(fontSize: 16),
-                ),
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 35),
-                  primary: applicationColors['font_light'],
-                  backgroundColor: Color.fromRGBO(250, 250, 250, 1),
-                ),
-              ),
-            )
           ],
         ),
       ),

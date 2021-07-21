@@ -6,116 +6,66 @@ import 'package:persistencia_datos/widgets/sex_button.dart';
 import 'avatar_image.dart';
 import 'custom_text_form_field.dart';
 
-class PreferencesForm extends StatefulWidget {
+class CustomForm extends StatefulWidget {
+  final List<Map> inputs;
   final double horizontalMargin;
-  final bool isNew;
-  final User newUser;
+  // final bool isNew;
+  // final User newUser;
   final bool withBackground;
+  final bool hasGenderSelection;
+  final String gender;
+  final Function onGenderChange;
 
-  const PreferencesForm(
-      {Key key,
-      this.horizontalMargin = 35,
-      this.isNew = false,
-      this.newUser,
-      this.withBackground = false})
-      : super(key: key);
+  const CustomForm({
+    Key key,
+    @required this.inputs,
+    this.horizontalMargin = 35,
+    // this.isNew = false,
+    // this.newUser,
+    this.withBackground = false,
+    this.hasGenderSelection = false,
+    this.gender,
+    this.onGenderChange,
+  }) : super(key: key);
   @override
-  _PreferencesFormState createState() => _PreferencesFormState();
+  _CustomFormState createState() => _CustomFormState();
 }
 
-class _PreferencesFormState extends State<PreferencesForm> {
-  User newUser;
+class _CustomFormState extends State<CustomForm> {
   double _avatarSize = 150;
-  bool vis = true;
+
   @override
   void initState() {
     super.initState();
-    setState(() {
-      newUser = widget.newUser;
-    });
   }
 
   // BUILD method
   @override
   Widget build(BuildContext context) {
-    //#region form_definition
-    List inputs = [
-      {
-        'inputs': [
-          {
-            'label': 'Nombre',
-            'value': newUser.name ?? '',
-            'keyboard': TextInputType.name,
-            'onChanged': nameOnChange,
-            'obscureText': false
-          },
-          {
-            'label': 'Apellidos',
-            'value': newUser.lastName ?? '',
-            'keyboard': TextInputType.name,
-            'onChanged': lastNameOnChange,
-            'obscureText': false
-          }
-        ],
-        'icon': Icons.person
-      },
-      {
-        'inputs': [
-          {
-            'label': 'Email',
-            'value': newUser.email ?? '',
-            'keyboard': TextInputType.emailAddress,
-            'onChanged': emailOnChange,
-            'obscureText': false
-          }
-        ],
-        'icon': Icons.alternate_email
-      },
-      {
-        'inputs': [
-          {
-            'label': 'Contraseña',
-            'value': newUser.psw ?? '',
-            'keyboard': TextInputType.visiblePassword,
-            'onChanged': groupOnChange,
-            'obscureText': vis,
-            'iconButton': IconButton(
-              icon: Icon(vis ? Icons.visibility_off : Icons.visibility),
-              onPressed: () {
-                setState(() {
-                  vis = !vis;
-                });
-              },
-            ),
-          }
-        ],
-        //'button': {'text': 'Verificar', 'callback': () {}},
-        'icon': Icons.vpn_key_rounded
-      },
-    ];
-    //#endregion
     return Stack(
       fit: StackFit.loose,
       children: [
         Column(
           children: [
             SizedBox(height: 35),
-            Form(child: _drawFormBody(inputs)),
+            Form(child: _drawFormBody(widget.inputs)),
           ],
         ),
-        Center(
-          child: AnimatedContainer(
-            duration: Duration(milliseconds: 250),
-            curve: Curves.fastOutSlowIn,
-            width: _avatarSize,
-            height: _avatarSize,
-            child: AvatarImage(
-              size: 150,
-              isElevated: false,
-              gender: newUser.gender,
-            ),
-          ),
-        ),
+        widget.hasGenderSelection
+            ? Center(
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 250),
+                  curve: Curves.fastOutSlowIn,
+                  width: _avatarSize,
+                  height: _avatarSize,
+                  child: AvatarImage(
+                    size: 150,
+                    isElevated: false,
+                    gender: widget.gender,
+                  ),
+                ),
+              )
+            : null,
       ],
     );
   }
@@ -142,7 +92,9 @@ class _PreferencesFormState extends State<PreferencesForm> {
         : null;
 
     // Initialices the content of the form
-    List content = <Widget>[_drawFormHeader(), SizedBox(height: 50)];
+    List content = <Widget>[];
+    if (widget.hasGenderSelection)
+      content = <Widget>[_drawFormHeader(), SizedBox(height: 50)];
 
     // Each row
     inputs.forEach((row) {
@@ -216,25 +168,24 @@ class _PreferencesFormState extends State<PreferencesForm> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SexButton(
-            isSelected: newUser.gender == 'male',
+            isSelected: widget.gender == 'male',
             onPressed: maleBtnOnChange,
             icon: Foundation.male_symbol),
         SexButton(
-            isSelected: newUser.gender == 'female',
+            isSelected: widget.gender == 'female',
             onPressed: femaleBtnOnChange,
             icon: Foundation.female_symbol),
       ],
     );
   }
 
-  //#region onChange_state_functions
   void maleBtnOnChange() {
     setState(() {
       _avatarSize = 0;
     });
     Future.delayed(Duration(milliseconds: 250), () {
       setState(() {
-        newUser.gender = 'male';
+        widget.onGenderChange('male');
         _avatarSize = 150;
       });
     });
@@ -246,35 +197,9 @@ class _PreferencesFormState extends State<PreferencesForm> {
     });
     Future.delayed(Duration(milliseconds: 250), () {
       setState(() {
-        newUser.gender = 'female';
+        widget.onGenderChange('female');
         _avatarSize = 150;
       });
     });
   }
-
-  void nameOnChange(String value) {
-    setState(() {
-      newUser.name = value;
-    });
-  }
-
-  void lastNameOnChange(String value) {
-    setState(() {
-      newUser.lastName = value;
-    });
-  }
-
-  void emailOnChange(String value) {
-    setState(() {
-      newUser.email = value;
-    });
-  }
-
-  void groupOnChange(String value) {
-    setState(() {
-      newUser.psw = value;
-    });
-  }
-
-  //#endregion
 }
