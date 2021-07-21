@@ -23,10 +23,6 @@ class MyApp extends StatelessWidget {
       ),
     );
 
-    // Ensure that the theme will always be light at the beginning
-    if (EasyDynamicTheme.of(context).themeMode == ThemeMode.system)
-      EasyDynamicTheme.of(context).changeTheme();
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Covid App',

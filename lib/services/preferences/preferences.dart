@@ -12,6 +12,7 @@ class Preferences {
     return _prefs;
   }
 
+  /// Saves an User as a preference
   Future<User> saveUser(User newUser) async {
     SharedPreferences prefs = await this.prefs;
     prefs.setString('name', newUser.name);
@@ -23,6 +24,7 @@ class Preferences {
     return newUser;
   }
 
+  /// Set the theme configurations
   Future<bool> setTheme(bool dark) async {
     SharedPreferences prefs = await this.prefs;
     prefs.setBool('is_dark_theme', dark);
@@ -30,11 +32,13 @@ class Preferences {
     return dark;
   }
 
+  /// Get the actual theme configurations
   Future<bool> getTheme() async {
     SharedPreferences prefs = await this.prefs;
     return prefs.getBool('is_dark_theme') ?? false;
   }
 
+  /// Get an User as a preference
   Future<User> getMyUser() async {
     SharedPreferences prefs = await this.prefs;
     User newUser = User(
@@ -49,11 +53,13 @@ class Preferences {
     return newUser;
   }
 
+  ///Set the token of the session
   Future<void> setToken(String token) async {
     SharedPreferences prefs = await this.prefs;
     prefs.setString('token', token);
   }
 
+  /// Returns the token of the session
   Future<String> getToken() async {
     SharedPreferences prefs = await this.prefs;
     return prefs.getString('token') ?? '';
