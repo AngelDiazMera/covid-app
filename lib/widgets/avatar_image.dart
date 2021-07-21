@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class AvatarImage extends StatelessWidget {
   final double size;
   final bool isElevated;
-  final bool isFemale;
+  final String gender;
 
   const AvatarImage(
       {Key key,
       @required this.size,
       this.isElevated = true,
-      this.isFemale = false})
+      this.gender = 'male'})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -18,8 +18,9 @@ class AvatarImage extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         image: DecorationImage(
-            image: AssetImage(
-                isFemale ? 'assets/girl_health.png' : 'assets/guy_health.png')),
+            image: AssetImage(gender == 'female'
+                ? 'assets/girl_health.png'
+                : 'assets/guy_health.png')),
         // color: Color.fromRGBO(239, 183, 97, 1),
         borderRadius: BorderRadius.circular(size / 2),
         boxShadow: this.isElevated

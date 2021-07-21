@@ -40,7 +40,7 @@ class _AccountPageInfoHeaderState extends State<AccountPageInfoHeader> {
             margin: EdgeInsets.only(left: 15),
             width: (widget.width / 3) - 15,
             child: AvatarImage(
-                isFemale: myUser.isFemale, size: (widget.width / 3) - 15)),
+                gender: myUser.gender, size: (widget.width / 3) - 15)),
         // Information is shown on the right
         Container(
           width: 2 * widget.width / 3,

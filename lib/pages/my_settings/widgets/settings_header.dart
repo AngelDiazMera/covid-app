@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:persistencia_datos/config/theme/theme.dart';
-import 'package:persistencia_datos/services/auth/my_user.dart';
-import 'package:persistencia_datos/models/user.dart';
 
 class SettingsHeader extends StatelessWidget {
-  User newUser;
+  final Function doneCallback;
 
-  SettingsHeader({Key key, @required this.newUser}) : super(key: key);
+  SettingsHeader({Key key, @required this.doneCallback}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +41,8 @@ class SettingsHeader extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  MyUser.mine.saveMyUser(newUser);
-                  _mostrarAlert(context);
+                  bool isUpdated = doneCallback();
+                  _mostrarAlert(context, isUpdated);
                 },
                 child: Text('Hecho'),
                 style: TextButton.styleFrom(primary: Colors.white),
@@ -57,7 +55,7 @@ class SettingsHeader extends StatelessWidget {
   }
 
   //Llamado desde onpressed
-  void _mostrarAlert(BuildContext context) {
+  void _mostrarAlert(BuildContext context, bool isUpdated) {
     showDialog(
         context: context,
         barrierDismissible: true, //Para el clikc afuera y salir
@@ -74,7 +72,7 @@ class SettingsHeader extends StatelessWidget {
                   MainAxisSize.min, // se adapta al tamaño del contenido
               children: <Widget>[
                 Icon(
-                  Ionicons.md_happy,
+                  isUpdated ? Ionicons.md_happy : Ionicons.md_sad,
                   size: 48,
                   color: Theme.of(context).brightness == Brightness.dark
                       ? applicationColors['font_dark']
@@ -82,7 +80,9 @@ class SettingsHeader extends StatelessWidget {
                 ),
                 SizedBox(width: 15),
                 Flexible(
-                    child: Text('Su información se actualizó correctamente.')),
+                    child: isUpdated
+                        ? Text('Su información se actualizó correctamente.')
+                        : Text('Hubo un problema con la actualización.')),
               ],
             ),
             actions: <Widget>[

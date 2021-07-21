@@ -14,18 +14,18 @@ class GetStartedPage extends StatelessWidget {
                 image: DecorationImage(
                     image: AssetImage('assets/man_with_mask.png'))),
           ),
-          SizedBox(height: 70),
+          SizedBox(height: 30),
           Text(
-            'Bienvenido',
+            'CovServer',
             style: TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold, fontSize: 32),
           ),
           SizedBox(height: 15),
           Text(
-            'En esta aplicación podrás tener certeza de aquellos lugares en los que permaneciste y existió un contagio registrado de Covid-19.',
+            'Tu nuevo asistente de observación de infectados por Covid-19',
             style: TextStyle(color: Colors.white, fontSize: 16),
             textAlign: TextAlign.center,
-          )
+          ),
         ],
       ),
     );
