@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 
 import 'package:persistencia_datos/models/user.dart';
+import 'package:persistencia_datos/pages/my_settings/widgets/settings_form.dart';
 
-import 'package:persistencia_datos/widgets/custom_form.dart';
 import 'package:persistencia_datos/pages/my_settings/widgets/settings_header.dart';
 
 class SettingsPage extends StatelessWidget {
-  final User newUser;
+  const SettingsPage({Key key}) : super(key: key);
 
-  const SettingsPage({Key key, @required this.newUser}) : super(key: key);
+  bool _updatePreferences() {
+    // TODO: Implement the function to update the user
+    // MyUser.mine.saveMyUser(newUser);
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +22,19 @@ class SettingsPage extends StatelessWidget {
           padding: EdgeInsets.only(top: 110),
           children: _drawSettingsBody(context),
         ),
-        SettingsHeader(newUser: this.newUser),
+        SettingsHeader(
+          doneCallback: _updatePreferences,
+        ),
       ],
     );
   }
 
   List<Widget> _drawSettingsBody(BuildContext context) {
     return <Widget>[
-      SizedBox(height: 35),
+      Container(
+        margin: EdgeInsets.symmetric(horizontal: 0),
+        child: SettingsForm(),
+      ),
       Container(
         margin: EdgeInsets.symmetric(horizontal: 35),
         child: Row(
@@ -38,7 +47,7 @@ class SettingsPage extends StatelessWidget {
             SizedBox(width: 20),
             Expanded(
               child: Text(
-                'Universidad Politécnica de Pachuca',
+                'Aquí debe aparecer una lista de los lugares donde trabaja y puede eliminarse de cada uno',
                 style: TextStyle(
                     fontSize: 16,
                     color: Theme.of(context).brightness == Brightness.dark

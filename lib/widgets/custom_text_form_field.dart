@@ -10,18 +10,20 @@ class CustomTextFormField extends StatefulWidget {
   final String initialValue;
   final bool obscureText;
   final IconButton iconButton;
+  final bool enabled;
 
-  CustomTextFormField(
-      {Key key,
-      @required this.label,
-      @required this.keyboardType,
-      @required this.onChanged,
-      this.icon,
-      this.width = double.infinity,
-      this.initialValue = '',
-      this.obscureText,
-      this.iconButton})
-      : super(key: key);
+  CustomTextFormField({
+    Key key,
+    @required this.label,
+    @required this.keyboardType,
+    @required this.onChanged,
+    this.icon,
+    this.width = double.infinity,
+    this.initialValue = '',
+    this.obscureText,
+    this.iconButton,
+    this.enabled,
+  }) : super(key: key);
 
   @override
   _CustomTextFormFieldState createState() => _CustomTextFormFieldState();
@@ -61,11 +63,18 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
   @override
   Widget build(BuildContext context) {
+    Color fontColor = widget.enabled == false
+        ? Theme.of(context).brightness == Brightness.dark
+            ? Color.fromRGBO(180, 180, 180, 1)
+            : Color.fromRGBO(125, 125, 125, 1)
+        : null;
+
     return Container(
       margin: EdgeInsets.only(top: 15),
       width: widget.width,
       child: TextFormField(
-        // onTap: _requestFocus,
+        style: TextStyle(color: fontColor),
+        enabled: widget.enabled,
         focusNode: _focusNode,
         keyboardType: widget.keyboardType,
         initialValue: widget.initialValue,
@@ -87,13 +96,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                   color: _getInputColor(),
                 )
               : null,
-          suffixIcon: widget.iconButton != null
-              ? IconButton(
-                  icon: widget.iconButton,
-                  onPressed: () {},
-                  color: _getInputColor(),
-                )
-              : null,
+          suffixIcon: widget.iconButton != null ? widget.iconButton : null,
           labelText: widget.label,
           errorStyle: TextStyle(fontSize: 0, height: 0),
           errorBorder: OutlineInputBorder(
@@ -113,7 +116,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           }
           return null;
         },
-        obscureText: widget.obscureText != false,
+        obscureText: widget.obscureText,
       ),
     );
   }

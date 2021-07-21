@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
     _selectedPages = <Widget>[
       Container(child: Text('Sintomas')),
       MyAccountPage(changeToDarkMode: widget.changeToDarkMode),
-      SettingsPage(newUser: myUser),
+      SettingsPage(),
     ];
     // Page of the user
     return Scaffold(

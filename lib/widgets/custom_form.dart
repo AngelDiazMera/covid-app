@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:persistencia_datos/models/user.dart';
 import 'package:persistencia_datos/widgets/sex_button.dart';
 
 import 'avatar_image.dart';
 import 'custom_text_form_field.dart';
 
 class CustomForm extends StatefulWidget {
-  final List<Map> inputs;
+  final List<Map> inputs; // Intputs to render
   final double horizontalMargin;
-  // final bool isNew;
-  // final User newUser;
-  final bool withBackground;
-  final bool hasGenderSelection;
-  final String gender;
-  final Function onGenderChange;
+  final bool withBackground; // If it renders on a box
+  final bool hasGenderSelection; // If it has gender selector
+  final String gender; // A gender is REQUIRED if hasGenderSelection is true
+  final Function
+      onGenderChange; // callback is REQUIRED if hasGenderSelection is true
 
   const CustomForm({
     Key key,
     @required this.inputs,
     this.horizontalMargin = 35,
-    // this.isNew = false,
-    // this.newUser,
     this.withBackground = false,
     this.hasGenderSelection = false,
     this.gender,
@@ -32,7 +28,7 @@ class CustomForm extends StatefulWidget {
 }
 
 class _CustomFormState extends State<CustomForm> {
-  double _avatarSize = 150;
+  double _avatarSize = 150; // To handle avatar picture animation
 
   @override
   void initState() {
@@ -110,11 +106,11 @@ class _CustomFormState extends State<CustomForm> {
 
         // If the row has a button, then change width of the input
         if (row['button'] != null) inputWidth -= 85;
-
         // Adding the input
         inputs.add(Flexible(
           child: CustomTextFormField(
             label: input['label'],
+            enabled: input['enabled'],
             initialValue: input['value'].toString(),
             icon: index == 0 ? row['icon'] : null, // Icon in first elem. only
             keyboardType: input['keyboard'],
