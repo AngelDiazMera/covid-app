@@ -8,7 +8,10 @@ class SettingsPage extends StatelessWidget {
 
   bool _updatePreferences() {
     // TODO: Implement the function to update the user
-    // MyUser.mine.saveMyUser(newUser);
+    // Instructions (spanish):
+    // * Actualizar el usuario a través de la api
+    // * Si la actualización fue exitosa (código 200), actualizar preferencias del usuario
+    // * Manejar errores
     return true;
   }
 
