@@ -36,4 +36,8 @@ class MyUser {
     }
     return false;
   }
+
+  Future<User> savePrefs(User newUser) async {
+    return await Preferences.myPrefs.saveUser(newUser);
+  }
 }

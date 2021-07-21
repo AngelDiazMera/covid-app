@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/pages/register/widgets/register_form.dart';
+import 'package:persistencia_datos/pages/login/widgets/login_form.dart';
 import 'package:persistencia_datos/models/user.dart';
 import 'package:persistencia_datos/widgets/violet_background.dart';
 
-class RegisterPage extends StatelessWidget {
+class LoginPage extends StatelessWidget {
   final User newUser = User();
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class RegisterPage extends StatelessWidget {
                 shrinkWrap: true,
                 children: [
                   Text(
-                    'Vamos a empezar',
+                    'Ingresa con tu cuenta',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -33,9 +33,12 @@ class RegisterPage extends StatelessWidget {
                   ),
                   SizedBox(height: separation),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 0),
-                    child: RegisterForm(),
+                    constraints: BoxConstraints(maxHeight: 250, minHeight: 100),
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('assets/facemask_girl.png'))),
                   ),
+                  LoginForm(),
                 ],
               ),
             ),

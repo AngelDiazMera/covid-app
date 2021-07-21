@@ -17,9 +17,10 @@ class ActionButtons extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            // 'Ingresar' button
             ElevatedButton(
               onPressed: () {
-                // Navigator.pushNamed(context, '/signin');
+                Navigator.pushNamed(context, '/signin');
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
@@ -42,6 +43,7 @@ class ActionButtons extends StatelessWidget {
               ),
               child: const Text("Ingresar"),
             ),
+            // 'Registrarme' button
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/signup');

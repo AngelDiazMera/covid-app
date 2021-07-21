@@ -14,7 +14,7 @@ class User {
     this.name,
     this.lastName,
     this.email,
-    this.psw,
+    this.psw = '',
     this.gender = 'male',
     this.isDarkTheme = false,
   });

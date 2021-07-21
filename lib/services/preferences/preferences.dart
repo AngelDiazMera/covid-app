@@ -48,4 +48,14 @@ class Preferences {
     print('REGRESANDO USUARIO: ${newUser}');
     return newUser;
   }
+
+  Future<void> setToken(String token) async {
+    SharedPreferences prefs = await this.prefs;
+    prefs.setString('token', token);
+  }
+
+  Future<String> getToken() async {
+    SharedPreferences prefs = await this.prefs;
+    return prefs.getString('token') ?? '';
+  }
 }

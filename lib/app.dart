@@ -1,6 +1,7 @@
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:persistencia_datos/pages/login/login_page.dart';
 import 'package:persistencia_datos/pages/register/register_page.dart';
 import 'package:persistencia_datos/services/auth/my_user.dart';
 
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
             ),
         '/new_user': (BuildContext context) => NewUserPage(),
         '/signup': (BuildContext context) => RegisterPage(),
-        // '/signin': (BuildContext context) => LoginPage(),
+        '/signin': (BuildContext context) => LoginPage(),
       },
     );
   }

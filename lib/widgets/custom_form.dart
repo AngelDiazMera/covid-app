@@ -43,7 +43,7 @@ class _CustomFormState extends State<CustomForm> {
       children: [
         Column(
           children: [
-            SizedBox(height: 35),
+            widget.hasGenderSelection ? SizedBox(height: 35) : SizedBox(),
             Form(child: _drawFormBody(widget.inputs)),
           ],
         ),
@@ -61,7 +61,7 @@ class _CustomFormState extends State<CustomForm> {
                   ),
                 ),
               )
-            : null,
+            : Container(),
       ],
     );
   }
