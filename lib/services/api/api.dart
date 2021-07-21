@@ -11,7 +11,7 @@ class Api {
 
   Api._internal();
 
-  static String baseURL = 'http://192.168.0.102:5000';
+  static String baseURL = 'http://192.168.100.18:5000';
 
   static Map<String, String> _headers = {
     'Content-type': 'application/json',
