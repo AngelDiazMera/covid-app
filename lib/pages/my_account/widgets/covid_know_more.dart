@@ -17,7 +17,7 @@ class CovidKnowMore extends StatelessWidget {
   Widget build(BuildContext context) {
     double fontSize = (MediaQuery.of(context).size.width - 200) * (0.09);
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 35),
+      margin: EdgeInsets.symmetric(horizontal: 15),
       width: double.infinity,
       height: 150,
       decoration: BoxDecoration(
