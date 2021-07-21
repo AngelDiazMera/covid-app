@@ -2,9 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CovidKnowMore extends StatelessWidget {
+  String asset;
+  String url;
+  String description;
+
+  CovidKnowMore(
+      {Key key,
+      @required this.asset,
+      @required this.url,
+      @required this.description})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    double fontSize = (MediaQuery.of(context).size.width - 200) * (0.1);
+    double fontSize = (MediaQuery.of(context).size.width - 200) * (0.09);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 35),
       width: double.infinity,
@@ -34,7 +45,7 @@ class CovidKnowMore extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Quédate en casa para detener el coronavirus',
+                    description,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: fontSize,
@@ -46,7 +57,7 @@ class CovidKnowMore extends StatelessWidget {
                     style: TextButton.styleFrom(
                         primary: Colors.white,
                         backgroundColor: Color.fromRGBO(53, 66, 235, 1)),
-                    onPressed: _launchURL,
+                    onPressed: () => {_launchURL(url)},
                     child: Text(
                       'Saber más',
                       style: TextStyle(fontSize: 16, color: Colors.white),
@@ -60,7 +71,7 @@ class CovidKnowMore extends StatelessWidget {
               width: 100,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/facemask_guy.png'),
+                  image: AssetImage(asset),
                 ),
               ),
             ),
@@ -71,9 +82,7 @@ class CovidKnowMore extends StatelessWidget {
   }
 }
 
-_launchURL() async {
-  const url =
-      "https://www.who.int/es/emergencies/diseases/novel-coronavirus-2019";
+_launchURL(url) async {
   if (await canLaunch(url)) {
     await launch(url);
   } else {
