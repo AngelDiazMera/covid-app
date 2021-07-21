@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class CovidKnowMore extends StatelessWidget {
+class CovidKnowMoreConacyt extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double fontSize = (MediaQuery.of(context).size.width - 200) * (0.1);
@@ -34,7 +34,7 @@ class CovidKnowMore extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Quédate en casa para detener el coronavirus',
+                    'Consulta tablero informativo CONACYT',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: fontSize,
@@ -60,7 +60,7 @@ class CovidKnowMore extends StatelessWidget {
               width: 100,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/facemask_guy.png'),
+                  image: AssetImage('assets/conacyt.png'),
                 ),
               ),
             ),
@@ -72,8 +72,7 @@ class CovidKnowMore extends StatelessWidget {
 }
 
 _launchURL() async {
-  const url =
-      "https://www.who.int/es/emergencies/diseases/novel-coronavirus-2019";
+  const url = 'https://datos.covid-19.conacyt.mx/#DOView';
   if (await canLaunch(url)) {
     await launch(url);
   } else {

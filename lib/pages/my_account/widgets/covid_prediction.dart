@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class CovidKnowMore extends StatelessWidget {
+class CovidPrediction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double fontSize = (MediaQuery.of(context).size.width - 200) * (0.1);
+    double fontSize = (MediaQuery.of(context).size.width - 200) * (0.09);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 35),
       width: double.infinity,
@@ -34,7 +34,7 @@ class CovidKnowMore extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Quédate en casa para detener el coronavirus',
+                    'Herramienta para ver probabilidad de contagio',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: fontSize,
@@ -73,7 +73,7 @@ class CovidKnowMore extends StatelessWidget {
 
 _launchURL() async {
   const url =
-      "https://www.who.int/es/emergencies/diseases/novel-coronavirus-2019";
+      'https://www.zeit.de/wissen/gesundheit/2020-11/coronavirus-aerosols-infection-risk-hotspot-interiors?utm_referrer=https%3A%2F%2Fwww.rtve.es%2F';
   if (await canLaunch(url)) {
     await launch(url);
   } else {
