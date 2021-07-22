@@ -29,6 +29,7 @@ class SymptomsCard extends StatelessWidget {
             height: 65,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(85 / 2),
+              image: DecorationImage(image: AssetImage(symptom.asset)),
               color: Theme.of(context).brightness == Brightness.dark
                   ? Colors.white12
                   : Colors.black12,
