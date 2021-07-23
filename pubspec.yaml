@@ -23,13 +23,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  carousel_slider: ^4.0.0
   cupertino_icons: ^1.0.2
   easy_dynamic_theme: ^2.2.0
+  firebase_core: ^1.4.0
+  firebase_messaging: ^10.0.4
   flutter_icons: ^1.1.0
   http: ^0.13.3
   shared_preferences: ^2.0.6
   url_launcher: ^6.0.9
-  carousel_slider: ^4.0.0
 
 dev_dependencies:
   flutter_test:

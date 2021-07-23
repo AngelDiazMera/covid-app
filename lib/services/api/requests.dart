@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:persistencia_datos/models/user.dart';
 import 'package:persistencia_datos/services/api/api.dart';
+import 'package:persistencia_datos/services/firebase/push_notification_service.dart';
 import 'package:persistencia_datos/services/preferences/preferences.dart';
 
 /// Sign un a new user and sign the user, so Bearer token is saved on
@@ -14,8 +15,9 @@ Future<bool> signUp(User newUser) async {
   //  ../lib/utils/hashing.dart
 
   try {
-    final http.Response response =
-        await Api.post('/user/signup', body: newUser.toJson());
+    Map body = newUser.toJson();
+    body['mobileToken'] = PushNotificationService.token;
+    final http.Response response = await Api.post('/user/signup', body: body);
     // If the user is signed up successfully
     if (response.statusCode == 200) {
       // Save the token
@@ -40,6 +42,7 @@ Future<User> signIn(String email, String password, {Function onError}) async {
     http.Response response = await Api.post('/user/signin', body: {
       'email': email,
       'password': password,
+      'mobileToken': PushNotificationService.token
     });
     Map resMap = json.decode(response.body);
     print(resMap);
