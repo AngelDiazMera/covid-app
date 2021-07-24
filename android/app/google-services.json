@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "532223556855",
+    "project_id": "covserver",
+    "storage_bucket": "covserver.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532223556855:android:1fbf854fb3e76ad9d127f2",
+        "android_client_info": {
+          "package_name": "com.angeldiazmera.covid_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "532223556855-m2nctjvqv845trmh0uroe5cur7fg3mqi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.angeldiazmera.covid_app",
+            "certificate_hash": "00d1b2bda8c0ab29349136cc46bd6120da69fdbc"
+          }
+        },
+        {
+          "client_id": "532223556855-nb4d0q2i5787md5oarhppfqvt34gkagq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLMxmTsJhav9GU42MecnFJjRH_nSXE-CM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "532223556855-nb4d0q2i5787md5oarhppfqvt34gkagq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
