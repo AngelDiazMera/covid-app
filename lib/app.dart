@@ -1,16 +1,11 @@
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:persistencia_datos/pages/infected/infected_page.dart';
-import 'package:persistencia_datos/pages/login/login_page.dart';
-import 'package:persistencia_datos/pages/register/register_page.dart';
-import 'package:persistencia_datos/services/auth/my_user.dart';
+import 'package:persistencia_datos/config/routes.dart';
 
-import 'package:persistencia_datos/pages/home_page/home_page.dart';
-import 'package:persistencia_datos/pages/new_user/new_user_page.dart';
 import 'package:persistencia_datos/services/firebase/push_notification_service.dart';
 
-import 'config/theme/theme.dart';
+import 'config/theme.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key key}) : super(key: key);
@@ -65,20 +60,7 @@ class _MyAppState extends State<MyApp> {
       scaffoldMessengerKey: messengerKey,
       // Routes definition
       initialRoute: '/',
-      routes: <String, WidgetBuilder>{
-        '/': (BuildContext context) => HomePage(
-              changeToDarkMode: () {
-                EasyDynamicTheme.of(context).changeTheme();
-
-                bool isDark = Theme.of(context).brightness == Brightness.dark;
-                MyUser.setTheme(isDark);
-              },
-            ),
-        '/new_user': (BuildContext context) => NewUserPage(),
-        '/signup': (BuildContext context) => RegisterPage(),
-        '/signin': (BuildContext context) => LoginPage(),
-        '/infected': (_) => InfectedPage()
-      },
+      routes: getApplicationRoutes(context),
     );
   }
 }

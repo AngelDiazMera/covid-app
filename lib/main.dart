@@ -8,6 +8,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PushNotificationService.intitializeApp();
 
+  print('Se inicializó Flutter notifications');
+
   runApp(
     EasyDynamicThemeWidget(
       child: MyApp(),

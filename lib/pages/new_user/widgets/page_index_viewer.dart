@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/config/theme/theme.dart';
+import 'package:persistencia_datos/config/theme.dart';
 
 class PageIndexViewer extends StatelessWidget {
   final List selectedPages;

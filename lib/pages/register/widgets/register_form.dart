@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/config/theme/theme.dart';
+import 'package:persistencia_datos/config/theme.dart';
 import 'package:persistencia_datos/models/user.dart';
 import 'package:persistencia_datos/services/auth/my_user.dart';
 import 'package:persistencia_datos/widgets/custom_form.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:persistencia_datos/config/theme/theme.dart';
+import 'package:persistencia_datos/config/theme.dart';
 
 class SettingsHeader extends StatelessWidget {
   final Function doneCallback;
