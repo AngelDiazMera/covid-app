@@ -1,4 +1,5 @@
 import 'package:persistencia_datos/models/user.dart';
+import 'package:persistencia_datos/models/symptom_register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Preferences {
@@ -22,6 +23,23 @@ class Preferences {
     prefs.setString('gender', newUser.gender);
     print('Guardado');
     return newUser;
+  }
+
+  ///Set the check selection
+  Future<Symptom> setCheck(Symptom newSymptom) async {
+    SharedPreferences prefs = await this.prefs;
+    prefs.setBool("checked", newSymptom.checked);
+    print('Check Guardados');
+    return newSymptom;
+  }
+
+  Future<Symptom> getCheck() async {
+    SharedPreferences prefs = await this.prefs;
+    Symptom newSymptom = Symptom(
+      checked: prefs.getBool('_checked') ?? false,
+    );
+    print('REGRESANDO SYMPTOM: ${newSymptom}');
+    return newSymptom;
   }
 
   /// Set the theme configurations
