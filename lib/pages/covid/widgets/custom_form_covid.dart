@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:persistencia_datos/widgets/sex_button.dart';
 import 'avatar_image_covid.dart';
-import 'package:persistencia_datos/models/symptom_register.dart';
 
 class CustomFormSymptom extends StatefulWidget {
   // Intputs to render
@@ -25,7 +24,6 @@ class CustomFormSymptom extends StatefulWidget {
 }
 
 class _CustomFormSymptomState extends State<CustomFormSymptom> {
-  Symptom _symptom = new Symptom();
   double _avatarSize = 150; // To handle avatar picture animation
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:persistencia_datos/pages/infected/widgets/date_picker.dart';
 import 'package:persistencia_datos/pages/covid/widgets/state_covid.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'float_button_covid.dart';
 import 'custom_form_covid.dart';
 
@@ -13,6 +14,29 @@ class _SymptomFormPageState extends State<SymptomFormPage> {
   String _infection = 'Bajo riesgo';
   Color _color;
   String _txt;
+
+  bool check9Value = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPreferencesState();
+  }
+
+  _loadPreferencesState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _infection = (prefs.getString('Bajo riesgo') ?? 'En riesgo');
+    });
+  }
+
+  _saveState(String key, dynamic val) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setString(key, val);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_infection == 'Bajo riesgo') {
@@ -52,6 +76,7 @@ class _SymptomFormPageState extends State<SymptomFormPage> {
                             onInfectionChange: (String value) {
                               setState(() {
                                 _infection = value;
+                                _saveState('Bajo riesgo', value);
                               });
                             }),
                         SizedBox(

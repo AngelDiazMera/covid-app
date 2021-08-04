@@ -25,23 +25,6 @@ class Preferences {
     return newUser;
   }
 
-  ///Set the check selection
-  Future<Symptom> setCheck(Symptom newSymptom) async {
-    SharedPreferences prefs = await this.prefs;
-    prefs.setBool("checked", newSymptom.checked);
-    print('Check Guardados');
-    return newSymptom;
-  }
-
-  Future<Symptom> getCheck() async {
-    SharedPreferences prefs = await this.prefs;
-    Symptom newSymptom = Symptom(
-      checked: prefs.getBool('_checked') ?? false,
-    );
-    print('REGRESANDO SYMPTOM: ${newSymptom}');
-    return newSymptom;
-  }
-
   /// Set the theme configurations
   Future<bool> setTheme(bool dark) async {
     SharedPreferences prefs = await this.prefs;
@@ -81,5 +64,52 @@ class Preferences {
   Future<String> getToken() async {
     SharedPreferences prefs = await this.prefs;
     return prefs.getString('token') ?? '';
+  }
+
+  ///Get an Symptom as a preference
+  Future<Symptom> getMySymptom() async {
+    SharedPreferences prefs = await this.prefs;
+    Symptom newSymptom = Symptom(
+      //symptom: prefs.getString('symptom') ?? '',
+      fever: prefs.getBool('fever') ?? false,
+      dryCough: prefs.getBool('dry_cough') ?? false,
+      fatigue: prefs.getBool('fatigue') ?? false,
+      soreThroat: prefs.getBool('sore_throat') ?? false,
+      diarrhoea: prefs.getBool('diarrhoea') ?? false,
+      conjuctivitis: prefs.getBool('conjuctivitis') ?? false,
+      headache: prefs.getBool('headache') ?? false,
+      lossSenseOfSmell: prefs.getBool('loss_of_sense_of_smell') ?? false,
+      lossColourInFingers: prefs.getBool('loss_of_colour_in_fingers') ?? false,
+      difficultyBreathing: prefs.getBool('difficulty_breathing') ?? false,
+      chestPainOrPressure: prefs.getBool('chest_pain_or_pressure') ?? false,
+      inabilityToSpeak: prefs.getBool('inability_to_speak') ?? false,
+    );
+    print('REGRESANDO SINTOMAS: ${newSymptom}');
+    return newSymptom;
+  }
+
+  /// Saves an Check Symptom as a preference
+  Future<bool> setSymptom(String key, dynamic val) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(key, val);
+  }
+
+  /// Saves an Symptom as a preference
+  Future<Symptom> saveSymptom(Symptom newSymptom) async {
+    SharedPreferences prefs = await this.prefs;
+    prefs.setBool('fever', newSymptom.fever);
+    prefs.setBool('dry_cough', newSymptom.dryCough);
+    prefs.setBool('fatigue', newSymptom.fatigue);
+    prefs.setBool('sore_throat', newSymptom.soreThroat);
+    prefs.setBool('diarrhoea', newSymptom.diarrhoea);
+    prefs.setBool('conjuctivitis', newSymptom.conjuctivitis);
+    prefs.setBool('headache', newSymptom.headache);
+    prefs.setBool('loss_of_sense_of_smell', newSymptom.lossSenseOfSmell);
+    prefs.setBool('loss_of_colour_in_fingers', newSymptom.lossColourInFingers);
+    prefs.setBool('difficulty_breathing', newSymptom.difficultyBreathing);
+    prefs.setBool('chest_pain_or_pressure', newSymptom.chestPainOrPressure);
+    prefs.setBool('inability_to_speak', newSymptom.inabilityToSpeak);
+    print('Guardado');
+    return newSymptom;
   }
 }
