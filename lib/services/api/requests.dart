@@ -81,6 +81,7 @@ Future<Map?> getAlertData(String? userRef, String? groupRef, String anonym,
       'anonym': anonym.toLowerCase() == 'true',
       'mobileToken': PushNotificationService.token
     });
+    print('Petición a serivdor');
     Map resMap = json.decode(response.body);
     print(resMap);
     // When the user logged successfully
@@ -93,7 +94,7 @@ Future<Map?> getAlertData(String? userRef, String? groupRef, String anonym,
       return null;
     }
   } catch (error) {
-    if (onError != null) onError('Ocurrió un problema con el servidor');
+    if (onError != null) onError('Ocurrió un problema con el servidor: $error');
     return null;
   }
   return null;

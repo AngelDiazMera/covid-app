@@ -27,7 +27,14 @@ class _InfectedPageState extends State<InfectedPage> {
     if (isRequesting) return;
     setState(() => isRequesting = true);
     Map? data =
-        await getAlertData(args['userRef'], args['groupRef'], args['anonym']);
+        await getAlertData(args['userRef'], args['groupRef'], args['anonym'],
+            onError: (String err) {
+      print(err);
+    });
+    if (data == null) {
+      Navigator.pop(context);
+      return;
+    }
     setState(() {
       alert = data;
       loading = false;
