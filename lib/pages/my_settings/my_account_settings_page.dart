@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/pages/my_settings/widgets/settings_form.dart';
+import 'package:covserver/pages/my_settings/widgets/settings_form.dart';
 
-import 'package:persistencia_datos/pages/my_settings/widgets/settings_header.dart';
+import 'package:covserver/pages/my_settings/widgets/settings_header.dart';
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({Key key}) : super(key: key);
+  const SettingsPage({Key? key}) : super(key: key);
 
   bool _updatePreferences() {
     // TODO: Implement the function to update the user
@@ -25,6 +25,8 @@ class SettingsPage extends StatelessWidget {
         ),
         SettingsHeader(
           doneCallback: _updatePreferences,
+          doneButtonLabel: 'Hecho',
+          name: 'Preferencias',
         ),
       ],
     );

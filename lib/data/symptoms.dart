@@ -1,4 +1,4 @@
-import 'package:persistencia_datos/models/symptom.dart';
+import 'package:covserver/models/symptom.dart';
 
 List symptoms = <Symptom>[
   Symptom(

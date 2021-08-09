@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+// ignore: must_be_immutable
 class CovidKnowMore extends StatelessWidget {
   String asset;
   String url;
   String description;
 
   CovidKnowMore(
-      {Key key,
-      @required this.asset,
-      @required this.url,
-      @required this.description})
+      {Key? key,
+      required this.asset,
+      required this.url,
+      required this.description})
       : super(key: key);
 
   @override
@@ -60,7 +61,7 @@ class CovidKnowMore extends StatelessWidget {
                     onPressed: () => {_launchURL(url)},
                     child: Text(
                       'Saber más',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
+                      style: TextStyle(fontSize: fontSize, color: Colors.white),
                     ),
                   ),
                   SizedBox(height: 5)
@@ -68,7 +69,7 @@ class CovidKnowMore extends StatelessWidget {
               ),
             ),
             Container(
-              width: 100,
+              width: MediaQuery.of(context).size.width * 1 / 6,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(asset),

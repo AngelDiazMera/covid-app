@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-import 'package:persistencia_datos/config/theme.dart';
+// import 'package:flutter_icons/flutter_icons.dart';
+import 'package:covserver/config/theme.dart';
 
 class SettingsHeader extends StatelessWidget {
-  final Function doneCallback;
+  final Function? doneCallback;
+  final String name;
+  final String doneButtonLabel;
 
-  SettingsHeader({Key key, @required this.doneCallback}) : super(key: key);
+  SettingsHeader({
+    Key? key,
+    this.doneCallback,
+    this.doneButtonLabel = '',
+    required this.name,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,20 +40,22 @@ class SettingsHeader extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Preferencias',
+                this.name,
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.white),
               ),
-              TextButton(
-                onPressed: () {
-                  bool isUpdated = doneCallback();
-                  _mostrarAlert(context, isUpdated);
-                },
-                child: Text('Hecho'),
-                style: TextButton.styleFrom(primary: Colors.white),
-              ),
+              this.doneCallback != null
+                  ? TextButton(
+                      onPressed: () {
+                        bool? isUpdated = doneCallback!();
+                        _mostrarAlert(context, isUpdated);
+                      },
+                      child: Text(this.doneButtonLabel),
+                      style: TextButton.styleFrom(primary: Colors.white),
+                    )
+                  : Container(),
             ],
           ),
         ),
@@ -55,7 +64,7 @@ class SettingsHeader extends StatelessWidget {
   }
 
   //Llamado desde onpressed
-  void _mostrarAlert(BuildContext context, bool isUpdated) {
+  void _mostrarAlert(BuildContext context, bool? isUpdated) {
     showDialog(
         context: context,
         barrierDismissible: true, //Para el clikc afuera y salir
@@ -72,7 +81,7 @@ class SettingsHeader extends StatelessWidget {
                   MainAxisSize.min, // se adapta al tamaño del contenido
               children: <Widget>[
                 Icon(
-                  isUpdated ? Ionicons.md_happy : Ionicons.md_sad,
+                  isUpdated! ? Icons.check : Icons.hourglass_empty,
                   size: 48,
                   color: Theme.of(context).brightness == Brightness.dark
                       ? applicationColors['font_dark']

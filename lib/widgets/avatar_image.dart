@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class AvatarImage extends StatelessWidget {
   final double size;
-  final bool isElevated;
-  final String gender;
+  final bool? isElevated;
+  final String? gender;
 
   const AvatarImage(
-      {Key key,
-      @required this.size,
+      {Key? key,
+      required this.size,
       this.isElevated = true,
       this.gender = 'male'})
       : super(key: key);
@@ -23,7 +23,7 @@ class AvatarImage extends StatelessWidget {
                 : 'assets/guy_health.png')),
         // color: Color.fromRGBO(239, 183, 97, 1),
         borderRadius: BorderRadius.circular(size / 2),
-        boxShadow: this.isElevated
+        boxShadow: this.isElevated!
             ? [
                 BoxShadow(
                     color: Colors.black26, spreadRadius: 0, blurRadius: 15),

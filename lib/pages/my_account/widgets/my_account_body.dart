@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:persistencia_datos/data/symptoms.dart';
-import 'package:persistencia_datos/pages/my_account/widgets/covid_know_more.dart';
-import 'package:persistencia_datos/pages/my_account/widgets/symptoms_card.dart';
-import 'package:persistencia_datos/pages/my_account/widgets/view_more_title.dart';
+import 'package:covserver/data/symptoms.dart';
+import 'package:covserver/pages/my_account/widgets/covid_know_more.dart';
+import 'package:covserver/pages/my_account/widgets/symptoms_card.dart';
+import 'package:covserver/pages/my_account/widgets/view_more_title.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class MyAccountBody extends StatelessWidget {
@@ -25,7 +25,7 @@ class MyAccountBody extends StatelessWidget {
         height: 145,
         child: ListView(
           scrollDirection: Axis.horizontal,
-          children: _drawSymptoms(),
+          children: _drawSymptoms() as List<Widget>,
         ),
       ),
       SizedBox(height: 20),

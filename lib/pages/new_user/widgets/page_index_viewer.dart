@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/config/theme.dart';
+import 'package:covserver/config/theme.dart';
 
+// ignore: must_be_immutable
 class PageIndexViewer extends StatelessWidget {
   final List selectedPages;
   int selectedPage;
 
-  PageIndexViewer({Key key, this.selectedPages, this.selectedPage})
+  PageIndexViewer(
+      {Key? key, required this.selectedPages, required this.selectedPage})
       : super(key: key);
 
   @override
@@ -37,7 +39,7 @@ class PageIndexViewer extends StatelessWidget {
 class _PageDot extends StatelessWidget {
   final bool isSelected;
 
-  const _PageDot({Key key, this.isSelected}) : super(key: key);
+  const _PageDot({Key? key, required this.isSelected}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

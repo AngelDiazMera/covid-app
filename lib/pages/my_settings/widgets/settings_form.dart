@@ -1,8 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/models/user.dart';
-import 'package:persistencia_datos/services/auth/my_user.dart';
-import 'package:persistencia_datos/services/preferences/preferences.dart';
-import 'package:persistencia_datos/widgets/custom_form.dart';
+import 'package:covserver/models/user.dart';
+import 'package:covserver/services/auth/my_user.dart';
+import 'package:covserver/widgets/custom_form.dart';
 
 class SettingsForm extends StatefulWidget {
   @override
@@ -65,7 +66,6 @@ class _SettingsFormState extends State<SettingsForm> {
             'value': _user.email,
             'enabled': false,
             'keyboard': TextInputType.emailAddress,
-            'onChanged': _emailOnChange,
             'obscureText': false
           }
         ],
@@ -77,7 +77,6 @@ class _SettingsFormState extends State<SettingsForm> {
             'label': 'Contraseña',
             'value': _psw,
             'keyboard': TextInputType.visiblePassword,
-            'onChanged': _pswOnChange,
             'obscureText': _isPswVisible,
             'iconButton': IconButton(
               icon:
@@ -94,6 +93,12 @@ class _SettingsFormState extends State<SettingsForm> {
       children: [
         CustomForm(
           inputs: _inputs,
+          callbacks: [
+            _nameOnChange,
+            _lastNameOnChange,
+            _emailOnChange,
+            _pswOnChange
+          ],
           horizontalMargin: formMargin,
           hasGenderSelection: true,
           gender: _user.gender,

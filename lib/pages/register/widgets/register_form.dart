@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/config/theme.dart';
-import 'package:persistencia_datos/models/user.dart';
-import 'package:persistencia_datos/services/auth/my_user.dart';
-import 'package:persistencia_datos/widgets/custom_form.dart';
+import 'package:covserver/config/theme.dart';
+import 'package:covserver/models/user.dart';
+import 'package:covserver/services/auth/my_user.dart';
+import 'package:covserver/widgets/custom_form.dart';
 
 class RegisterForm extends StatefulWidget {
   @override
@@ -36,14 +36,12 @@ class _RegisterFormState extends State<RegisterForm> {
             'label': 'Nombre',
             'value': _formData['name'],
             'keyboard': TextInputType.name,
-            'onChanged': nameOnChange,
             'obscureText': false
           },
           {
             'label': 'Apellidos',
             'value': _formData['lastName'],
             'keyboard': TextInputType.name,
-            'onChanged': lastNameOnChange,
             'obscureText': false
           }
         ],
@@ -55,7 +53,6 @@ class _RegisterFormState extends State<RegisterForm> {
             'label': 'Email',
             'value': _formData['access']['email'],
             'keyboard': TextInputType.emailAddress,
-            'onChanged': emailOnChange,
             'obscureText': false
           }
         ],
@@ -67,7 +64,6 @@ class _RegisterFormState extends State<RegisterForm> {
             'label': 'Contraseña',
             'value': _psw,
             'keyboard': TextInputType.visiblePassword,
-            'onChanged': pswOnChange,
             'obscureText': _isPswVisible,
             'iconButton': IconButton(
               icon:
@@ -88,7 +84,6 @@ class _RegisterFormState extends State<RegisterForm> {
             'label': 'Repetir contraseña',
             'value': _repPsw,
             'keyboard': TextInputType.visiblePassword,
-            'onChanged': repPswOnChange,
             'obscureText': _isRepPswVisible,
             'iconButton': IconButton(
               icon: Icon(
@@ -109,6 +104,13 @@ class _RegisterFormState extends State<RegisterForm> {
       children: [
         CustomForm(
           inputs: _inputs,
+          callbacks: [
+            nameOnChange,
+            lastNameOnChange,
+            emailOnChange,
+            pswOnChange,
+            repPswOnChange
+          ],
           horizontalMargin: formMargin,
           withBackground: true,
           hasGenderSelection: true,

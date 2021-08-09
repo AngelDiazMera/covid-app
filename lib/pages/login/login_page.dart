@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/pages/login/widgets/login_form.dart';
-import 'package:persistencia_datos/models/user.dart';
-import 'package:persistencia_datos/widgets/violet_background.dart';
+import 'package:covserver/pages/login/widgets/login_form.dart';
+import 'package:covserver/models/user.dart';
+import 'package:covserver/widgets/violet_background.dart';
 
 class LoginPage extends StatelessWidget {
   final User newUser = User();

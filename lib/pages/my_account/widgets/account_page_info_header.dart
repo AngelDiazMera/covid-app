@@ -1,19 +1,22 @@
+import 'package:covserver/services/preferences/preferences.dart';
+import 'package:covserver/services/providers/health_condition_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/services/auth/my_user.dart';
-import 'package:persistencia_datos/models/user.dart';
-import 'package:persistencia_datos/widgets/avatar_image.dart';
+import 'package:covserver/services/auth/my_user.dart';
+import 'package:covserver/models/user.dart';
+import 'package:covserver/widgets/avatar_image.dart';
+import 'package:provider/provider.dart';
 
 class AccountPageInfoHeader extends StatefulWidget {
   final double width;
 
-  AccountPageInfoHeader({Key key, @required this.width}) : super(key: key);
+  AccountPageInfoHeader({Key? key, required this.width}) : super(key: key);
 
   @override
   _AccountPageInfoHeaderState createState() => _AccountPageInfoHeaderState();
 }
 
 class _AccountPageInfoHeaderState extends State<AccountPageInfoHeader> {
-  User myUser;
+  late User myUser;
   bool loading = true;
 
   void _loadPreferences() async {
@@ -24,6 +27,10 @@ class _AccountPageInfoHeaderState extends State<AccountPageInfoHeader> {
     });
   }
 
+  void _loadHC(HealthCondition hc) async {
+    hc.healthCondition = await Preferences.myPrefs.getHealthCondition();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -32,7 +39,11 @@ class _AccountPageInfoHeaderState extends State<AccountPageInfoHeader> {
 
   @override
   Widget build(BuildContext context) {
+    final hc = Provider.of<HealthCondition>(context);
+    _loadHC(hc);
+
     if (loading) return Container();
+
     return Row(
       children: [
         // Avatar is shown on the left
@@ -44,15 +55,16 @@ class _AccountPageInfoHeaderState extends State<AccountPageInfoHeader> {
         // Information is shown on the right
         Container(
           width: 2 * widget.width / 3,
-          child: _drawAccountInfo(),
+          child: _drawAccountInfo(hc.healthCondition),
         )
       ],
     );
   }
 
-  Widget _drawAccountInfo() {
+  Widget _drawAccountInfo(String healthCondition) {
     TextStyle textStyle = TextStyle(
         fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white);
+
     return Column(
       children: [
         SizedBox(height: 15),
@@ -75,7 +87,7 @@ class _AccountPageInfoHeaderState extends State<AccountPageInfoHeader> {
             ),
             SizedBox(width: 10),
             Text(
-              'Sin reportes',
+              healthCondition,
               style: TextStyle(color: Colors.white, fontSize: 18),
             )
           ],

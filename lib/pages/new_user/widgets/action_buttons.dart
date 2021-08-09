@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/config/theme.dart';
+import 'package:covserver/config/theme.dart';
 
 class ActionButtons extends StatelessWidget {
   @override
@@ -23,7 +23,7 @@ class ActionButtons extends StatelessWidget {
                 Navigator.pushNamed(context, '/signin');
               },
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
+                backgroundColor: MaterialStateProperty.all<Color?>(
                   applicationColors['medium_purple'],
                 ),
                 padding:
@@ -31,13 +31,13 @@ class ActionButtons extends StatelessWidget {
                 textStyle: MaterialStateProperty.all<TextStyle>(
                   TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                 ),
-                foregroundColor: MaterialStateProperty.all<Color>(
+                foregroundColor: MaterialStateProperty.all<Color?>(
                     applicationColors['font_dark']),
                 shape: MaterialStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                     side: BorderSide(
-                        width: 2, color: applicationColors['input_light']),
+                        width: 2, color: applicationColors['input_light']!),
                   ),
                 ),
               ),
@@ -49,11 +49,11 @@ class ActionButtons extends StatelessWidget {
                 Navigator.pushNamed(context, '/signup');
               },
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
+                backgroundColor: MaterialStateProperty.all<Color?>(
                     applicationColors['input_light']),
                 padding:
                     MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
-                foregroundColor: MaterialStateProperty.all<Color>(
+                foregroundColor: MaterialStateProperty.all<Color?>(
                     applicationColors['medium_purple']),
                 textStyle: MaterialStateProperty.all<TextStyle>(
                   TextStyle(fontSize: 14, fontWeight: FontWeight.w600),

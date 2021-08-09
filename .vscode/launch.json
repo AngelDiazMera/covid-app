@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "name": "Pixel emulator",
+            "type": "dart",
+            "request": "launch",
+            "deviceId": "emulator-5554"
+        },
+        {
+            "name": "Moto G6 Play",
+            "type": "dart",
+            "request": "launch",
+            "deviceId": "ZL622353GB"
+        },
+    ],
+    "compounds": [
+        {
+            "name": "All devices",
+            "configurations": [
+                "Pixel emulator",
+                "Moto G6 Play"
+            ]
+        }
+    ]
+}

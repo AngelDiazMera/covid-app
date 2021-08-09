@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:persistencia_datos/services/preferences/preferences.dart';
+import 'package:covserver/services/preferences/preferences.dart';
 
 class Api {
   // Singleton structure
@@ -19,7 +19,7 @@ class Api {
 
   Api._internal();
   // Base url to make requests
-  static String baseURL = 'http://192.168.0.102:5000';
+  static String baseURL = 'http://192.168.100.22:5000';
   // Headers for the requests
   static Map<String, String> _headers = {
     'Content-type': 'application/json',
@@ -29,9 +29,21 @@ class Api {
 
   /// custom POST method of http
   static Future<http.Response> post(String url,
-      {Object body, Encoding encoding}) async {
+      {Object? body, Encoding? encoding}) async {
     await _loadToken();
     return http.post(
+      Uri.parse('$baseURL$url'),
+      body: jsonEncode(body),
+      headers: _headers,
+      encoding: encoding,
+    );
+  }
+
+  /// custom PUT method of http
+  static Future<http.Response> put(String url,
+      {Object? body, Encoding? encoding}) async {
+    await _loadToken();
+    return http.put(
       Uri.parse('$baseURL$url'),
       body: jsonEncode(body),
       headers: _headers,

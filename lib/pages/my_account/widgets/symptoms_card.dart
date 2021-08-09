@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/config/theme.dart';
-import 'package:persistencia_datos/models/symptom.dart';
+import 'package:covserver/config/theme.dart';
+import 'package:covserver/models/symptom.dart';
 
 class SymptomsCard extends StatelessWidget {
   final Symptom symptom;
 
-  const SymptomsCard({Key key, @required this.symptom}) : super(key: key);
+  const SymptomsCard({Key? key, required this.symptom}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

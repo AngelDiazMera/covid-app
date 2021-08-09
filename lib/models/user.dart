@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
-
 class User {
-  int id;
-  String name;
-  String lastName;
-  String email;
+  int? id;
+  String? name;
+  String? lastName;
+  String? email;
   String psw;
   String gender;
   bool isDarkTheme;

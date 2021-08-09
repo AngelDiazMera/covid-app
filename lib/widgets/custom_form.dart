@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-import 'package:persistencia_datos/widgets/sex_button.dart';
+// import 'package:flutter_icons/flutter_icons.dart';
+import 'package:covserver/widgets/sex_button.dart';
 
 import 'avatar_image.dart';
 import 'custom_text_form_field.dart';
 
 class CustomForm extends StatefulWidget {
   final List<Map> inputs; // Intputs to render
+  final List<void Function(String)> callbacks; // Callbacks of inputs (ordered)
   final double horizontalMargin;
   final bool withBackground; // If it renders on a box
   final bool hasGenderSelection; // If it has gender selector
-  final String gender; // A gender is REQUIRED if hasGenderSelection is true
-  final Function
+  final String? gender; // A gender is REQUIRED if hasGenderSelection is true
+  final Function?
       onGenderChange; // callback is REQUIRED if hasGenderSelection is true
 
   const CustomForm({
-    Key key,
-    @required this.inputs,
+    Key? key,
+    required this.inputs,
+    required this.callbacks,
     this.horizontalMargin = 35,
     this.withBackground = false,
     this.hasGenderSelection = false,
@@ -69,7 +71,7 @@ class _CustomFormState extends State<CustomForm> {
   // draws the body of the form
   Widget _drawFormBody(List inputs) {
     // If wants to decore it with a card background
-    BoxDecoration decoration = widget.withBackground
+    BoxDecoration? decoration = widget.withBackground
         ? BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.bottomRight,
@@ -92,11 +94,12 @@ class _CustomFormState extends State<CustomForm> {
     if (widget.hasGenderSelection)
       content = <Widget>[_drawFormHeader(), SizedBox(height: 50)];
 
+    int callbackIndex = 0;
     // Each row
-    inputs.forEach((row) {
+    inputs.asMap().forEach((rowIndex, row) {
       List<Widget> inputs = [];
       // Each input in List
-      row['inputs'].asMap().forEach((index, input) {
+      row['inputs'].asMap().forEach((int index, Map input) {
         // Calculating the width of each input
         double containerWidth = MediaQuery.of(context).size.width -
             2 * widget.horizontalMargin -
@@ -114,13 +117,13 @@ class _CustomFormState extends State<CustomForm> {
             initialValue: input['value'].toString(),
             icon: index == 0 ? row['icon'] : null, // Icon in first elem. only
             keyboardType: input['keyboard'],
-            onChanged: input['onChanged'],
+            onChanged: widget.callbacks[callbackIndex],
             obscureText: input['obscureText'],
             iconButton: input['iconButton'],
             width: inputWidth,
           ),
         ));
-
+        callbackIndex += 1;
         // If the row has a button, then add it
         if (row['button'] != null)
           inputs.add(TextButton(
@@ -152,7 +155,7 @@ class _CustomFormState extends State<CustomForm> {
       child: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
-          children: content,
+          children: content as List<Widget>,
         ),
       ),
     );
@@ -166,11 +169,11 @@ class _CustomFormState extends State<CustomForm> {
         SexButton(
             isSelected: widget.gender == 'male',
             onPressed: maleBtnOnChange,
-            icon: Foundation.male_symbol),
+            icon: Icons.male),
         SexButton(
             isSelected: widget.gender == 'female',
             onPressed: femaleBtnOnChange,
-            icon: Foundation.female_symbol),
+            icon: Icons.female),
       ],
     );
   }
@@ -181,7 +184,7 @@ class _CustomFormState extends State<CustomForm> {
     });
     Future.delayed(Duration(milliseconds: 250), () {
       setState(() {
-        widget.onGenderChange('male');
+        widget.onGenderChange!('male');
         _avatarSize = 150;
       });
     });
@@ -193,7 +196,7 @@ class _CustomFormState extends State<CustomForm> {
     });
     Future.delayed(Duration(milliseconds: 250), () {
       setState(() {
-        widget.onGenderChange('female');
+        widget.onGenderChange!('female');
         _avatarSize = 150;
       });
     });

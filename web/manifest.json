@@ -1,6 +1,6 @@
 {
-    "name": "persistencia_datos",
-    "short_name": "persistencia_datos",
+    "name": "covserver",
+    "short_name": "covserver",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

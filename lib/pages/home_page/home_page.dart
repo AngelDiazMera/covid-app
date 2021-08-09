@@ -1,13 +1,12 @@
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/services/api/requests.dart';
 
-import 'package:persistencia_datos/services/auth/my_user.dart';
-import 'package:persistencia_datos/models/user.dart';
+import 'package:covserver/services/auth/my_user.dart';
+import 'package:covserver/models/user.dart';
 
-import 'package:persistencia_datos/pages/my_account/my_account.dart';
-import 'package:persistencia_datos/pages/new_user/new_user_page.dart';
-import 'package:persistencia_datos/pages/home_page/widgets/custom_bottom_nav.dart';
+import 'package:covserver/pages/my_account/my_account.dart';
+import 'package:covserver/pages/new_user/new_user_page.dart';
+import 'package:covserver/pages/home_page/widgets/custom_bottom_nav.dart';
 
 import '../my_settings/my_account_settings_page.dart';
 
@@ -15,7 +14,7 @@ class HomePage extends StatefulWidget {
   // Callback to change the theme
   final Function changeToDarkMode;
 
-  const HomePage({Key key, @required this.changeToDarkMode}) : super(key: key);
+  const HomePage({Key? key, required this.changeToDarkMode}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState(this.changeToDarkMode);
@@ -28,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   // State variables of the widget
   bool _isNew = false; // Is the user register?
   bool _loading = true; // When data is retrieved, changes to false
-  User myUser; // Stored user
+  User? myUser; // Stored user
 
   _HomePageState(Function changeToDarkMode);
 
@@ -41,7 +40,7 @@ class _HomePageState extends State<HomePage> {
 
   /// Gets the user from the preferences
   _loadPreferences() async {
-    User tempUser = await MyUser.mine.getMyUser();
+    User? tempUser = await MyUser.mine.getMyUser();
     setState(() {
       myUser = tempUser;
       _isNew = tempUser.name == '';
