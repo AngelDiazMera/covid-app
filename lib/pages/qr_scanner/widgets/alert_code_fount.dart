@@ -16,6 +16,7 @@ class AlertCodeFound extends StatefulWidget {
 class _AlertCodeFoundState extends State<AlertCodeFound> {
   bool notFound = false;
   bool loading = false;
+  bool connectionFailed = false;
   Map? response;
 
   @override
@@ -28,12 +29,18 @@ class _AlertCodeFoundState extends State<AlertCodeFound> {
   void _makeRequest() async {
     // Prevent multiple calls
     if (loading) return;
-    setState(() => loading = true);
+    setState(() => connectionFailed = true);
     // Api request
     Map? res = await assignToGroup(widget.code);
     // Response handling
-    if (res != null) setState(() => response = res);
-    if (res?['group'] == null) setState(() => notFound = true);
+
+    if (res == null) {
+      setState(() => notFound = true);
+      return;
+    }
+
+    setState(() => response = res);
+    if (res['group'] == null) setState(() => notFound = true);
 
     setState(() => loading = false);
   }
@@ -44,48 +51,53 @@ class _AlertCodeFoundState extends State<AlertCodeFound> {
         widget.code.toUpperCase().startsWith('M') ? 'miembro' : 'visitante';
 
     return AlertDialog(
-      content: loading // If it's loading
-          ? Text('Cargando')
-          : notFound // If the user has not been found
-              ? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Hubo un problema',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+      content: connectionFailed
+          ? Text(
+              'Parece que hubo un problema con el servidor. Inténtalo más tarde.')
+          : loading // If it's loading
+              ? Text('Cargando')
+              : notFound // If the user has not been found
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Hubo un problema',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          response?['msg'],
+                          style: TextStyle(
+                              color: applicationColors['font_light'],
+                              fontSize: 19),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    )
+                  : Column(
+                      // If the user has been found and assigned to a group
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Encontramos el grupo',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          'Se ha unido a ${response?['group']['concatName']} como $assignType.',
+                          style: TextStyle(
+                              color: applicationColors['font_light'],
+                              fontSize: 19),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      response?['msg'],
-                      style: TextStyle(
-                          color: applicationColors['font_light'], fontSize: 19),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                )
-              : Column(
-                  // If the user has been found and assigned to a group
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Encontramos el grupo',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      'Se ha unido a ${response?['group']['concatName']} como $assignType.',
-                      style: TextStyle(
-                          color: applicationColors['font_light'], fontSize: 19),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
       actions: !loading
           ? [
               TextButton(
