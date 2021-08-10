@@ -1,6 +1,7 @@
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:persistencia_datos/pages/infected/infected_page.dart';
 import 'package:persistencia_datos/pages/login/login_page.dart';
 import 'package:persistencia_datos/pages/register/register_page.dart';
@@ -11,6 +12,7 @@ import 'package:persistencia_datos/pages/new_user/new_user_page.dart';
 import 'package:persistencia_datos/services/firebase/push_notification_service.dart';
 
 import 'config/theme/theme.dart';
+import 'generated/l10n.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key key}) : super(key: key);
@@ -79,6 +81,14 @@ class _MyAppState extends State<MyApp> {
         '/signin': (BuildContext context) => LoginPage(),
         '/infected': (_) => InfectedPage()
       },
+
+      localizationsDelegates: [
+        S.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
     );
   }
 }

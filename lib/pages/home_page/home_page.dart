@@ -1,7 +1,9 @@
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:persistencia_datos/models/symptoms_user.dart';
 import 'package:persistencia_datos/pages/infected/infected_page.dart';
 import 'package:persistencia_datos/services/api/requests.dart';
+import 'package:persistencia_datos/services/auth/my_symptom.dart';
 
 import 'package:persistencia_datos/services/auth/my_user.dart';
 import 'package:persistencia_datos/models/user.dart';
@@ -32,12 +34,14 @@ class _HomePageState extends State<HomePage> {
   User myUser; // Stored user
 
   _HomePageState(Function changeToDarkMode);
+  SymptomsUser mySymtoms;
 
   /// Load preferences of the user
   @override
   void initState() {
     super.initState();
     _loadPreferences();
+    _loadPreferencesSymptoms();
   }
 
   /// Gets the user from the preferences
@@ -51,6 +55,14 @@ class _HomePageState extends State<HomePage> {
     // Ensure that the theme will always be light at the beginning
     if (EasyDynamicTheme.of(context).themeMode == ThemeMode.system && _isNew)
       EasyDynamicTheme.of(context).changeTheme();
+  }
+
+  _loadPreferencesSymptoms() async {
+    SymptomsUser tempSymptom = await MySymptom.mine.getMySymptom();
+    setState(() {
+      mySymtoms = tempSymptom;
+      _loading = false;
+    });
   }
 
   /// BUILD method

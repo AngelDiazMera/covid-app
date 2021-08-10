@@ -16,7 +16,7 @@ class _RecommendationsList extends State<RecommendationsList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 275,
+      width: 325,
       margin: EdgeInsets.only(top: 15, bottom: 15),
       decoration: BoxDecoration(
         color: Theme.of(context).brightness == Brightness.dark
@@ -42,8 +42,8 @@ class _RecommendationsList extends State<RecommendationsList> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(right: 15, top: 5, bottom: 5),
-            width: 165,
+            margin: EdgeInsets.only(right: 5, top: 5, bottom: 5),
+            width: 200,
             child: Column(
               children: [
                 Container(
@@ -52,7 +52,7 @@ class _RecommendationsList extends State<RecommendationsList> {
                     widget.title,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: 14,
                       color: Theme.of(context).brightness == Brightness.dark
                           ? applicationColors['lila']
                           : applicationColors['light_purple'],
@@ -62,7 +62,8 @@ class _RecommendationsList extends State<RecommendationsList> {
                 SizedBox(height: 2),
                 Text(
                   widget.recomendation,
-                  style: TextStyle(fontSize: 14),
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(fontSize: 13),
                 )
               ],
             ),

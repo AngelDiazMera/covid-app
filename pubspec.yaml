@@ -29,10 +29,12 @@ dependencies:
   firebase_core: ^1.4.0
   firebase_messaging: ^10.0.4
   flutter_icons: ^1.1.0
+  flutter_localizations:
+    sdk: flutter
   http: ^0.13.3
+  intl: ^0.17.0
   shared_preferences: ^2.0.6
   url_launcher: ^6.0.9
-  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -73,3 +75,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_intl:
+  enabled: true

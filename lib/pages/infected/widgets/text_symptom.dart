@@ -14,7 +14,7 @@ class _TextSymptomPageState extends State<TextSymptomPage> {
     return Text(
       widget.txt,
       style: TextStyle(
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: FontWeight.bold,
         color: Theme.of(context).brightness == Brightness.dark
             ? applicationColors['lila']

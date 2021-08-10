@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/pages/recomendaciones/widgets/settings_header_recom.dart';
-import 'package:persistencia_datos/pages/recomendaciones/widgets/recomendation.dart';
-import 'package:persistencia_datos/pages/infected/widgets/list_severe_symptoms.dart';
+import 'package:persistencia_datos/pages/recomendaciones/settings_header_recom.dart';
+import 'package:persistencia_datos/pages/recomendaciones/symptoms/widgets/recomendation_symptom.dart';
 
-class SettingsPage extends StatelessWidget {
-  const SettingsPage({Key key}) : super(key: key);
+class SymptomPage extends StatelessWidget {
+  const SymptomPage({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Material(

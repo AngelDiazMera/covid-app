@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:persistencia_datos/config/theme/theme.dart';
 import 'package:persistencia_datos/pages/covid/widgets/covid_form_page.dart';
 import 'package:persistencia_datos/pages/infected/widgets/infected_form_page.dart';
-import 'displays.dart';
 
 class HomeTabsPage extends StatefulWidget {
   @override
@@ -29,6 +28,7 @@ class _HomeTabsPageState extends State<HomeTabsPage>
     final args = ModalRoute.of(context).settings.arguments ?? 'No data';
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('Infectados'),
         bottom: getTabBar(),
         backgroundColor: Theme.of(context).brightness == Brightness.light

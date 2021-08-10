@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/pages/recomendaciones/widgets/recomendatio_list.dart';
+import 'package:persistencia_datos/pages/recomendaciones/symptoms/widgets/recomendation_symptom_list.dart';
 
 class RecomendacionesPage extends StatefulWidget {
   @override
@@ -22,32 +22,27 @@ class _RecomendacionesPageState extends State<RecomendacionesPage> {
                   runSpacing: 3.0,
                   children: <Widget>[
                     RecommendationsList(
-                      title: 'Lavate las manos con frecuencia',
+                      title: 'Lavarse las manos',
                       recomendation:
-                          'Usa agua y jabón o un desinfectante de manos a base de alcohol.',
+                          'Con agua y jabón por un tiempo mínimo de 40 a 60 segundos o bien usar un gel desinfectante a base de alcohol al 70%.',
                       asset: 'assets/washing-hands.png',
                     ),
                     RecommendationsList(
-                      title: 'Sana distancia',
+                      title: 'Mantener el distanciamiento físico',
                       recomendation:
-                          'Mantén una distancia de seguridad con personas que tosan o estornuden',
+                          'Mantén una distancia de seguridad con personas que tosan o estornuden.',
                       asset: 'assets/social-distancing.png',
                     ),
                     RecommendationsList(
-                      title: 'Utiliza mascarilla',
+                      title: 'Adoptar medidas de higiene respiratorias',
                       recomendation:
-                          'Cuando no sea posible mantener el distanciamiento físico',
-                      asset: 'assets/face_mask.png',
-                    ),
-                    RecommendationsList(
-                      title: 'Cuando tosas o estornudes',
-                      recomendation:
-                          'Cúbrete la nariz y la boca con el codo flexionado o con un pañuelo',
+                          'Como toser o estornudar, cubrirse la boca y la nariz con el codo flexionado o con un pañuelo. Tire el pañuelo inmediatamente y lávese las manos.',
                       asset: 'assets/cough.png',
                     ),
                     RecommendationsList(
-                      title: 'Quédate en casa',
-                      recomendation: 'Si te cuidas tú, nos cuidamos todos',
+                      title: 'Quédate en casa si sus síntomas lo permiten',
+                      recomendation:
+                          'Esto te ayudará a protegerte y a proteger a otras personas de posibles infecciones por el coronavirus COVID-19 u otros virus',
                       asset: 'assets/stay-home.png',
                     ),
                     RecommendationsList(

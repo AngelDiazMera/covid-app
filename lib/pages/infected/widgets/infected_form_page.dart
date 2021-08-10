@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:persistencia_datos/pages/infected/widgets/text_symptom.dart';
-import 'package:persistencia_datos/pages/infected/widgets/date_picker.dart';
-import 'form_observer.dart';
-import 'float_button.dart';
-import 'list_common_symptoms.dart';
-import 'list_less_common_symptoms.dart';
-import 'list_severe_symptoms.dart';
+import 'remark_form.dart';
+import 'list_symptoms.dart';
 
 class InfectedFormPage extends StatefulWidget {
   @override
@@ -33,27 +29,14 @@ class _InfectedFormPageState extends State<InfectedFormPage> {
                       spacing: 5.0,
                       runSpacing: 3.0,
                       children: [
-                        TextSymptomPage(
-                          txt: 'Síntomas comunes',
-                        ),
-                        ListCommonSymptomPage(),
-                        TextSymptomPage(
-                          txt: 'Síntomas menos comunes',
-                        ),
-                        ListLessCommonSymptomPage(),
-                        TextSymptomPage(
-                          txt: 'Síntomas graves',
-                        ),
-                        ListSevereSymptomPage(),
-                        DatePickerPage(),
-                        SettingsForm(),
-                        SizedBox(
-                          height: 5,
-                        ),
                         Align(
-                          alignment: Alignment.centerRight,
-                          child: FloatButtonPage(),
+                          alignment: Alignment.center,
+                          child: TextSymptomPage(
+                            txt: 'Sintomas',
+                          ),
                         ),
+                        ListSymptomPage(),
+                        RemarkForm(),
                       ],
                     )),
                   ),
