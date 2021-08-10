@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'package:persistencia_datos/models/user.dart';
-import 'package:persistencia_datos/models/symptom_register.dart';
+import 'package:persistencia_datos/pages/infected/widgets/checked_value.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:persistencia_datos/models/symptoms_user.dart';
 
 class Preferences {
   static SharedPreferences _prefs;
@@ -67,49 +69,54 @@ class Preferences {
   }
 
   ///Get an Symptom as a preference
-  Future<Symptom> getMySymptom() async {
+  Future<Checked> getMyChecked() async {
     SharedPreferences prefs = await this.prefs;
-    Symptom newSymptom = Symptom(
-      //symptom: prefs.getString('symptom') ?? '',
+    Checked newChecked = Checked(
       fever: prefs.getBool('fever') ?? false,
-      dryCough: prefs.getBool('dry_cough') ?? false,
+      dryCough: prefs.getBool('dry cough') ?? false,
       fatigue: prefs.getBool('fatigue') ?? false,
-      soreThroat: prefs.getBool('sore_throat') ?? false,
+      soreThroat: prefs.getBool('sore throat') ?? false,
       diarrhoea: prefs.getBool('diarrhoea') ?? false,
       conjuctivitis: prefs.getBool('conjuctivitis') ?? false,
       headache: prefs.getBool('headache') ?? false,
-      lossSenseOfSmell: prefs.getBool('loss_of_sense_of_smell') ?? false,
-      lossColourInFingers: prefs.getBool('loss_of_colour_in_fingers') ?? false,
-      difficultyBreathing: prefs.getBool('difficulty_breathing') ?? false,
-      chestPainOrPressure: prefs.getBool('chest_pain_or_pressure') ?? false,
-      inabilityToSpeak: prefs.getBool('inability_to_speak') ?? false,
+      lossSenseOfSmell: prefs.getBool('loss of sense of smell') ?? false,
+      lossColourInFingers: prefs.getBool('loss of colour in fingers') ?? false,
+      difficultyBreathing: prefs.getBool('difficulty breathing') ?? false,
+      chestPainOrPressure: prefs.getBool('chest pain or pressure') ?? false,
+      inabilityToSpeak: prefs.getBool('inability to speak') ?? false,
     );
-    print('REGRESANDO SINTOMAS: ${newSymptom}');
-    return newSymptom;
+    return newChecked;
   }
 
   /// Saves an Check Symptom as a preference
-  Future<bool> setSymptom(String key, dynamic val) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  Future<bool> setChecked(String key, dynamic val) async {
+    SharedPreferences prefs = await this.prefs;
     prefs.setBool(key, val);
   }
 
-  /// Saves an Symptom as a preference
-  Future<Symptom> saveSymptom(Symptom newSymptom) async {
+  ///Symptoms
+  Future<SymptomsUser> saveSymptom(SymptomsUser newSymptom) async {
     SharedPreferences prefs = await this.prefs;
-    prefs.setBool('fever', newSymptom.fever);
-    prefs.setBool('dry_cough', newSymptom.dryCough);
-    prefs.setBool('fatigue', newSymptom.fatigue);
-    prefs.setBool('sore_throat', newSymptom.soreThroat);
-    prefs.setBool('diarrhoea', newSymptom.diarrhoea);
-    prefs.setBool('conjuctivitis', newSymptom.conjuctivitis);
-    prefs.setBool('headache', newSymptom.headache);
-    prefs.setBool('loss_of_sense_of_smell', newSymptom.lossSenseOfSmell);
-    prefs.setBool('loss_of_colour_in_fingers', newSymptom.lossColourInFingers);
-    prefs.setBool('difficulty_breathing', newSymptom.difficultyBreathing);
-    prefs.setBool('chest_pain_or_pressure', newSymptom.chestPainOrPressure);
-    prefs.setBool('inability_to_speak', newSymptom.inabilityToSpeak);
-    print('Guardado');
+    // prefs.setStringList('symptoms', newSymptom.symptoms.toList());
+    prefs.setString('remarks', newSymptom.remarks);
+    prefs.setString('symptomDate', newSymptom.symptomsDate.toString());
+
+    ///prefs.setBool('isCovid', newSymptom.isCovid);
+    ///prefs.setString('covidDate', newSymptom.covidDate.toString());
+    print('Guardado Sintomas');
+    return newSymptom;
+  }
+
+  Future<SymptomsUser> getMySymptom() async {
+    SharedPreferences prefs = await this.prefs;
+    SymptomsUser newSymptom = SymptomsUser(
+      remarks: prefs.getString('remarks') ?? '',
+      symptomsDate: DateTime.tryParse(prefs.getString('symptomDate')),
+
+      ///isCovid: prefs.getBool('isCovid') ?? false,
+      ///covidDate: DateTime.tryParse(prefs.getString('covidDate')),
+    );
+    print('REGRESANDO SINTOMAS: ${newSymptom}');
     return newSymptom;
   }
 }

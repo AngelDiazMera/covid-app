@@ -101,7 +101,7 @@ class _CustomFormSymptomState extends State<CustomFormSymptom> {
     );
   }
 
-  // Sexbuttons
+  // Covidbuttons
   Widget _drawFormHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

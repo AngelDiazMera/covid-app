@@ -36,7 +36,7 @@ class SettingsHeader extends StatelessWidget {
                     color: Colors.white),
               ),
               TextButton(
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => Navigator.pushNamed(context, '/'),
                 child: Text('Hecho'),
                 style: TextButton.styleFrom(primary: Colors.white),
               ),

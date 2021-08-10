@@ -16,7 +16,10 @@ class _StateCovidPageState extends State<StateCovidPage> {
   Widget build(BuildContext context) {
     return Container(
       width: 275,
-      margin: EdgeInsets.only(top: 15, bottom: 15, left: 35),
+      margin: EdgeInsets.only(
+        top: 15,
+        bottom: 15,
+      ),
       decoration: BoxDecoration(
         color: Theme.of(context).brightness == Brightness.dark
             ? applicationColors['background_dark_2']
