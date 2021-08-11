@@ -27,7 +27,12 @@ class _SettingsFormState extends State<SettingsForm> {
   Future<void> _setUser() async {
     User user = await MyUser.mine.getMyUser();
     setState(() {
-      _user = user;
+      _user = new User(
+          name: user.name,
+          lastName: user.lastName,
+          email: user.email,
+          gender: user.gender,
+          psw: user.psw);
     });
   }
 
