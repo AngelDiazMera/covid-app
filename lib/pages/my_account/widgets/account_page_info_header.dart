@@ -1,5 +1,7 @@
 import 'package:covserver/services/preferences/preferences.dart';
 import 'package:covserver/services/providers/health_condition_provider.dart';
+import 'package:covserver/services/providers/need_hc_update_provider.dart';
+import 'package:covserver/widgets/alert_no_infection.dart';
 import 'package:flutter/material.dart';
 import 'package:covserver/services/auth/my_user.dart';
 import 'package:covserver/models/user.dart';
@@ -18,6 +20,9 @@ class AccountPageInfoHeader extends StatefulWidget {
 class _AccountPageInfoHeaderState extends State<AccountPageInfoHeader> {
   late User myUser;
   bool loading = true;
+  bool needUpdState = false;
+
+  bool hasAlertShown = false;
 
   void _loadPreferences() async {
     User tempUser = await MyUser.mine.getMyUser();
@@ -27,8 +32,41 @@ class _AccountPageInfoHeaderState extends State<AccountPageInfoHeader> {
     });
   }
 
-  void _loadHC(HealthCondition hc) async {
+  Future reloadDelayed(int duration, NeedHcUpdate needUpd) async {
+    // if (makeRequest) return false;
+    // makeRequest = true;
+    // return new Future.delayed(Duration(seconds: duration), () async {
+    //   bool newUpdate = await Preferences.myPrefs.getNeedHCUpdate();
+    //   bool needReload = newUpdate == needUpd.isUpdateNeeded;
+    //   if (needReload) print('Necesita actualizar ($newUpdate)');
+    //   needUpd.isUpdateNeeded = newUpdate;
+
+    //   if (needUpd.isUpdateNeeded) {
+    //     print('Mostrando diálgo');
+    //     showDialog(
+    //       barrierDismissible: false,
+    //       context: context,
+    //       builder: (context) => AlertNoInfection(),
+    //     );
+    //   }
+    //   makeRequest = false;
+    //   return needReload;
+    // });
+  }
+
+  void _loadHC(HealthCondition hc, NeedHcUpdate needUpd) async {
+    if (hasAlertShown) return;
     hc.healthCondition = await Preferences.myPrefs.getHealthCondition();
+    needUpd.isUpdateNeeded = await Preferences.myPrefs.getNeedHCUpdate();
+
+    if (needUpd.isUpdateNeeded) {
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => AlertNoInfection(),
+      );
+      setState(() => hasAlertShown = true);
+    }
   }
 
   @override
@@ -40,7 +78,9 @@ class _AccountPageInfoHeaderState extends State<AccountPageInfoHeader> {
   @override
   Widget build(BuildContext context) {
     final hc = Provider.of<HealthCondition>(context);
-    _loadHC(hc);
+    final needUpd = Provider.of<NeedHcUpdate>(context);
+
+    _loadHC(hc, needUpd);
 
     if (loading) return Container();
 

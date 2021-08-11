@@ -1,4 +1,5 @@
 import 'package:covserver/config/theme.dart';
+import 'package:covserver/data/symptoms.dart';
 import 'package:covserver/services/api/requests.dart';
 import 'package:covserver/services/preferences/preferences.dart';
 import 'package:covserver/services/providers/health_condition_provider.dart';
@@ -15,77 +16,67 @@ class AlertNoInfection extends StatefulWidget {
 class _AlertNoInfectionState extends State<AlertNoInfection> {
   bool loading = true;
 
-  void _makeHealthy() async {
+  Future<bool> _makeHealthy() async {
+    setState(() => loading = true);
     Map? updated = await setHealthState('healthy');
     setState(() => loading = false);
 
     if (updated != null) {
+      Preferences.myPrefs.setNeedHCUpdate(false);
       Preferences.myPrefs.setHealthCondition('healthy');
+      return true;
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _makeHealthy();
+    return false;
   }
 
   @override
   Widget build(BuildContext context) {
     final hc = Provider.of<HealthCondition>(context);
 
-    if (loading)
-      return AlertDialog(
-        content: Text(
-          'Cargando...',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-        ),
-      );
-
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            '¡Felicidades!',
+            'El tiempo de espera ha terminado',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
           SizedBox(
             height: 15,
           ),
           Text(
-            'Debido a que no mostró reportes de contagio por Covid-19 en los últimos 14 días, su estado pasa a "sin riesgo".',
+            'Debido a que no mostró reportes de contagio por Covid-19 en los últimos 14 días, necesitamos saber cómo se encuentra',
             style: TextStyle(color: applicationColors['font_light']),
             textAlign: TextAlign.center,
           )
         ],
       ),
       actions: [
-        Center(
-          child: ElevatedButton(
-            onPressed: () {
+        TextButton(
+          onPressed: () async {
+            bool isHealthy = await _makeHealthy();
+            if (isHealthy) {
+              Navigator.pop(context);
               hc.healthCondition = 'healthy';
-              Navigator.pop(context, 'OK');
-            },
-            style: ButtonStyle(
-              elevation: MaterialStateProperty.all<double>(0),
-              backgroundColor: MaterialStateProperty.all<Color?>(
-                applicationColors['medium_purple'],
-              ),
-              padding:
-                  MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
-              textStyle: MaterialStateProperty.all<TextStyle>(
-                TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-              ),
-              foregroundColor: MaterialStateProperty.all<Color?>(
-                  applicationColors['font_dark']),
-              shape: MaterialStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-              ),
+            }
+          },
+          child: Text(
+            "Estoy saludable",
+            style: TextStyle(
+              color: applicationColors['medium_purple'],
+              fontSize: 16,
             ),
-            child: Text("Asombroso"),
+          ),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pushNamed(context, '/symptoms_register'),
+          child: Text(
+            "Estoy contagiado",
+            style: TextStyle(
+              color: applicationColors['medium_purple'],
+              fontSize: 16,
+            ),
           ),
         ),
       ],

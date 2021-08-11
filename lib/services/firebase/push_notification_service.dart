@@ -51,14 +51,17 @@ class PushNotificationService {
     _messageStream.add(message.data);
   }
 
-  static void fireDelayedNotification() {
-    PushNotificationService._fireLocalNotification(
+  static void fireDelayedNotification() async {
+    await PushNotificationService._fireLocalNotification(
         title: '⏰ El periodo de riesgo ha finalizado🦠',
         body: 'Abra esta notificación para visualizar el cambio.',
         payload: 'time_finished');
 
-    Preferences.myPrefs.setHealthCondition('healthy');
-    setHealthState('healthy');
+    await Preferences.myPrefs.setNeedHCUpdate(true);
+    // TODO: DElete next two lines
+    // Add a prefference to handle alert_no_infection display
+    // Preferences.myPrefs.setHealthCondition('healthy');
+    // setHealthState('healthy');
   }
 
   static Future _fireLocalNotification({
@@ -67,7 +70,8 @@ class PushNotificationService {
     String? payload,
   }) async {
     const androidDetails = AndroidNotificationDetails(
-        'channelId', 'Local Notification', 'Some description');
+        'channelId', 'Local Notification', 'Some description',
+        importance: Importance.high, priority: Priority.high);
     const iosDetails = IOSNotificationDetails();
     const generalDetails =
         NotificationDetails(android: androidDetails, iOS: iosDetails);
@@ -95,8 +99,10 @@ class PushNotificationService {
       iOS: iosInit,
     );
 
-    _localNotification.initialize(initSettings,
-        onSelectNotification: notificationSelected);
+    _localNotification.initialize(
+      initSettings,
+      onSelectNotification: notificationSelected,
+    );
   }
 
   static Future notificationSelected(String? payload) async {

@@ -1,4 +1,6 @@
+import 'package:covserver/services/providers/health_condition_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AvatarImage extends StatelessWidget {
   final double size;
@@ -13,14 +15,16 @@ class AvatarImage extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final hc = Provider.of<HealthCondition>(context);
+
+    String asset =
+        'assets/${gender == 'female' ? 'girl' : 'guy'}_${hc.healthCondition == 'Sin riesgo' ? 'health' : 'sick'}.png';
+
     return Container(
       width: size,
       height: size,
       decoration: BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage(gender == 'female'
-                ? 'assets/girl_health.png'
-                : 'assets/guy_health.png')),
+        image: DecorationImage(image: AssetImage(asset)),
         // color: Color.fromRGBO(239, 183, 97, 1),
         borderRadius: BorderRadius.circular(size / 2),
         boxShadow: this.isElevated!

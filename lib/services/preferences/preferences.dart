@@ -79,4 +79,16 @@ class Preferences {
     SharedPreferences prefs = await this.prefs;
     prefs.setString('healthCondition', healthCondition);
   }
+
+  /// Returns the necesity of update the health condition (when alarm ends)
+  Future<bool> getNeedHCUpdate() async {
+    SharedPreferences prefs = await this.prefs;
+    return prefs.getBool('needHCUpdate') ?? false;
+  }
+
+  /// Set true if alarm detected to update health state
+  Future<void> setNeedHCUpdate(bool isNeeded) async {
+    SharedPreferences prefs = await this.prefs;
+    prefs.setBool('needHCUpdate', isNeeded);
+  }
 }
