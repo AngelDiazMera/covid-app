@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/widgets/sex_button.dart';
 import 'avatar_image_covid.dart';
+import 'covid_button.dart';
 
 class CustomFormSymptom extends StatefulWidget {
   // Intputs to render
@@ -106,14 +106,14 @@ class _CustomFormSymptomState extends State<CustomFormSymptom> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        SexButton(
+        CovidButton(
             isSelected: widget.infection == 'Bajo riesgo',
             onPressed: bajoRiesgoBtnOnChange,
-            icon: Icons.done),
-        SexButton(
+            icon: Icons.clear),
+        CovidButton(
             isSelected: widget.infection == 'En riesgo',
             onPressed: enRiesgoBtnOnChange,
-            icon: Icons.clear),
+            icon: Icons.done),
       ],
     );
   }

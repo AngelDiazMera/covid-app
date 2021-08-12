@@ -17,14 +17,14 @@ class SymptomsUser {
   factory SymptomsUser.fromJson(Map<String, dynamic> json) {
     return SymptomsUser(
         id: json['_id'],
-        symptomsDate: json['symptomDate'],
+        symptomsDate: json['symptomsDate'],
         remarks: json['remarks'],
         isCovid: json['isCovid'],
         covidDate: json['covidDate']);
   }
   Map<String, dynamic> toJson() => {
         'symptoms': this.symptoms,
-        'symptomDate': this.symptomsDate,
+        'symptomsDate': this.symptomsDate,
         'remarks': this.remarks,
         'isCovid': this.isCovid,
         'covidDate': this.covidDate,

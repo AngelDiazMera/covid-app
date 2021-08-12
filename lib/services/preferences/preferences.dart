@@ -69,9 +69,9 @@ class Preferences {
   }
 
   ///Get an Symptom as a preference
-  Future<Checked> getMyChecked() async {
+  Future<CheckedSymptoms> getMyChecked() async {
     SharedPreferences prefs = await this.prefs;
-    Checked newChecked = Checked(
+    CheckedSymptoms newChecked = CheckedSymptoms(
       fever: prefs.getBool('fever') ?? false,
       dryCough: prefs.getBool('dry cough') ?? false,
       fatigue: prefs.getBool('fatigue') ?? false,
@@ -94,29 +94,36 @@ class Preferences {
     prefs.setBool(key, val);
   }
 
-  ///Symptoms
+  /// Saves an Symptom User as a preference
   Future<SymptomsUser> saveSymptom(SymptomsUser newSymptom) async {
     SharedPreferences prefs = await this.prefs;
-    // prefs.setStringList('symptoms', newSymptom.symptoms.toList());
+    prefs.setStringList('symptoms', newSymptom.symptoms);
     prefs.setString('remarks', newSymptom.remarks);
-    prefs.setString('symptomDate', newSymptom.symptomsDate.toString());
-
-    ///prefs.setBool('isCovid', newSymptom.isCovid);
-    ///prefs.setString('covidDate', newSymptom.covidDate.toString());
+    prefs.setString('symptomsDate', newSymptom.symptomsDate.toString());
     print('Guardado Sintomas');
     return newSymptom;
   }
 
+  /// Get an Symptom User as a preference
   Future<SymptomsUser> getMySymptom() async {
     SharedPreferences prefs = await this.prefs;
     SymptomsUser newSymptom = SymptomsUser(
+      symptoms: prefs.getStringList('symptoms'),
       remarks: prefs.getString('remarks') ?? '',
-      symptomsDate: DateTime.tryParse(prefs.getString('symptomDate')),
-
-      ///isCovid: prefs.getBool('isCovid') ?? false,
-      ///covidDate: DateTime.tryParse(prefs.getString('covidDate')),
+      symptomsDate: DateTime.tryParse(prefs.getString('symptomsDate') ?? ''),
+      isCovid: prefs.getBool('isCovid') ?? false,
+      covidDate: DateTime.tryParse(prefs.getString('covidDate') ?? ''),
     );
     print('REGRESANDO SINTOMAS: ${newSymptom}');
     return newSymptom;
+  }
+
+  /// Saves an Covid User as a preference
+  Future<SymptomsUser> saveCovid(SymptomsUser newCovid) async {
+    SharedPreferences prefs = await this.prefs;
+    prefs.setBool('isCovid', newCovid.isCovid);
+    prefs.setString('covidDate', newCovid.covidDate.toString());
+    print('Guardado Covid');
+    return newCovid;
   }
 }

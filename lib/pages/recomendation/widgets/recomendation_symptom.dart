@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/pages/recomendaciones/symptoms/widgets/recomendation_symptom_list.dart';
+import 'package:persistencia_datos/pages/recomendation/widgets/recomendation_symptom_list.dart';
 
 class RecomendacionesPage extends StatefulWidget {
   @override

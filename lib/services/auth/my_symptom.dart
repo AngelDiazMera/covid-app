@@ -12,11 +12,29 @@ class MySymptom {
     return await Preferences.myPrefs.getMySymptom();
   }
 
-  void saveMySymptom(SymptomsUser newSymptom) {
-    this._save(newSymptom);
+  Future<bool> saveSymptoms(SymptomsUser newSymptom) async {
+    _mySymptomsUser = await Preferences.myPrefs.saveSymptom(newSymptom);
+    return true;
   }
 
-  void _save(SymptomsUser newSymptom) async {
+  Future<bool> saveCovid(SymptomsUser newCovid) async {
+    _mySymptomsUser = await Preferences.myPrefs.saveCovid(newCovid);
+    return true;
+  }
+
+  void saveMySymptom(SymptomsUser newSymptom) {
+    this._saveSymptom(newSymptom);
+  }
+
+  void _saveSymptom(SymptomsUser newSymptom) async {
     _mySymptomsUser = await Preferences.myPrefs.saveSymptom(newSymptom);
+  }
+
+  void saveMyCovid(SymptomsUser newCovid) {
+    this._saveCovid(newCovid);
+  }
+
+  void _saveCovid(SymptomsUser newCovid) async {
+    _mySymptomsUser = await Preferences.myPrefs.saveCovid(newCovid);
   }
 }

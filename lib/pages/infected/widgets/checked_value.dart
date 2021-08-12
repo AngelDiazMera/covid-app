@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class Checked {
+class CheckedSymptoms {
   bool fever;
   bool dryCough;
   bool fatigue;
@@ -13,8 +13,20 @@ class Checked {
   bool difficultyBreathing;
   bool chestPainOrPressure;
   bool inabilityToSpeak;
+  String nameFever;
+  String nameDryCough;
+  String nameFatigue;
+  String namedifficultyBreathing;
+  String namechestPainOrPressure;
+  String nameinabilityToSpeak;
+  String nameSoreThroat;
+  String nameDiarrhoea;
+  String nameConjuctivitis;
+  String nameHeadache;
+  String nameLossSenseOfSmell;
+  String nameLossColourInFingers;
 
-  Checked({
+  CheckedSymptoms({
     this.fever = false,
     this.dryCough = false,
     this.fatigue = false,
@@ -27,5 +39,17 @@ class Checked {
     this.difficultyBreathing = false,
     this.chestPainOrPressure = false,
     this.inabilityToSpeak = false,
+    this.nameFever = 'fever',
+    this.nameDryCough = 'dry cough',
+    this.nameFatigue = 'fatigue',
+    this.namedifficultyBreathing = 'difficulty breathing',
+    this.namechestPainOrPressure = 'chest pain or pressure',
+    this.nameinabilityToSpeak = 'inability to speak',
+    this.nameSoreThroat = 'sore throat',
+    this.nameDiarrhoea = 'diarrhoea',
+    this.nameConjuctivitis = 'conjuctivitis',
+    this.nameHeadache = 'headache',
+    this.nameLossSenseOfSmell = 'loss sense of smell',
+    this.nameLossColourInFingers = 'loss colour in fingers',
   });
 }

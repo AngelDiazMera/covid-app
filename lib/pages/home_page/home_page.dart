@@ -1,9 +1,7 @@
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/models/symptoms_user.dart';
 import 'package:persistencia_datos/pages/infected/infected_page.dart';
 import 'package:persistencia_datos/services/api/requests.dart';
-import 'package:persistencia_datos/services/auth/my_symptom.dart';
 
 import 'package:persistencia_datos/services/auth/my_user.dart';
 import 'package:persistencia_datos/models/user.dart';
@@ -34,7 +32,6 @@ class _HomePageState extends State<HomePage> {
   User myUser; // Stored user
 
   _HomePageState(Function changeToDarkMode);
-  ////SymptomsUser mySymtoms;
 
   /// Load preferences of the user
   @override
@@ -56,14 +53,6 @@ class _HomePageState extends State<HomePage> {
       EasyDynamicTheme.of(context).changeTheme();
   }
 
-  /*_loadPreferencesSymptoms() async {
-    SymptomsUser tempSymptom = await MySymptom.mine.getMySymptom();
-    setState(() {
-      mySymtoms = tempSymptom;
-      _loading = false;
-    });
-  }*/
-
   /// BUILD method
   @override
   Widget build(BuildContext context) {
@@ -78,7 +67,7 @@ class _HomePageState extends State<HomePage> {
     // If the user is not registered, draws the Welcome page
     if (_isNew) return NewUserPage();
     _selectedPages = <Widget>[
-      InfectedPage(), // 'Síntomas' page
+      InfectedPage(),
       MyAccountPage(changeToDarkMode: widget.changeToDarkMode),
       SettingsPage(),
     ];

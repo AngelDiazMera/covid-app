@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:persistencia_datos/config/theme/theme.dart';
-import 'package:persistencia_datos/pages/infected/widgets/checked_value.dart';
 
 class CheckBoxListTile extends StatefulWidget {
   final String symptom;
