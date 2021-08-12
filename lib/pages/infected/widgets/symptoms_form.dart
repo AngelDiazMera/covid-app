@@ -30,7 +30,6 @@ class _SymptomFormState extends State<SymptomForm> {
   @override
   void initState() {
     super.initState();
-
     _loadPreferencesSymptoms();
     _setSymptom();
   }

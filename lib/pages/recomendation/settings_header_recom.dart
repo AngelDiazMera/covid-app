@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:persistencia_datos/config/theme/theme.dart';
 import 'package:persistencia_datos/pages/covid/covid_page.dart';
 
 class SettingsHeader extends StatelessWidget {
@@ -35,13 +37,14 @@ class SettingsHeader extends StatelessWidget {
                     color: Colors.white),
               ),
               IconButton(
-                onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => CovidPage())),
-                icon: Icon(Icons.arrow_forward),
-                color: Colors.white,
-              ),
+                  icon: Icon(Icons.arrow_forward),
+                  color: Colors.white,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => CovidPage()));
+                  })
             ],
           ),
         ),
