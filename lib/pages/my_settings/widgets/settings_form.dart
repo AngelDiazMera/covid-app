@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:persistencia_datos/models/user.dart';
 import 'package:persistencia_datos/services/auth/my_user.dart';
-import 'package:persistencia_datos/services/preferences/preferences.dart';
 import 'package:persistencia_datos/widgets/custom_form.dart';
+import 'package:crypto/crypto.dart';
+import 'dart:convert';
 
 class SettingsForm extends StatefulWidget {
   @override
@@ -34,9 +35,6 @@ class _SettingsFormState extends State<SettingsForm> {
   Widget build(BuildContext context) {
     double formMargin = 25;
 
-    // If it is loading
-    if (_user.email == null) return Container();
-
     // Inputs of the form
     List<Map> _inputs = [
       {
@@ -45,14 +43,14 @@ class _SettingsFormState extends State<SettingsForm> {
             'label': 'Nombre',
             'value': _user.name,
             'keyboard': TextInputType.name,
-            'onChanged': _nameOnChange,
+            'onChanged': nameOnChange,
             'obscureText': false
           },
           {
             'label': 'Apellidos',
             'value': _user.lastName,
             'keyboard': TextInputType.name,
-            'onChanged': _lastNameOnChange,
+            'onChanged': lastNameOnChange,
             'obscureText': false
           }
         ],
@@ -65,7 +63,7 @@ class _SettingsFormState extends State<SettingsForm> {
             'value': _user.email,
             'enabled': false,
             'keyboard': TextInputType.emailAddress,
-            'onChanged': _emailOnChange,
+            'onChanged': emailOnChange,
             'obscureText': false
           }
         ],
@@ -77,18 +75,21 @@ class _SettingsFormState extends State<SettingsForm> {
             'label': 'Contraseña',
             'value': _psw,
             'keyboard': TextInputType.visiblePassword,
-            'onChanged': _pswOnChange,
+            'onChanged': pswOnChange,
             'obscureText': _isPswVisible,
             'iconButton': IconButton(
               icon:
                   Icon(_isPswVisible ? Icons.visibility_off : Icons.visibility),
               onPressed: _setPswVisible,
             ),
+            
           }
         ],
         'icon': Icons.vpn_key_rounded
       },
     ];
+    
+
 
     return Column(
       children: [
@@ -107,11 +108,36 @@ class _SettingsFormState extends State<SettingsForm> {
     );
   }
 
-  // State handlers
-  void _nameOnChange(String value) => setState(() => _user.name = value);
-  void _lastNameOnChange(String value) =>
-      setState(() => _user.lastName = value);
-  void _emailOnChange(String value) => setState(() => _user.email = value);
-  void _pswOnChange(String value) => setState(() => _psw = value);
-  void _setPswVisible() => setState(() => _isPswVisible = !_isPswVisible);
+  void nameOnChange(String value) {
+    setState(() {
+      _user.name = value;
+    });
+  }
+
+  void lastNameOnChange(String value) {
+    setState(() {
+      _user.lastName = value;
+    });
+  }
+
+  void emailOnChange(String value) {
+    setState(() {
+      _user.email = value;
+    });
+  }
+
+  void pswOnChange(String value) {
+    setState(() {
+      var bytes = utf8.encode("_psw"); // data being hashed
+      var digest = sha256.convert(bytes);
+      value = digest as String;
+      _psw = value;
+    });
+  }
+
+  void _setPswVisible() {
+    setState(() {
+      _isPswVisible = !_isPswVisible;
+    });
+  }
 }

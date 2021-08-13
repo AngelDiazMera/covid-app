@@ -3,6 +3,8 @@ import 'package:persistencia_datos/config/theme/theme.dart';
 import 'package:persistencia_datos/models/user.dart';
 import 'package:persistencia_datos/services/auth/my_user.dart';
 import 'package:persistencia_datos/widgets/custom_form.dart';
+import 'package:crypto/crypto.dart';
+import 'dart:convert';
 
 class RegisterForm extends StatefulWidget {
   @override
@@ -24,12 +26,11 @@ class _RegisterFormState extends State<RegisterForm> {
   String _repPsw = '';
   bool _isPswVisible = true;
   bool _isRepPswVisible = true;
+  List<Map> _inputs;
 
   @override
-  Widget build(BuildContext context) {
-    double formMargin = 25;
-
-    List<Map> _inputs = [
+  void initState() {
+    _inputs = [
       {
         'inputs': [
           {
@@ -104,6 +105,12 @@ class _RegisterFormState extends State<RegisterForm> {
         'icon': Icons.vpn_key_rounded
       },
     ];
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double formMargin = 25;
 
     return Column(
       children: [
@@ -175,12 +182,18 @@ class _RegisterFormState extends State<RegisterForm> {
 
   void pswOnChange(String value) {
     setState(() {
+      var bytes = utf8.encode("_psw"); // data being hashed
+      var digest = sha256.convert(bytes);
+      value = digest as String;
       _psw = value;
     });
   }
 
   void repPswOnChange(String value) {
     setState(() {
+      var bytes = utf8.encode("_repPsw"); // data being hashed
+      var digest = sha256.convert(bytes);
+      value = digest as String;
       _repPsw = value;
     });
   }
