@@ -1,3 +1,5 @@
+import 'package:covserver/models/user.dart';
+import 'package:covserver/services/api/requests.dart';
 import 'package:flutter/material.dart';
 import 'package:covserver/pages/my_settings/widgets/settings_form.dart';
 
@@ -6,13 +8,10 @@ import 'package:covserver/pages/my_settings/widgets/settings_header.dart';
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
-  bool _updatePreferences() {
-    // TODO: Implement the function to update the user
-    // Instructions (spanish):
-    // * Actualizar el usuario a través de la api
-    // * Si la actualización fue exitosa (código 200), actualizar preferencias del usuario
-    // * Manejar errores
-    return true;
+  Future<User?> _updatePreferences(
+      String name, String lastName, String email, String password) async {
+    User? updatedUser = await updateUser(name, lastName, email, password);
+    return updatedUser;
   }
 
   @override
@@ -48,16 +47,6 @@ class SettingsPage extends StatelessWidget {
                     ? Colors.white30
                     : Colors.black38),
             SizedBox(width: 20),
-            Expanded(
-              child: Text(
-                'Aquí debe aparecer una lista de los lugares donde trabaja y puede eliminarse de cada uno',
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.white30
-                        : Colors.black38),
-              ),
-            )
           ],
         ),
       )

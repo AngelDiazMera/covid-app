@@ -19,7 +19,7 @@ class Api {
 
   Api._internal();
   // Base url to make requests
-  static String baseURL = 'http://192.168.0.102:5000';
+  static String baseURL = 'http://192.168.0.104:5000';
   // Headers for the requests
   static Map<String, String> _headers = {
     'Content-type': 'application/json',
@@ -56,5 +56,16 @@ class Api {
     await _loadToken();
     print(_headers);
     return http.get(Uri.parse('$baseURL$url'), headers: _headers);
+  }
+  /// custom update method of http
+  static Future<http.Response> update(String url,
+      {Object body, Encoding encoding}) async {
+    await _loadToken();
+    return http.patch(
+      Uri.parse('$baseURL$url'),
+      body: jsonEncode(body),
+      headers: _headers,
+      encoding: encoding,
+    );
   }
 }

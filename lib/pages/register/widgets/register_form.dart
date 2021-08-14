@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:covserver/config/theme.dart';
 import 'package:covserver/models/user.dart';
@@ -24,12 +27,11 @@ class _RegisterFormState extends State<RegisterForm> {
   String _repPsw = '';
   bool _isPswVisible = true;
   bool _isRepPswVisible = true;
+  List<Map>? _inputs;
 
   @override
-  Widget build(BuildContext context) {
-    double formMargin = 25;
-
-    List<Map> _inputs = [
+  void initState() {
+    _inputs = [
       {
         'inputs': [
           {
@@ -99,11 +101,17 @@ class _RegisterFormState extends State<RegisterForm> {
         'icon': Icons.vpn_key_rounded
       },
     ];
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double formMargin = 25;
 
     return Column(
       children: [
         CustomForm(
-          inputs: _inputs,
+          inputs: _inputs!,
           callbacks: [
             nameOnChange,
             lastNameOnChange,
@@ -177,12 +185,18 @@ class _RegisterFormState extends State<RegisterForm> {
 
   void pswOnChange(String value) {
     setState(() {
+      var bytes = utf8.encode("_psw"); // data being hashed
+      var digest = sha256.convert(bytes);
+      value = digest as String;
       _psw = value;
     });
   }
 
   void repPswOnChange(String value) {
     setState(() {
+      var bytes = utf8.encode("_repPsw"); // data being hashed
+      var digest = sha256.convert(bytes);
+      value = digest as String;
       _repPsw = value;
     });
   }

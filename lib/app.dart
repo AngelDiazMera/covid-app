@@ -1,10 +1,10 @@
+import 'package:covserver/config/routes.dart';
 import 'package:covserver/services/providers/health_condition_provider.dart';
 import 'package:covserver/services/providers/need_hc_update_provider.dart';
 import 'package:covserver/widgets/alert_no_infection.dart';
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:covserver/config/routes.dart';
 
 import 'package:covserver/services/firebase/push_notification_service.dart';
 import 'package:provider/provider.dart';
@@ -80,6 +80,14 @@ class _MyAppState extends State<MyApp> {
         initialRoute: '/',
         routes: getApplicationRoutes(context),
       ),
+
+      // localizationsDelegates: [
+      //   S.delegate,
+      //   GlobalWidgetsLocalizations.delegate,
+      //   GlobalMaterialLocalizations.delegate,
+      //   GlobalCupertinoLocalizations.delegate,
+      // ],
+      // supportedLocales: S.delegate.supportedLocales,
     );
   }
 }

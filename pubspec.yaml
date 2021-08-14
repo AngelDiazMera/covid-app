@@ -24,6 +24,7 @@ dependencies:
   android_alarm_manager: ^2.0.2
   carousel_slider: ^4.0.0
   cupertino_icons: ^1.0.2
+  crypto: ^3.0.1
   easy_dynamic_theme: ^2.2.0
   firebase_core: ^1.4.0
   firebase_messaging: ^10.0.4
@@ -32,6 +33,7 @@ dependencies:
   flutter_local_notifications: ^8.0.0
   flutter_spinkit: ^5.0.0
   http: ^0.13.3
+  intl: ^0.17.0
   provider: ^5.0.0
   qr_code_scanner: ^0.5.2
   shared_preferences: ^2.0.6
@@ -80,3 +82,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_intl:
+  enabled: true

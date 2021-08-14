@@ -1,17 +1,18 @@
-import 'package:covserver/config/theme.dart';
-import 'package:covserver/pages/home_page/widgets/alert_no_internet.dart';
-import 'package:covserver/services/api/requests.dart';
-import 'package:covserver/widgets/violet_background.dart';
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'package:covserver/services/api/requests.dart';
 import 'package:covserver/services/auth/my_user.dart';
 import 'package:covserver/models/user.dart';
+import 'package:covserver/config/theme.dart';
 
 import 'package:covserver/pages/my_account/my_account.dart';
 import 'package:covserver/pages/new_user/new_user_page.dart';
 import 'package:covserver/pages/home_page/widgets/custom_bottom_nav.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:covserver/pages/home_page/widgets/alert_no_internet.dart';
+import 'package:covserver/pages/infected/infected_page.dart';
+import 'package:covserver/widgets/violet_background.dart';
 
 import '../my_settings/my_account_settings_page.dart';
 
@@ -62,7 +63,7 @@ class _HomePageState extends State<HomePage> {
 
   /// Gets the user from the preferences
   _loadPreferences() async {
-    User? tempUser = await MyUser.mine.getMyUser();
+    User tempUser = await MyUser.mine.getMyUser();
     setState(() {
       myUser = tempUser;
       _isNew = tempUser.email == '';
@@ -119,7 +120,7 @@ class _HomePageState extends State<HomePage> {
     // If the user is not registered, draws the Welcome page
     if (_isNew) return NewUserPage();
     _selectedPages = <Widget>[
-      Container(), // 'Síntomas' page
+      InfectedPage(),
       MyAccountPage(changeToDarkMode: widget.changeToDarkMode),
       SettingsPage(),
     ];
