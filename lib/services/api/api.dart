@@ -45,4 +45,15 @@ class Api {
     print(_headers);
     return http.get(Uri.parse('$baseURL$url'), headers: _headers);
   }
+  /// custom update method of http
+  static Future<http.Response> update(String url,
+      {Object body, Encoding encoding}) async {
+    await _loadToken();
+    return http.patch(
+      Uri.parse('$baseURL$url'),
+      body: jsonEncode(body),
+      headers: _headers,
+      encoding: encoding,
+    );
+  }
 }

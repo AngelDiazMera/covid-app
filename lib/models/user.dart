@@ -16,7 +16,7 @@ class User {
     this.email,
     this.psw = '',
     this.gender = 'male',
-    this.isDarkTheme = false,
+    this.isDarkTheme = false, password,
   });
   factory User.fromJson(Map<String, dynamic> json) {
     return User(

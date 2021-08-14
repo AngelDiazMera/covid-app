@@ -65,3 +65,35 @@ Future<User> signIn(String email, String password, {Function onError}) async {
   }
   return null;
 }
+Future<User> updateUser(String name, String lastName, String email, String password, User newUser, {Function onError}) async {
+  try {
+    http.Response response = await Api.update('/user/update', body: {
+      'name': name,
+      'lastName': lastName,
+      'email': email,
+      'password': password,
+    });
+    Map resMap = json.decode(response.body);
+    print(resMap);
+    // When the user logged successfully
+    if (response.statusCode == 200) {
+      User newUser = User(
+        name: resMap['user']['name'],
+        lastName: resMap['user']['lastName'],
+        email: resMap['user']['email'],
+        password: resMap['user']['password'],
+      );
+      await Preferences.myPrefs.setToken(resMap['token']);
+      return newUser;
+    }
+    // Otherwise, onError will be called
+    if (onError != null) {
+      onError(json.decode(response.body)['msg']);
+      return null;
+    }
+  } catch (error) {
+    if (onError != null) onError('Ocurrió un problema con el servidor');
+    return null;
+  }
+  return null;
+}

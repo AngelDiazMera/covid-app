@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:persistencia_datos/models/user.dart';
 import 'package:persistencia_datos/pages/my_settings/widgets/settings_form.dart';
-
+import 'package:persistencia_datos/services/api/requests.dart';
 import 'package:persistencia_datos/pages/my_settings/widgets/settings_header.dart';
+
+
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key key}) : super(key: key);
 
-  bool _updatePreferences() {
+  bool _updatePreferences(String name, String lastName, String email, String password, User newUser) {
+    bool isUpdated= (updateUser(name, lastName, email, password, newUser)) as bool;
+    if (isUpdated) {
+      
+      return true;
+    }
+    return false;
+
     // TODO: Implement the function to update the user
     // Instructions (spanish):
     // * Actualizar el usuario a través de la api
@@ -46,16 +56,7 @@ class SettingsPage extends StatelessWidget {
                     ? Colors.white30
                     : Colors.black38),
             SizedBox(width: 20),
-            Expanded(
-              child: Text(
-                'Aquí debe aparecer una lista de los lugares donde trabaja y puede eliminarse de cada uno',
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.white30
-                        : Colors.black38),
-              ),
-            )
+            
           ],
         ),
       )

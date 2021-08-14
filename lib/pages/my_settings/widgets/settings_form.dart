@@ -129,8 +129,8 @@ class _SettingsFormState extends State<SettingsForm> {
   void pswOnChange(String value) {
     setState(() {
       var bytes = utf8.encode("_psw"); // data being hashed
-      var digest = sha256.convert(bytes);
-      value = digest as String;
+     // var digest = en.convert(bytes);
+     // value = digest as String;
       _psw = value;
     });
   }
