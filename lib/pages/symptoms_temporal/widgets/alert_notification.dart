@@ -26,17 +26,6 @@ class _AlertNotificationFoundState extends State<AlertNotificationFound> {
   /// Make the request to the api
   Future<bool> _makeInfected() async {
     DateTime symptomsDate = DateTime.now();
-    ////////////////////////////////////////////////////
-    // TODO: Implementar api para registro de síntomas
-    // bool areSymSaved = await saveSymptoms();
-    // if (!areSymSaved) {
-    //   setState(() {
-    //     loading = false;
-    //     connectionFailed = true;
-    //   });
-    //   return false;
-    // }
-    //////////////////////////////////////////////////
 
     // Notify Infected
     bool hasNotified = await notifyInfected(

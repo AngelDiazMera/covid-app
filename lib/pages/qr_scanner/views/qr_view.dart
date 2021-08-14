@@ -29,8 +29,20 @@ class _QRScanViewState extends State<QRScanView> {
   void reassemble() async {
     super.reassemble();
     // To prevent camera to stop in Android and iOS
-    if (Platform.isAndroid) await controller!.pauseCamera();
+    if (Platform.isAndroid) {
+      await controller!.pauseCamera();
+      setState(() => code = '');
+    }
     controller!.resumeCamera();
+  }
+
+  Future<bool> _restartQRSearch() async {
+    setState(() {
+      code = '';
+      loading = false;
+    });
+    await controller!.resumeCamera();
+    return true;
   }
 
   /// Show AlertCodeFound to handle the api request.
@@ -43,16 +55,12 @@ class _QRScanViewState extends State<QRScanView> {
     showDialog(
       barrierDismissible: false,
       context: context,
-      builder: (context) => AlertCodeFound(
-        code: code,
-        onAccepted: () {
-          setState(() {
-            code = '';
-            loading = false;
-          });
-          controller!.resumeCamera();
-        },
-      ),
+      builder: (context) => WillPopScope(
+          child: AlertCodeFound(
+            code: code,
+            onAccepted: _restartQRSearch,
+          ),
+          onWillPop: _restartQRSearch),
     );
   }
 

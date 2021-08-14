@@ -1,5 +1,6 @@
 import 'package:covserver/config/theme.dart';
 import 'package:covserver/services/api/requests.dart';
+import 'package:covserver/widgets/loader.dart';
 import 'package:flutter/material.dart';
 
 class AlertCodeFound extends StatefulWidget {
@@ -15,7 +16,7 @@ class AlertCodeFound extends StatefulWidget {
 
 class _AlertCodeFoundState extends State<AlertCodeFound> {
   bool notFound = false;
-  bool loading = false;
+  bool loading = true;
   bool connectionFailed = false;
   Map? response;
 
@@ -29,18 +30,19 @@ class _AlertCodeFoundState extends State<AlertCodeFound> {
   void _makeRequest() async {
     // Prevent multiple calls
     if (loading) return;
-    setState(() => connectionFailed = true);
     // Api request
-    Map? res = await assignToGroup(widget.code);
-    // Response handling
+    try {
+      Map? res = await assignToGroup(widget.code,
+          onError: () => setState(() => connectionFailed = true));
+      if (connectionFailed) return;
+      // Response handling
+      if (res == null || res['group'] == null) {
+        setState(() => notFound = true);
+        return;
+      }
 
-    if (res == null) {
-      setState(() => notFound = true);
-      return;
-    }
-
-    setState(() => response = res);
-    if (res['group'] == null) setState(() => notFound = true);
+      setState(() => response = res);
+    } catch (e) {}
 
     setState(() => loading = false);
   }
@@ -55,7 +57,7 @@ class _AlertCodeFoundState extends State<AlertCodeFound> {
           ? Text(
               'Parece que hubo un problema con el servidor. Inténtalo más tarde.')
           : loading // If it's loading
-              ? Text('Cargando')
+              ? Loader()
               : notFound // If the user has not been found
                   ? Column(
                       mainAxisSize: MainAxisSize.min,

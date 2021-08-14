@@ -125,24 +125,16 @@ Future<Map?> setHealthState(String? healthCondition,
 /// Assign a user to a group as a member or a visitor
 Future<Map?> assignToGroup(String code, {Function? onError}) async {
   try {
-    print('PETICIÓN A SERVIDOR');
     http.Response response = await Api.post('/groups/assign', body: {
       'code': code.toUpperCase(),
       'mobileToken': PushNotificationService.token,
     });
     Map resMap = json.decode(response.body);
-    print(resMap);
     // When the user logged successfully
-    if (response.statusCode == 200 || response.statusCode == 400) {
-      return resMap;
-    }
-    // Otherwise, onError will be called
-    if (onError != null) {
-      onError(json.decode(response.body)['msg']);
-      return null;
-    }
+    if (response.statusCode == 200 || response.statusCode == 400) return resMap;
   } catch (error) {
     if (onError != null) onError('Ocurrió un problema con el servidor');
+    print('HUBO UN PROBLEMA CON EL SERVIDOR');
     return null;
   }
   return null;
@@ -177,7 +169,7 @@ Future<bool> notifyInfected({
 
 /// Save symtoms on server's database
 Future<bool> saveSymptoms({
-  /* Arguments */
+  /* AQUÍ PONES LOS ARGUMENTOS QUE NECESITES (PASA EL OBJETO O CADA VARIABLE INDIVIDUALMENTE) */
   Function? onError,
 }) async {
   try {
@@ -187,7 +179,7 @@ Future<bool> saveSymptoms({
       'remarks': '',
       'isCovid': '',
       'covidDate': ''
-    });
+    }); // NOTA: AQUÍ PUEDES UTILIZAR TU MÉTODO TOJSON DEL OBJETO SYMPTOMS
 
     Map resMap = json.decode(response.body);
     print(resMap);

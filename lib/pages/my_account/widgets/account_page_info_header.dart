@@ -63,10 +63,11 @@ class _AccountPageInfoHeaderState extends State<AccountPageInfoHeader> {
       showDialog(
         barrierDismissible: false,
         context: context,
-        builder: (context) => AlertNoInfection(),
+        builder: (context) => WillPopScope(
+            child: AlertNoInfection(), onWillPop: () async => false),
       );
-      setState(() => hasAlertShown = true);
     }
+    setState(() => hasAlertShown = true);
   }
 
   @override
