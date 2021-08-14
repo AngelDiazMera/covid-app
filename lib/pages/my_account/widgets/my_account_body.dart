@@ -19,7 +19,8 @@ class MyAccountBody extends StatelessWidget {
       SizedBox(height: 235),
       ViewMoreTitle(
         title: 'Síntomas',
-        onPressed: () {},
+        onPressed: () => launchURL(
+            'https://www.who.int/es/news-room/q-a-detail/coronavirus-disease-covid-19'),
       ),
       Container(
         height: 145,
@@ -28,10 +29,10 @@ class MyAccountBody extends StatelessWidget {
           children: _drawSymptoms() as List<Widget>,
         ),
       ),
-      SizedBox(height: 20),
       SizedBox(
-          height: 150,
-          child: CarouselSlider(items: <Widget>[
+        height: 180,
+        child: CarouselSlider(
+          items: <Widget>[
             CovidKnowMore(
                 asset: "assets/facemask_guy.png",
                 url:
@@ -50,7 +51,11 @@ class MyAccountBody extends StatelessWidget {
                 url:
                     "https://www.zeit.de/wissen/gesundheit/2020-11/coronavirus-aerosols-infection-risk-hotspot-interiors?utm_referrer=https%3A%2F%2Fwww.rtve.es%2F",
                 description: "Herramienta de probabilidad de contagios"),
-          ], options: CarouselOptions(autoPlay: true)))
+          ],
+          options: CarouselOptions(autoPlay: true),
+        ),
+      ),
+      SizedBox(height: 85)
     ];
   }
 

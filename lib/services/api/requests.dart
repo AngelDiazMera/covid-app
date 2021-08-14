@@ -71,6 +71,34 @@ Future<User?> signIn(String email, String password, {Function? onError}) async {
   return null;
 }
 
+/// Gets the current user data from api
+Future<User?> getMyData({Function? onError}) async {
+  try {
+    http.Response response = await Api.get('/user/mine');
+    Map? resMap = json.decode(response.body);
+    // When the user logged successfully
+    if (response.statusCode == 200) {
+      User newUser = new User(
+          name: resMap!['name'],
+          lastName: resMap['lastName'],
+          gender: resMap['gender'],
+          email: resMap['email'],
+          healthCondition: resMap['healthCondition']);
+      await Preferences.myPrefs.setHealthCondition(resMap['healthCondition']);
+      return newUser;
+    }
+    // Otherwise, onError will be called
+    if (onError != null) {
+      onError(json.decode(response.body)['msg']);
+      return null;
+    }
+  } catch (error) {
+    if (onError != null) onError('Ocurrió un problema con el servidor');
+    return null;
+  }
+  return null;
+}
+
 /// Gets the alerts data from the API
 Future<Map?> getAlertData(String? userRef, String? groupRef, String anonym,
     {Function? onError}) async {
@@ -135,6 +163,27 @@ Future<Map?> assignToGroup(String code, {Function? onError}) async {
   } catch (error) {
     if (onError != null) onError('Ocurrió un problema con el servidor');
     print('HUBO UN PROBLEMA CON EL SERVIDOR');
+    return null;
+  }
+  return null;
+}
+
+/// Gets the scanned group by their code
+Future<Map?> getGroup(String code, {Function? onError}) async {
+  try {
+    http.Response response = await Api.get('/groups/$code');
+    Map? resMap = json.decode(response.body);
+    // When the user logged successfully
+    if (response.statusCode == 200 || response.statusCode == 400)
+      return resMap!;
+
+    // Otherwise, onError will be called
+    if (onError != null) {
+      onError(json.decode(response.body)['msg']);
+      return null;
+    }
+  } catch (error) {
+    if (onError != null) onError('Ocurrió un problema con el servidor');
     return null;
   }
   return null;

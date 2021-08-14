@@ -15,42 +15,181 @@ class AlertCodeFound extends StatefulWidget {
 }
 
 class _AlertCodeFoundState extends State<AlertCodeFound> {
-  bool notFound = false;
-  bool loading = true;
+  String step = 'find';
+  bool loading = false;
   bool connectionFailed = false;
-  Map? response;
+  Map response = new Map();
 
   @override
   void initState() {
     super.initState();
-    _makeRequest();
+    _makeRequest('find');
   }
 
   /// Make the request to the api
-  void _makeRequest() async {
+  void _makeRequest(String type) async {
+    Map<String, Function> request = {
+      'find': getGroup,
+      'update': assignToGroup,
+    };
+
+    bool hasError = false;
     // Prevent multiple calls
     if (loading) return;
+    setState(() => loading = true);
     // Api request
-    try {
-      Map? res = await assignToGroup(widget.code,
-          onError: () => setState(() => connectionFailed = true));
-      if (connectionFailed) return;
-      // Response handling
-      if (res == null || res['group'] == null) {
-        setState(() => notFound = true);
-        return;
-      }
-
-      setState(() => response = res);
-    } catch (e) {}
-
-    setState(() => loading = false);
+    Map? res = await request[type]!(widget.code,
+        onError: (String err) => hasError = true);
+    // Error handler
+    if (hasError) {
+      setState(() {
+        connectionFailed = true;
+        loading = false;
+      });
+      return;
+    }
+    // Api response
+    setState(() {
+      response = res!;
+      loading = false;
+    });
   }
+
+  /// Draw alert content when wants to find a group
+  Widget _drawStep1Body(String assignType) => Column(
+        // If the user has been found and assigned to a group
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Encontramos el grupo',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Text(
+            '¿Desea unirse al grupo ${response['group']['concatName']} como $assignType?',
+            style:
+                TextStyle(color: applicationColors['font_light'], fontSize: 19),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      );
+
+  /// Draw alert content when register
+  Widget _drawStep2Body(String assignType) => Column(
+        // If the user has been found and assigned to a group
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Excelente',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Text(
+            'Se ha unido a ${response['group']['concatName']} como $assignType.',
+            style:
+                TextStyle(color: applicationColors['font_light'], fontSize: 19),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      );
+
+  /// Draw action buttons when an error occurs
+  List<Widget> _drawErrorActions() => [
+        TextButton(
+          onPressed: () {
+            if (widget.onAccepted != null) widget.onAccepted!();
+            Navigator.pop(context);
+          },
+          child: Text(
+            "Está bien",
+            style: TextStyle(
+              color: applicationColors['medium_purple'],
+              fontSize: 16,
+            ),
+          ),
+        )
+      ];
+
+  /// Draw action buttons when wants to find a group
+  List<Widget> _drawStep1Actions() => [
+        TextButton(
+          onPressed: () {
+            if (widget.onAccepted != null) widget.onAccepted!();
+            Navigator.pop(context);
+          },
+          child: Text(
+            "No, cancelar",
+            style: TextStyle(
+              color: applicationColors['medium_purple'],
+              fontSize: 16,
+            ),
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            setState(() => step = 'update');
+            _makeRequest('update');
+          },
+          child: Text(
+            "Sí",
+            style: TextStyle(
+              color: applicationColors['medium_purple'],
+              fontSize: 16,
+            ),
+          ),
+        ),
+      ];
+
+  /// Draw action buttons when register
+  List<Widget> _drawStep2Actions(bool notFound) => [
+        TextButton(
+          onPressed: () {
+            if (widget.onAccepted != null) widget.onAccepted!();
+            if (notFound)
+              Navigator.pop(context);
+            else
+              Navigator.of(context).popUntil(ModalRoute.withName('/'));
+          },
+          child: Text(
+            "Está bien",
+            style: TextStyle(
+              color: applicationColors['medium_purple'],
+              fontSize: 16,
+            ),
+          ),
+        ),
+      ];
+
+  /// Draw alert content if the user was not found
+  Widget _drawNotFound() => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Hubo un problema',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Text(
+            response['msg'],
+            style:
+                TextStyle(color: applicationColors['font_light'], fontSize: 19),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      );
 
   @override
   Widget build(BuildContext context) {
     String assignType =
         widget.code.toUpperCase().startsWith('M') ? 'miembro' : 'visitante';
+
+    bool notFound = response.containsKey('msg') && response['group'] == null;
 
     return AlertDialog(
       content: connectionFailed
@@ -59,67 +198,19 @@ class _AlertCodeFoundState extends State<AlertCodeFound> {
           : loading // If it's loading
               ? Loader()
               : notFound // If the user has not been found
-                  ? Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'Hubo un problema',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          response?['msg'],
-                          style: TextStyle(
-                              color: applicationColors['font_light'],
-                              fontSize: 19),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    )
-                  : Column(
-                      // If the user has been found and assigned to a group
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'Encontramos el grupo',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          'Se ha unido a ${response?['group']['concatName']} como $assignType.',
-                          style: TextStyle(
-                              color: applicationColors['font_light'],
-                              fontSize: 19),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-      actions: !loading
-          ? [
-              TextButton(
-                onPressed: () {
-                  if (widget.onAccepted != null) widget.onAccepted!();
-                  if (notFound)
-                    Navigator.pop(context);
-                  else
-                    Navigator.of(context).popUntil(ModalRoute.withName('/'));
-                },
-                child: Text(
-                  "Está bien",
-                  style: TextStyle(
-                    color: applicationColors['medium_purple'],
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            ]
-          : null,
+                  ? _drawNotFound()
+                  : step == 'find'
+                      ? _drawStep1Body(assignType)
+                      : _drawStep2Body(assignType),
+      actions: connectionFailed
+          ? _drawErrorActions()
+          : !loading
+              ? notFound
+                  ? _drawStep2Actions(notFound)
+                  : step == 'find'
+                      ? _drawStep1Actions()
+                      : _drawStep2Actions(notFound)
+              : null,
     );
   }
 }

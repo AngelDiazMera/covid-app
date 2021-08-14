@@ -55,12 +55,16 @@ class _QRScanViewState extends State<QRScanView> {
     showDialog(
       barrierDismissible: false,
       context: context,
-      builder: (context) => WillPopScope(
-          child: AlertCodeFound(
-            code: code,
-            onAccepted: _restartQRSearch,
-          ),
-          onWillPop: _restartQRSearch),
+      builder: (context) => AlertCodeFound(
+        code: code,
+        onAccepted: _restartQRSearch,
+      ),
+      // builder: (context) => WillPopScope(
+      //     child: AlertCodeFound(
+      //       code: code,
+      //       onAccepted: _restartQRSearch,
+      //     ),
+      //     onWillPop: _restartQRSearch),
     );
   }
 

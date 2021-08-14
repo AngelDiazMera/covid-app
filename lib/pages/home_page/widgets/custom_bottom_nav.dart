@@ -12,16 +12,14 @@ class CustomButtonNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 15),
+      margin: EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: Color.fromRGBO(1, 1, 1, 0),
         boxShadow: [
-          BoxShadow(color: Colors.black12, spreadRadius: 0, blurRadius: 15),
+          BoxShadow(color: Colors.black12, spreadRadius: 10, blurRadius: 15),
         ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+        borderRadius: BorderRadius.circular(15),
         child: BottomNavigationBar(
           showUnselectedLabels: false,
           selectedItemColor: Theme.of(context).brightness == Brightness.dark

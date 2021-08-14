@@ -18,7 +18,7 @@ class CovidKnowMore extends StatelessWidget {
   Widget build(BuildContext context) {
     double fontSize = (MediaQuery.of(context).size.width - 200) * (0.09);
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 15),
+      margin: EdgeInsets.all(15),
       width: double.infinity,
       height: 150,
       decoration: BoxDecoration(
@@ -58,7 +58,7 @@ class CovidKnowMore extends StatelessWidget {
                     style: TextButton.styleFrom(
                         primary: Colors.white,
                         backgroundColor: Color.fromRGBO(53, 66, 235, 1)),
-                    onPressed: () => {_launchURL(url)},
+                    onPressed: () => launchURL(url),
                     child: Text(
                       'Saber más',
                       style: TextStyle(fontSize: fontSize, color: Colors.white),
@@ -83,7 +83,7 @@ class CovidKnowMore extends StatelessWidget {
   }
 }
 
-_launchURL(url) async {
+launchURL(url) async {
   if (await canLaunch(url)) {
     await launch(url);
   } else {

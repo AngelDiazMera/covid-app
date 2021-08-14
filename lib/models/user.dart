@@ -5,6 +5,7 @@ class User {
   String? email;
   String psw;
   String gender;
+  String? healthCondition;
   bool isDarkTheme;
 
   User({
@@ -14,6 +15,7 @@ class User {
     this.email,
     this.psw = '',
     this.gender = 'male',
+    this.healthCondition,
     this.isDarkTheme = false,
   });
   factory User.fromJson(Map<String, dynamic> json) {
