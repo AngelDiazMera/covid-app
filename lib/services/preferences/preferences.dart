@@ -1,5 +1,8 @@
+import 'dart:async';
 import 'package:persistencia_datos/models/user.dart';
+import 'package:persistencia_datos/pages/infected/widgets/checked_value.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:persistencia_datos/models/symptoms_user.dart';
 
 class Preferences {
   static SharedPreferences _prefs;
@@ -63,5 +66,64 @@ class Preferences {
   Future<String> getToken() async {
     SharedPreferences prefs = await this.prefs;
     return prefs.getString('token') ?? '';
+  }
+
+  ///Get an Symptom as a preference
+  Future<CheckedSymptoms> getMyChecked() async {
+    SharedPreferences prefs = await this.prefs;
+    CheckedSymptoms newChecked = CheckedSymptoms(
+      fever: prefs.getBool('fever') ?? false,
+      dryCough: prefs.getBool('dry cough') ?? false,
+      fatigue: prefs.getBool('fatigue') ?? false,
+      soreThroat: prefs.getBool('sore throat') ?? false,
+      diarrhoea: prefs.getBool('diarrhoea') ?? false,
+      conjuctivitis: prefs.getBool('conjuctivitis') ?? false,
+      headache: prefs.getBool('headache') ?? false,
+      lossSenseOfSmell: prefs.getBool('loss of sense of smell') ?? false,
+      lossColourInFingers: prefs.getBool('loss of colour in fingers') ?? false,
+      difficultyBreathing: prefs.getBool('difficulty breathing') ?? false,
+      chestPainOrPressure: prefs.getBool('chest pain or pressure') ?? false,
+      inabilityToSpeak: prefs.getBool('inability to speak') ?? false,
+    );
+    return newChecked;
+  }
+
+  /// Saves an Check Symptom as a preference
+  Future<bool> setChecked(String key, dynamic val) async {
+    SharedPreferences prefs = await this.prefs;
+    prefs.setBool(key, val);
+  }
+
+  /// Saves an Symptom User as a preference
+  Future<SymptomsUser> saveSymptom(SymptomsUser newSymptom) async {
+    SharedPreferences prefs = await this.prefs;
+    prefs.setStringList('symptoms', newSymptom.symptoms);
+    prefs.setString('remarks', newSymptom.remarks);
+    prefs.setString('symptomsDate', newSymptom.symptomsDate.toString());
+    print('Guardado Sintomas');
+    return newSymptom;
+  }
+
+  /// Get an Symptom User as a preference
+  Future<SymptomsUser> getMySymptom() async {
+    SharedPreferences prefs = await this.prefs;
+    SymptomsUser newSymptom = SymptomsUser(
+      symptoms: prefs.getStringList('symptoms'),
+      remarks: prefs.getString('remarks') ?? '',
+      symptomsDate: DateTime.tryParse(prefs.getString('symptomsDate') ?? ''),
+      isCovid: prefs.getBool('isCovid') ?? false,
+      covidDate: DateTime.tryParse(prefs.getString('covidDate') ?? ''),
+    );
+    print('REGRESANDO SINTOMAS: ${newSymptom}');
+    return newSymptom;
+  }
+
+  /// Saves an Covid User as a preference
+  Future<SymptomsUser> saveCovid(SymptomsUser newCovid) async {
+    SharedPreferences prefs = await this.prefs;
+    prefs.setBool('isCovid', newCovid.isCovid);
+    prefs.setString('covidDate', newCovid.covidDate.toString());
+    print('Guardado Covid');
+    return newCovid;
   }
 }

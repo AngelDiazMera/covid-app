@@ -23,14 +23,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  carousel_slider: ^4.0.0
   cupertino_icons: ^1.0.2
+  crypto: ^3.0.1
   easy_dynamic_theme: ^2.2.0
-  flutter_icons: ^1.1.0
+  firebase_core: ^1441.0
+  flutter_localizations:
+    sdk: flutter
   http: ^0.13.3
+  intl: ^0.17.0
   shared_preferences: ^2.0.6
   url_launcher: ^6.0.9
-  carousel_slider: ^4.0.0
-  crypto: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -71,3 +74,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_intl:
+  enabled: true
