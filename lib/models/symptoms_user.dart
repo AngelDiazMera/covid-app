@@ -1,10 +1,10 @@
 class SymptomsUser {
-  int id;
+  int? id;
   List<String> symptoms;
-  DateTime symptomsDate;
+  DateTime? symptomsDate;
   String remarks;
   bool isCovid;
-  DateTime covidDate;
+  DateTime? covidDate;
 
   SymptomsUser(
       {this.id,

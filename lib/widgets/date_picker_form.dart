@@ -1,10 +1,10 @@
+import 'package:covserver/config/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/config/theme/theme.dart';
 
 class DateWidget extends StatefulWidget {
-  TextEditingController controller;
+  TextEditingController? controller;
   Function selectDate;
-  DateWidget({Key key, this.controller, @required this.selectDate})
+  DateWidget({Key? key, this.controller, required this.selectDate})
       : super(key: key);
   @override
   _DateWidgetState createState() => _DateWidgetState();

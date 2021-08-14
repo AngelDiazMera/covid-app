@@ -6,8 +6,8 @@ class AvatarImage extends StatelessWidget {
   final String infection;
 
   const AvatarImage(
-      {Key key,
-      @required this.size,
+      {Key? key,
+      required this.size,
       this.isElevated = true,
       this.infection = 'Bajo riesgo'})
       : super(key: key);

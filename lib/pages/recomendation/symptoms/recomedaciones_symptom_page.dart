@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/pages/recomendation/settings_header_recom.dart';
-import 'package:persistencia_datos/pages/recomendation/widgets/recomendation_symptom.dart';
+import 'package:covserver/pages/recomendation/settings_header_recom.dart';
+import 'package:covserver/pages/recomendation/widgets/recomendation_symptom.dart';
+
+import '../settings_header_recom.dart';
 
 class SymptomPage extends StatelessWidget {
-  const SymptomPage({Key key}) : super(key: key);
+  const SymptomPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Material(

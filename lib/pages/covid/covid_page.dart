@@ -1,11 +1,10 @@
+import 'package:covserver/config/theme.dart';
+import 'package:covserver/models/symptoms_user.dart';
+import 'package:covserver/pages/covid/widgets/state_covid.dart';
+import 'package:covserver/services/auth/my_symptom.dart';
+import 'package:covserver/widgets/date_picker_form.dart';
+import 'package:covserver/widgets/floatbutto_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/config/theme/theme.dart';
-import 'package:persistencia_datos/models/symptoms_user.dart';
-import 'package:persistencia_datos/pages/covid/widgets/state_covid.dart';
-import 'package:persistencia_datos/services/api/requests_symptom.dart';
-import 'package:persistencia_datos/services/auth/my_symptom.dart';
-import 'package:persistencia_datos/widgets/date_picker_form.dart';
-import 'package:persistencia_datos/widgets/floatbutto_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'widgets/custom_form_covid.dart';
 import 'package:intl/intl.dart';
@@ -18,8 +17,8 @@ class CovidPage extends StatefulWidget {
 class _CovidPageState extends State<CovidPage> {
   SymptomsUser _symptomsUser = SymptomsUser();
   String _infection = 'Bajo riesgo';
-  Color _color;
-  String _txt;
+  Color? _color;
+  String? _txt;
   String fechaCovid = '';
   bool loading = false;
   bool connectionFailed = false;
@@ -55,6 +54,7 @@ class _CovidPageState extends State<CovidPage> {
       });
       return false;
     }
+    return true;
   }
 
   @override
@@ -95,8 +95,8 @@ class _CovidPageState extends State<CovidPage> {
                         Align(
                           alignment: Alignment.center,
                           child: StateCovidPage(
-                            estado: _txt,
-                            estadoColor: _color,
+                            estado: _txt!,
+                            estadoColor: _color!,
                           ),
                         ),
                         CustomFormSymptom(
@@ -157,22 +157,21 @@ class _CovidPageState extends State<CovidPage> {
         firstDate: new DateTime(2021),
         lastDate: new DateTime(2025),
         locale: Locale('es', 'ES'),
-        builder: (BuildContext context, Widget child) {
-          return Theme(
-            data: ThemeData.dark().copyWith(
-              colorScheme: ColorScheme.dark(
-                  primary: const Color.fromRGBO(72, 75, 235, 1),
-                  onPrimary: Colors.white,
-                  brightness: Brightness.light),
-              buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
-            ),
-            child: child,
-          );
-        });
+        builder: (BuildContext context, Widget? child) => Theme(
+              data: ThemeData.dark().copyWith(
+                colorScheme: ColorScheme.dark(
+                    primary: const Color.fromRGBO(72, 75, 235, 1),
+                    onPrimary: Colors.white,
+                    brightness: Brightness.light),
+                buttonTheme:
+                    ButtonThemeData(textTheme: ButtonTextTheme.primary),
+              ),
+              child: child!,
+            ));
 
     if (_symptomsUser.covidDate != null) {
       String formattedDate =
-          DateFormat('dd-MM-yyy').format(_symptomsUser.covidDate);
+          DateFormat('dd-MM-yyy').format(_symptomsUser.covidDate!);
       setState(() {
         fechaCovid = formattedDate;
         _controllerCovid.text = fechaCovid;

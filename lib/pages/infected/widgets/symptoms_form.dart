@@ -1,15 +1,13 @@
+import 'package:covserver/models/symptoms_user.dart';
+import 'package:covserver/pages/recomendation/recomedaciones_symptom_page.dart';
+import 'package:covserver/services/auth/my_checked.dart';
+import 'package:covserver/services/auth/my_symptom.dart';
+import 'package:covserver/services/preferences/preferences.dart';
+import 'package:covserver/widgets/custom_form.dart';
+import 'package:covserver/widgets/date_picker_form.dart';
+import 'package:covserver/widgets/floatbutto_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/models/symptoms_user.dart';
-import 'package:persistencia_datos/pages/recomendation/recomedaciones_symptom_page.dart';
-import 'package:persistencia_datos/pages/infected/widgets/checkbox_list_tile_symptoms.dart';
-import 'package:persistencia_datos/pages/infected/widgets/checked_value.dart';
-import 'package:persistencia_datos/services/api/requests_symptom.dart';
-import 'package:persistencia_datos/services/auth/my_checked.dart';
-import 'package:persistencia_datos/services/auth/my_symptom.dart';
-import 'package:persistencia_datos/services/preferences/preferences.dart';
-import 'package:persistencia_datos/widgets/custom_form.dart';
-import 'package:persistencia_datos/widgets/floatbutto_widget.dart';
-import 'package:persistencia_datos/widgets/date_picker_form.dart';
+import 'checkbox_list_tile_symptoms.dart';
 import 'checked_value.dart';
 import 'package:intl/intl.dart';
 
@@ -44,6 +42,7 @@ class _SymptomFormState extends State<SymptomForm> {
       });
       return false;
     }
+    return true;
   }
 
   Future<void> _setSymptom() async {
@@ -318,6 +317,7 @@ class _SymptomFormState extends State<SymptomForm> {
                     CustomForm(
                       inputs: _inputs,
                       horizontalMargin: formMargin,
+                      callbacks: [],
                     ),
                     SizedBox(height: 10),
                     Align(
@@ -359,9 +359,7 @@ class _SymptomFormState extends State<SymptomForm> {
     showDialog(
         context: context,
         barrierDismissible: true, //Para el clikc afuera y salir
-        builder: (context) {
-          return SymptomPage();
-        });
+        builder: (context) => SymptomPage());
   }
 
   void _selectDateSymptoms(BuildContext context) async {
@@ -371,7 +369,7 @@ class _SymptomFormState extends State<SymptomForm> {
         firstDate: new DateTime(2021),
         lastDate: new DateTime(2025),
         locale: Locale('es', 'ES'),
-        builder: (BuildContext context, Widget child) {
+        builder: (BuildContext context, Widget? child) {
           return Theme(
             data: ThemeData.dark().copyWith(
               colorScheme: ColorScheme.dark(
@@ -380,13 +378,13 @@ class _SymptomFormState extends State<SymptomForm> {
                   brightness: Brightness.light),
               buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
             ),
-            child: child,
+            child: child!,
           );
         });
 
     if (_symptomsUser.symptomsDate != null) {
       String formattedDate =
-          DateFormat('dd-MM-yyy').format(_symptomsUser.symptomsDate);
+          DateFormat('dd-MM-yyy').format(_symptomsUser.symptomsDate!);
       setState(() {
         fechaSymptom = formattedDate;
         _controllerSymptom.text = fechaSymptom;

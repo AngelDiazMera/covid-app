@@ -1,13 +1,17 @@
+import 'package:covserver/config/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/config/theme/theme.dart';
 
 class RecommendationsList extends StatefulWidget {
   final String title;
   final String recomendation;
   final String asset;
 
-  RecommendationsList({Key key, this.title, this.recomendation, this.asset})
-      : super(key: key);
+  RecommendationsList({
+    Key? key,
+    required this.title,
+    required this.recomendation,
+    required this.asset,
+  }) : super(key: key);
   @override
   _RecommendationsList createState() => _RecommendationsList();
 }

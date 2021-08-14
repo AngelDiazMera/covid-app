@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:covserver/models/user.dart';
 import 'package:covserver/services/api/requests.dart';
 import 'package:covserver/services/preferences/preferences.dart';

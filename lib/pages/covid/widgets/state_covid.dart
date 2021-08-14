@@ -1,11 +1,13 @@
+import 'package:covserver/config/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/config/theme/theme.dart';
 
 class StateCovidPage extends StatefulWidget {
   final String estado;
   final Color estadoColor;
 
-  StateCovidPage({Key key, this.estado, this.estadoColor}) : super(key: key);
+  const StateCovidPage(
+      {Key? key, required this.estado, required this.estadoColor})
+      : super(key: key);
 
   @override
   _StateCovidPageState createState() => _StateCovidPageState();

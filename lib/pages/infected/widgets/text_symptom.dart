@@ -1,9 +1,9 @@
+import 'package:covserver/config/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/config/theme/theme.dart';
 
 class TextSymptomPage extends StatefulWidget {
   final String txt;
-  TextSymptomPage({Key key, this.txt}) : super(key: key);
+  TextSymptomPage({Key? key, required this.txt}) : super(key: key);
   @override
   _TextSymptomPageState createState() => _TextSymptomPageState();
 }

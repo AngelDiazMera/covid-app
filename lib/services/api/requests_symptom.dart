@@ -1,14 +1,14 @@
 import 'dart:convert';
 
+import 'package:covserver/models/symptoms_user.dart';
+import 'package:covserver/services/api/api.dart';
 import 'package:http/http.dart' as http;
-import 'package:persistencia_datos/models/symptoms_user.dart';
-import 'package:persistencia_datos/services/api/api.dart';
 
 /// Save symtoms on server's database
 Future<bool> saveSymptoms({
-  SymptomsUser newSymptom,
+  required SymptomsUser newSymptom,
   /* AQUÍ PONES LOS ARGUMENTOS QUE NECESITES (PASA EL OBJETO O CADA VARIABLE INDIVIDUALMENTE) */
-  Function onError,
+  Function? onError,
 }) async {
   try {
     http.Response response = await Api.post('/symptoms/mine', body: {

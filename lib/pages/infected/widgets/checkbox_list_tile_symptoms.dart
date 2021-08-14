@@ -1,5 +1,5 @@
+import 'package:covserver/config/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/config/theme/theme.dart';
 
 class CheckBoxListTile extends StatefulWidget {
   final String symptom;
@@ -7,15 +7,19 @@ class CheckBoxListTile extends StatefulWidget {
   final bool checked;
   final Function onChanged;
 
-  CheckBoxListTile(
-      {Key key, this.symptom, this.image, this.checked, this.onChanged})
-      : super(key: key);
+  CheckBoxListTile({
+    Key? key,
+    required this.symptom,
+    required this.image,
+    required this.checked,
+    required this.onChanged,
+  }) : super(key: key);
   @override
   _CheckBoxListTile createState() => _CheckBoxListTile();
 }
 
 class _CheckBoxListTile extends State<CheckBoxListTile> {
-  Color _color;
+  Color? _color;
   @override
   Widget build(BuildContext context) {
     if (widget.checked == true) {
@@ -37,7 +41,7 @@ class _CheckBoxListTile extends State<CheckBoxListTile> {
       ),
       controlAffinity: ListTileControlAffinity.platform,
       value: widget.checked,
-      onChanged: widget.onChanged,
+      onChanged: widget.onChanged as Function(bool?),
       activeColor: _color,
       checkColor: Colors.white,
     );

@@ -12,12 +12,12 @@ class CustomFormSymptom extends StatefulWidget {
       onInfectionChange; // callback is REQUIRED if hasGenderSelection is true
 
   const CustomFormSymptom({
-    Key key,
+    Key? key,
     this.horizontalMargin = 35,
     this.withBackground = false,
     this.hasInfectionSelection = false,
-    this.infection,
-    this.onInfectionChange,
+    required this.infection,
+    required this.onInfectionChange,
   }) : super(key: key);
   @override
   _CustomFormSymptomState createState() => _CustomFormSymptomState();
@@ -65,7 +65,7 @@ class _CustomFormSymptomState extends State<CustomFormSymptom> {
   // draws the body of the form
   Widget _drawFormBody() {
     // If wants to decore it with a card background
-    BoxDecoration decoration = widget.withBackground
+    BoxDecoration? decoration = widget.withBackground
         ? BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.bottomRight,
@@ -84,7 +84,7 @@ class _CustomFormSymptomState extends State<CustomFormSymptom> {
         : null;
 
     // Initialices the content of the form
-    List content = <Widget>[];
+    List<Widget> content = [];
     if (widget.hasInfectionSelection)
       content = <Widget>[_drawFormHeader(), SizedBox(height: 50)];
 
