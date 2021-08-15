@@ -19,7 +19,7 @@ class Api {
 
   Api._internal();
   // Base url to make requests
-  static String baseURL = 'http://192.168.0.102:5000';
+  static String baseURL = 'https://z0be02405-z93995d29-gtw.qovery.io/';
   // Headers for the requests
   static Map<String, String> _headers = {
     'Content-type': 'application/json',
