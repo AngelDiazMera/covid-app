@@ -14,6 +14,7 @@ class CustomForm extends StatefulWidget {
   final String? gender; // A gender is REQUIRED if hasGenderSelection is true
   final Function?
       onGenderChange; // callback is REQUIRED if hasGenderSelection is true
+  final GlobalKey? formKey;
 
   const CustomForm({
     Key? key,
@@ -24,6 +25,7 @@ class CustomForm extends StatefulWidget {
     this.hasGenderSelection = false,
     this.gender,
     this.onGenderChange,
+    this.formKey,
   }) : super(key: key);
   @override
   _CustomFormState createState() => _CustomFormState();
@@ -46,7 +48,10 @@ class _CustomFormState extends State<CustomForm> {
         Column(
           children: [
             widget.hasGenderSelection ? SizedBox(height: 35) : SizedBox(),
-            Form(child: _drawFormBody(widget.inputs)),
+            Form(
+              child: _drawFormBody(widget.inputs),
+              key: widget.formKey,
+            ),
           ],
         ),
         widget.hasGenderSelection

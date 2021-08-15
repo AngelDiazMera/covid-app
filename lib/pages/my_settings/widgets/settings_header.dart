@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:covserver/config/theme.dart';
 
 class SettingsHeader extends StatelessWidget {
-  final Function? doneCallback;
+  final void Function()? doneCallback;
   final String name;
   final String doneButtonLabel;
 
@@ -48,10 +48,7 @@ class SettingsHeader extends StatelessWidget {
               ),
               this.doneCallback != null
                   ? TextButton(
-                      onPressed: () {
-                        bool? isUpdated = doneCallback!();
-                        _mostrarAlert(context, isUpdated);
-                      },
+                      onPressed: this.doneCallback,
                       child: Text(this.doneButtonLabel),
                       style: TextButton.styleFrom(primary: Colors.white),
                     )
@@ -61,52 +58,5 @@ class SettingsHeader extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  //Llamado desde onpressed
-  void _mostrarAlert(BuildContext context, bool? isUpdated) {
-    showDialog(
-        context: context,
-        barrierDismissible: true, //Para el clikc afuera y salir
-        builder: (context) {
-          return AlertDialog(
-            //Para los bordes redondeados
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            // configuración del diálogo
-            content: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize:
-                  MainAxisSize.min, // se adapta al tamaño del contenido
-              children: <Widget>[
-                Icon(
-                  isUpdated! ? Icons.check : Icons.hourglass_empty,
-                  size: 48,
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? applicationColors['font_dark']
-                      : applicationColors['font_light'],
-                ),
-                SizedBox(width: 15),
-                Flexible(
-                    child: isUpdated
-                        ? Text('Su información se actualizó correctamente.')
-                        : Text('Hubo un problema con la actualización.')),
-              ],
-            ),
-            actions: <Widget>[
-              TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Text(
-                    'Ok',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  style: TextButton.styleFrom(
-                      primary: Theme.of(context).brightness == Brightness.dark
-                          ? applicationColors['lila']
-                          : applicationColors['medium_purple'])),
-            ],
-          );
-        });
   }
 }

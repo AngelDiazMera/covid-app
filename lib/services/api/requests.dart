@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:covserver/utils/hash_value.dart';
 import 'package:http/http.dart' as http;
 import 'package:covserver/models/user.dart';
 import 'package:covserver/services/api/api.dart';
@@ -8,8 +9,8 @@ import 'package:covserver/services/preferences/preferences.dart';
 
 /// Sign un a new user and sign the user, so Bearer token is saved on
 /// the preferences.
-Future<bool> signUp(User newUser) async {
-  // TODO: Hash the password with Bcrypt (10 salt rounds)
+Future<bool> signUp(User newUser, {Function? onError}) async {
+  //  Hash the password with Bcrypt (10 salt rounds)
   //  The hash function must be saved on the utils folder
   //  (if not exists, create it ) which is located in the path
   //  ../lib/utils/hashing.dart
@@ -17,6 +18,7 @@ Future<bool> signUp(User newUser) async {
   try {
     Map body = newUser.toJson();
     body['mobileToken'] = PushNotificationService.token;
+
     final http.Response response = await Api.post('/user/signup', body: body);
     // If the user is signed up successfully
     if (response.statusCode == 200) {
@@ -24,11 +26,10 @@ Future<bool> signUp(User newUser) async {
       await Preferences.myPrefs.setToken(json.decode(response.body)['token']);
       return true;
     }
+    if (onError != null) onError(json.decode(response.body)['msg']);
   } catch (error) {
-    print(error);
-    return false;
+    if (onError != null) onError('Ocurrió un problema con el servidor');
   }
-  // return User.fromJson(json.decode(response.body));
   return false;
 }
 
@@ -78,6 +79,7 @@ Future<User?> getMyData({Function? onError}) async {
     Map? resMap = json.decode(response.body);
     // When the user logged successfully
     if (response.statusCode == 200) {
+      print(resMap);
       User newUser = new User(
           name: resMap!['name'],
           lastName: resMap['lastName'],
@@ -93,6 +95,7 @@ Future<User?> getMyData({Function? onError}) async {
       return null;
     }
   } catch (error) {
+    print(error);
     if (onError != null) onError('Ocurrió un problema con el servidor');
     return null;
   }
@@ -126,28 +129,22 @@ Future<Map?> getAlertData(String? userRef, String? groupRef, String anonym,
   return null;
 }
 
-Future<User?> updateUser(
-    String name, String lastName, String email, String password,
-    {Function? onError}) async {
+Future<Map?> updateUser(User newUser, {Function? onError}) async {
   try {
-    http.Response response = await Api.update('/user/update', body: {
-      'name': name,
-      'lastName': lastName,
-      'email': email,
-      'password': password,
-    });
+    Map<String, String> body = {};
+
+    if (newUser.psw.trim().length > 0)
+      body['access.password'] = hashValue(newUser.psw);
+    if (newUser.name!.length > 0) body['name'] = newUser.name!;
+    if (newUser.lastName!.length > 0) body['lastName'] = newUser.lastName!;
+    if (newUser.gender.length > 0) body['gender'] = newUser.gender;
+
+    http.Response response = await Api.update('/user/mine', body: body);
     Map resMap = json.decode(response.body);
     print(resMap);
     // When the user logged successfully
     if (response.statusCode == 200) {
-      User newUser = User(
-        name: resMap['user']['name'],
-        lastName: resMap['user']['lastName'],
-        email: resMap['user']['email'],
-        password: resMap['user']['password'],
-      );
-      await Preferences.myPrefs.setToken(resMap['token']);
-      return newUser;
+      return resMap;
     }
     // Otherwise, onError will be called
     if (onError != null) {

@@ -78,6 +78,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         style: TextStyle(color: fontColor),
         enabled: widget.enabled,
         focusNode: _focusNode,
+
         keyboardType: widget.keyboardType,
         initialValue: widget.initialValue,
         textCapitalization: TextCapitalization.words,

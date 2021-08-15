@@ -1,5 +1,4 @@
 import 'package:covserver/models/user.dart';
-import 'package:covserver/services/api/requests.dart';
 import 'package:covserver/services/preferences/preferences.dart';
 
 class MyUser {
@@ -26,22 +25,9 @@ class MyUser {
     return await Preferences.myPrefs.getTheme();
   }
 
-  /// Save the user by sign up on server and saves the prefferences
-  /// of the user (used for sign up method)
-  Future<bool> saveMyUser(User newUser) async {
-    // Signup an user by the api
-    bool isRegistered = await signUp(newUser);
-
-    if (isRegistered) {
-      // Save data on preferences
-      _myUser = await Preferences.myPrefs.saveUser(newUser);
-      return true;
-    }
-    return false;
-  }
-
   /// Save the user on the Preferences (used for sign in method)
   Future<User> savePrefs(User newUser) async {
-    return await Preferences.myPrefs.saveUser(newUser);
+    _myUser = await Preferences.myPrefs.saveUser(newUser);
+    return _myUser!;
   }
 }

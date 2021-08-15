@@ -1,43 +1,20 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 import 'package:covserver/models/user.dart';
-import 'package:covserver/services/auth/my_user.dart';
 import 'package:covserver/widgets/custom_form.dart';
-import 'package:crypto/crypto.dart';
-import 'dart:convert';
 
 class SettingsForm extends StatefulWidget {
+  final User user;
+  final List<void Function(String)> callbacks;
+
+  const SettingsForm({Key? key, required this.user, required this.callbacks})
+      : super(key: key);
   @override
   _SettingsFormState createState() => _SettingsFormState();
 }
 
 class _SettingsFormState extends State<SettingsForm> {
-  User _user = new User(); // User of the form
-
-  String _psw = ''; // Password (it will be hashed before being asigned)
   bool _isPswVisible = false; // To handle password visibility
-
-  @override
-  void initState() {
-    // Once user is set, the inputs are assigned and stop loading
-    _setUser();
-    super.initState();
-  }
-
-  // Set the user from preferences
-  Future<void> _setUser() async {
-    User user = await MyUser.mine.getMyUser();
-    setState(() {
-      _user = new User(
-          name: user.name,
-          lastName: user.lastName,
-          email: user.email,
-          gender: user.gender,
-          psw: user.psw);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,16 +26,16 @@ class _SettingsFormState extends State<SettingsForm> {
         'inputs': [
           {
             'label': 'Nombre',
-            'value': _user.name,
+            'value': widget.user.name,
             'keyboard': TextInputType.name,
-            'onChanged': nameOnChange,
+            // 'onChanged': nameOnChange,
             'obscureText': false
           },
           {
             'label': 'Apellidos',
-            'value': _user.lastName,
+            'value': widget.user.lastName,
             'keyboard': TextInputType.name,
-            'onChanged': lastNameOnChange,
+            // 'onChanged': lastNameOnChange,
             'obscureText': false
           }
         ],
@@ -68,10 +45,10 @@ class _SettingsFormState extends State<SettingsForm> {
         'inputs': [
           {
             'label': 'Email',
-            'value': _user.email,
+            'value': widget.user.email,
             'enabled': false,
             'keyboard': TextInputType.emailAddress,
-            'onChanged': emailOnChange,
+            // 'onChanged': emailOnChange,
             'obscureText': false
           }
         ],
@@ -81,9 +58,9 @@ class _SettingsFormState extends State<SettingsForm> {
         'inputs': [
           {
             'label': 'Contraseña',
-            'value': _psw,
+            'value': widget.user.psw,
             'keyboard': TextInputType.visiblePassword,
-            'onChanged': pswOnChange,
+            // 'onChanged': pswOnChange,
             'obscureText': _isPswVisible,
             'iconButton': IconButton(
               icon:
@@ -100,50 +77,18 @@ class _SettingsFormState extends State<SettingsForm> {
       children: [
         CustomForm(
           inputs: _inputs,
-          callbacks: [
-            nameOnChange,
-            lastNameOnChange,
-            emailOnChange,
-            pswOnChange
-          ],
+          callbacks: widget.callbacks,
           horizontalMargin: formMargin,
           hasGenderSelection: true,
-          gender: _user.gender,
+          gender: widget.user.gender,
           onGenderChange: (value) {
             setState(() {
-              _user.gender = value;
+              widget.user.gender = value;
             });
           },
         ),
       ],
     );
-  }
-
-  void nameOnChange(String value) {
-    setState(() {
-      _user.name = value;
-    });
-  }
-
-  void lastNameOnChange(String value) {
-    setState(() {
-      _user.lastName = value;
-    });
-  }
-
-  void emailOnChange(String value) {
-    setState(() {
-      _user.email = value;
-    });
-  }
-
-  void pswOnChange(String value) {
-    setState(() {
-      var bytes = utf8.encode("_psw"); // data being hashed
-      // var digest = en.convert(bytes);
-      // value = digest as String;
-      _psw = value;
-    });
   }
 
   void _setPswVisible() {

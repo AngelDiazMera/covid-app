@@ -1,9 +1,12 @@
+import 'package:covserver/services/providers/new_user_provider.dart';
+import 'package:covserver/utils/hash_value.dart';
 import 'package:flutter/material.dart';
 import 'package:covserver/config/theme.dart';
 import 'package:covserver/models/user.dart';
 import 'package:covserver/services/api/requests.dart';
 import 'package:covserver/services/auth/my_user.dart';
 import 'package:covserver/widgets/custom_form.dart';
+import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
   @override
@@ -59,6 +62,7 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    final newUserHandler = Provider.of<NewUserHandler>(context);
     double formMargin = 25;
     // Inputs of the form
     initList();
@@ -74,7 +78,8 @@ class _LoginFormState extends State<LoginForm> {
         // Button 'Ingresar'
         Center(
           child: TextButton(
-            onPressed: () => _isRequesting ? null : _signIn(context),
+            onPressed: () =>
+                _isRequesting ? null : _signIn(context, newUserHandler),
             child: Text(
               'Ingresar',
               style: TextStyle(fontSize: 14),
@@ -97,13 +102,21 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   /// Sign the user into the app (it is used as an "onTap" event action)
-  void _signIn(BuildContext context) async {
+  void _signIn(BuildContext contextn, NewUserHandler newUserHandler) async {
     print('Enviando: \n$_email\n$_psw');
     // Email and password can't be null
-    if (_email.isEmpty || _psw.isEmpty) return;
-    // Request
+    if (_email.isEmpty || _psw.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('No puede dejar campos vacíos'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return;
+    } // Request
     setState(() => _isRequesting = true);
-    User? signedUser = await signIn(_email, _psw, onError: _handleSignInError);
+    User? signedUser =
+        await signIn(_email, hashValue(_psw), onError: _handleSignInError);
     setState(() => _isRequesting = false);
     // If something goes wrong, the error must have a message
     // because of the _handleSignInError callback
@@ -122,7 +135,8 @@ class _LoginFormState extends State<LoginForm> {
     // If everything is ok
     if (signedUser != null) {
       await MyUser.mine.savePrefs(signedUser);
-      Navigator.pushNamed(context, '/');
+      newUserHandler.isNew = false;
+      Navigator.pop(context);
     }
   }
 
