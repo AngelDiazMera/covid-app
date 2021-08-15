@@ -6,12 +6,12 @@ class ViewMoreTitle extends StatelessWidget {
   final String title;
   final Function onPressed;
 
-  const ViewMoreTitle({Key key, @required this.title, @required this.onPressed})
+  const ViewMoreTitle({Key? key, required this.title, required this.onPressed})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    ThemeMode themeMode = EasyDynamicTheme.of(context).themeMode;
+    ThemeMode? themeMode = EasyDynamicTheme.of(context).themeMode;
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 35),
@@ -23,7 +23,7 @@ class ViewMoreTitle extends StatelessWidget {
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           TextButton(
-            onPressed: onPressed,
+            onPressed: onPressed as void Function()?,
             child: Text(
               'Ver todos',
               style: TextStyle(

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:persistencia_datos/services/preferences/preferences.dart';
+import 'package:covserver/services/preferences/preferences.dart';
 
 class Api {
   // Singleton structure
@@ -29,9 +29,21 @@ class Api {
 
   /// custom POST method of http
   static Future<http.Response> post(String url,
-      {Object body, Encoding encoding}) async {
+      {Object? body, Encoding? encoding}) async {
     await _loadToken();
     return http.post(
+      Uri.parse('$baseURL$url'),
+      body: jsonEncode(body),
+      headers: _headers,
+      encoding: encoding,
+    );
+  }
+
+  /// custom PUT method of http
+  static Future<http.Response> put(String url,
+      {Object? body, Encoding? encoding}) async {
+    await _loadToken();
+    return http.put(
       Uri.parse('$baseURL$url'),
       body: jsonEncode(body),
       headers: _headers,
@@ -44,5 +56,29 @@ class Api {
     await _loadToken();
     print(_headers);
     return http.get(Uri.parse('$baseURL$url'), headers: _headers);
+  }
+
+  /// custom PATCH update method of http
+  static Future<http.Response> update(String url,
+      {Object? body, Encoding? encoding}) async {
+    await _loadToken();
+    return http.patch(
+      Uri.parse('$baseURL$url'),
+      body: jsonEncode(body),
+      headers: _headers,
+      encoding: encoding,
+    );
+  }
+
+  /// custom DELETE update method of http
+  static Future<http.Response> delete(String url,
+      {Object? body, Encoding? encoding}) async {
+    await _loadToken();
+    return http.delete(
+      Uri.parse('$baseURL$url'),
+      body: jsonEncode(body ?? {}),
+      headers: _headers,
+      encoding: encoding,
+    );
   }
 }

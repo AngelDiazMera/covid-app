@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/pages/register/widgets/register_form.dart';
-import 'package:persistencia_datos/models/user.dart';
-import 'package:persistencia_datos/widgets/violet_background.dart';
+import 'package:covserver/pages/register/widgets/register_form.dart';
+import 'package:covserver/models/user.dart';
+import 'package:covserver/widgets/violet_background.dart';
 
 class RegisterPage extends StatelessWidget {
   final User newUser = User();

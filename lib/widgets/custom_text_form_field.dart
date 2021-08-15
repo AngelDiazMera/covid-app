@@ -1,28 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/config/theme/theme.dart';
+import 'package:covserver/config/theme.dart';
 
 class CustomTextFormField extends StatefulWidget {
   final String label;
   final TextInputType keyboardType;
-  final Function onChanged;
-  final IconData icon;
+  final void Function(String) onChanged;
+  final IconData? icon;
   final double width;
   final String initialValue;
-  final bool obscureText;
-  final IconButton iconButton;
-  final bool enabled;
+  final bool? obscureText;
+  final IconButton? iconButton;
+  final bool? enabled;
+  final Color? backgroundColor;
 
   CustomTextFormField({
-    Key key,
-    @required this.label,
-    @required this.keyboardType,
-    @required this.onChanged,
+    Key? key,
+    required this.label,
+    required this.keyboardType,
+    required this.onChanged,
     this.icon,
     this.width = double.infinity,
     this.initialValue = '',
-    this.obscureText,
+    this.obscureText = false,
     this.iconButton,
     this.enabled,
+    this.backgroundColor,
   }) : super(key: key);
 
   @override
@@ -55,7 +57,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     _focusNode.dispose();
   }
 
-  Color _getInputColor() {
+  Color? _getInputColor() {
     if (Theme.of(context).brightness == Brightness.dark)
       return _focusNode.hasFocus ? applicationColors['lila'] : Colors.white60;
     return _focusNode.hasFocus ? applicationColors['lila'] : Colors.black54;
@@ -63,7 +65,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    Color fontColor = widget.enabled == false
+    Color? fontColor = widget.enabled == false
         ? Theme.of(context).brightness == Brightness.dark
             ? Color.fromRGBO(180, 180, 180, 1)
             : Color.fromRGBO(125, 125, 125, 1)
@@ -76,13 +78,16 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         style: TextStyle(color: fontColor),
         enabled: widget.enabled,
         focusNode: _focusNode,
+
         keyboardType: widget.keyboardType,
         initialValue: widget.initialValue,
         textCapitalization: TextCapitalization.words,
         decoration: InputDecoration(
-          fillColor: Theme.of(context).brightness == Brightness.dark
-              ? applicationColors['input_dark']
-              : applicationColors['input_light'],
+          fillColor: widget.backgroundColor != null
+              ? widget.backgroundColor
+              : Theme.of(context).brightness == Brightness.dark
+                  ? applicationColors['input_dark']
+                  : applicationColors['input_light'],
           filled: true,
           isDense: true,
           contentPadding: EdgeInsets.symmetric(
@@ -116,7 +121,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           }
           return null;
         },
-        obscureText: widget.obscureText,
+        obscureText: widget.obscureText!,
       ),
     );
   }

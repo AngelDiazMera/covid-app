@@ -1,23 +1,27 @@
-import 'package:persistencia_datos/models/user.dart';
+import 'dart:async';
+
+import 'package:covserver/models/symptoms_user.dart';
+import 'package:covserver/models/user.dart';
+import 'package:covserver/pages/symptoms/widgets/checked_value.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Preferences {
-  static SharedPreferences _prefs;
+  static SharedPreferences? _prefs;
   static final Preferences myPrefs = Preferences._();
   Preferences._();
 
   Future<SharedPreferences> get prefs async {
-    if (_prefs != null) return _prefs;
+    if (_prefs != null) return Preferences._prefs!;
     _prefs = await SharedPreferences.getInstance();
-    return _prefs;
+    return _prefs!;
   }
 
   /// Saves an User as a preference
   Future<User> saveUser(User newUser) async {
     SharedPreferences prefs = await this.prefs;
-    prefs.setString('name', newUser.name);
-    prefs.setString('last_name', newUser.lastName);
-    prefs.setString('email', newUser.email);
+    prefs.setString('name', newUser.name!);
+    prefs.setString('last_name', newUser.lastName!);
+    prefs.setString('email', newUser.email!);
     prefs.setString('psw', newUser.psw);
     prefs.setString('gender', newUser.gender);
     print('Guardado');
@@ -49,7 +53,7 @@ class Preferences {
       gender: prefs.getString('gender') ?? 'male',
       isDarkTheme: prefs.getBool('is_dark_theme') ?? false,
     );
-    print('REGRESANDO USUARIO: ${newUser}');
+    print('REGRESANDO USUARIO: $newUser');
     return newUser;
   }
 
@@ -63,5 +67,61 @@ class Preferences {
   Future<String> getToken() async {
     SharedPreferences prefs = await this.prefs;
     return prefs.getString('token') ?? '';
+  }
+
+  /// Returns the health condition of the user
+  Future<String> getHealthCondition() async {
+    SharedPreferences prefs = await this.prefs;
+    return prefs.getString('healthCondition') ?? 'healthy';
+  }
+
+  /// Sets the health condition of the user.
+  /// `healthCondition` must be one of these values `'healthy', 'risk', 'infected'`
+  Future<void> setHealthCondition(String healthCondition) async {
+    SharedPreferences prefs = await this.prefs;
+    prefs.setString('healthCondition', healthCondition);
+  }
+
+  /// Returns the necesity of update the health condition (when alarm ends)
+  Future<bool> getNeedHCUpdate() async {
+    SharedPreferences prefs = await this.prefs;
+    return prefs.getBool('needHCUpdate') ?? false;
+  }
+
+  /// Set true if alarm detected to update health state
+  Future<void> setNeedHCUpdate(bool isNeeded) async {
+    SharedPreferences prefs = await this.prefs;
+    prefs.setBool('needHCUpdate', isNeeded);
+  }
+
+  Future<List<String>> getSymptoms() async {
+    SharedPreferences prefs = await this.prefs;
+    return prefs.getStringList('symptoms') ?? [];
+  }
+
+  Future<void> setSymptoms(List<String> symptoms,
+      {String? remarks, String? symptomsDate}) async {
+    SharedPreferences prefs = await this.prefs;
+    prefs.setStringList('symptoms', symptoms);
+    prefs.setString('symptomsDate', symptomsDate ?? '');
+    prefs.setString('remarks', remarks ?? '');
+    prefs.setBool('isCovid', false);
+    prefs.remove('covidDate');
+  }
+
+  Future<void> setCovid(bool isCovid, String covidDate) async {
+    SharedPreferences prefs = await this.prefs;
+    prefs.setBool('isCovid', isCovid);
+    prefs.setString('covidDate', covidDate);
+    prefs.setString('healthCondition', 'infected');
+  }
+
+  Future<void> deleteCovid() async {
+    SharedPreferences prefs = await this.prefs;
+    prefs.remove('isCovid');
+    prefs.remove('covidDate');
+    prefs.remove('symptomsDate');
+    prefs.remove('remarks');
+    prefs.setString('healthCondition', 'healthy');
   }
 }

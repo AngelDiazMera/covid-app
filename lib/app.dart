@@ -1,19 +1,20 @@
+import 'package:covserver/config/routes.dart';
+import 'package:covserver/services/providers/health_condition_provider.dart';
+import 'package:covserver/services/providers/need_hc_update_provider.dart';
+import 'package:covserver/services/providers/new_user_provider.dart';
+import 'package:covserver/widgets/alert_no_infection.dart';
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:persistencia_datos/pages/infected/infected_page.dart';
-import 'package:persistencia_datos/pages/login/login_page.dart';
-import 'package:persistencia_datos/pages/register/register_page.dart';
-import 'package:persistencia_datos/services/auth/my_user.dart';
 
-import 'package:persistencia_datos/pages/home_page/home_page.dart';
-import 'package:persistencia_datos/pages/new_user/new_user_page.dart';
-import 'package:persistencia_datos/services/firebase/push_notification_service.dart';
+import 'package:covserver/services/firebase/push_notification_service.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'config/theme/theme.dart';
+import 'config/theme.dart';
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -31,13 +32,22 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     // Context!
+    print('Inicializando estado main');
     PushNotificationService.messageStream.listen((message) {
-      // print('MyApp: $message');
+      print('Se ha recibido un mensaje $message');
       // Push to the infected page with the args of the push notification
-      navigatorKey.currentState.pushNamed('/infected', arguments: message);
+      if (message['type'] == 'visit_infection')
+        navigatorKey.currentState?.pushNamed('/infected', arguments: message);
+
+      if (message['type'] == 'time_finished')
+        showDialog(
+          barrierDismissible: false,
+          context: navigatorKey.currentState!.overlay!.context,
+          builder: (context) => AlertNoInfection(),
+        );
       // Show the snackbar into this context
-      final snackBar = SnackBar(content: Text('Hubo un infectado'));
-      messengerKey.currentState.showSnackBar(snackBar);
+      // final snackBar = SnackBar(content: Text('Hubo un infectado'));
+      // messengerKey.currentState.showSnackBar(snackBar);
     });
   }
 
@@ -52,33 +62,36 @@ class _MyAppState extends State<MyApp> {
       ),
     );
 
-    return MaterialApp(
-      // General
-      debugShowCheckedModeBanner: false,
-      title: 'Covid App',
-      // Theme
-      theme: lightThemeData,
-      darkTheme: darkThemeData,
-      themeMode: EasyDynamicTheme.of(context).themeMode,
-      // Redirection by notifications
-      navigatorKey: navigatorKey,
-      scaffoldMessengerKey: messengerKey,
-      // Routes definition
-      initialRoute: '/',
-      routes: <String, WidgetBuilder>{
-        '/': (BuildContext context) => HomePage(
-              changeToDarkMode: () {
-                EasyDynamicTheme.of(context).changeTheme();
-
-                bool isDark = Theme.of(context).brightness == Brightness.dark;
-                MyUser.setTheme(isDark);
-              },
-            ),
-        '/new_user': (BuildContext context) => NewUserPage(),
-        '/signup': (BuildContext context) => RegisterPage(),
-        '/signin': (BuildContext context) => LoginPage(),
-        '/infected': (_) => InfectedPage()
-      },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => HealthCondition()),
+        ChangeNotifierProvider(create: (context) => NeedHcUpdate()),
+        ChangeNotifierProvider(create: (context) => NewUserHandler()),
+      ],
+      child: MaterialApp(
+        // General
+        debugShowCheckedModeBanner: false,
+        title: 'Covid App',
+        // Theme
+        theme: lightThemeData,
+        darkTheme: darkThemeData,
+        themeMode: EasyDynamicTheme.of(context).themeMode,
+        // Redirection by notifications
+        navigatorKey: navigatorKey,
+        scaffoldMessengerKey: messengerKey,
+        // Routes definition
+        initialRoute: '/',
+        routes: getApplicationRoutes(context),
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('en', 'US'), // English, no country code
+          const Locale('es', 'ES'), // Spanish, no country code
+        ],
+      ),
     );
   }
 }

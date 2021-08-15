@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/config/theme/theme.dart';
-import 'package:persistencia_datos/models/symptom.dart';
+import 'package:covserver/config/theme.dart';
+import 'package:covserver/models/symptom.dart';
 
 class SymptomsCard extends StatelessWidget {
   final Symptom symptom;
 
-  const SymptomsCard({Key key, @required this.symptom}) : super(key: key);
+  const SymptomsCard({Key? key, required this.symptom}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +29,7 @@ class SymptomsCard extends StatelessWidget {
             height: 65,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(85 / 2),
+              image: DecorationImage(image: AssetImage(symptom.asset)),
               color: Theme.of(context).brightness == Brightness.dark
                   ? Colors.white12
                   : Colors.black12,
@@ -54,7 +55,7 @@ class SymptomsCard extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  symptom.description,
+                  symptom.description!,
                   style: TextStyle(fontSize: 14),
                 )
               ],

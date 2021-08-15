@@ -4,10 +4,10 @@ import 'package:flutter/cupertino.dart';
 // All the header widget
 class CustomHeader extends StatelessWidget {
   final double top;
-  final Widget child;
-  final Widget header;
+  final Widget? child;
+  final Widget? header;
 
-  const CustomHeader({Key key, this.top = -50, this.child, this.header})
+  const CustomHeader({Key? key, this.top = -50, this.child, this.header})
       : super(key: key);
 
   @override
@@ -40,7 +40,7 @@ class CustomHeader extends StatelessWidget {
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: (size - width) / 2),
             child: _HeaderContent(
-                top: this.top, child: this.child, header: this.header),
+                top: this.top, child: this.child!, header: this.header!),
           ),
         ),
       ),
@@ -54,7 +54,8 @@ class _HeaderContent extends StatelessWidget {
   final Widget child;
   final Widget header;
 
-  const _HeaderContent({Key key, @required this.top, this.child, this.header})
+  const _HeaderContent(
+      {Key? key, required this.top, required this.child, required this.header})
       : super(key: key);
 
   @override

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:persistencia_datos/pages/get_started/get_started_page.dart';
-import 'package:persistencia_datos/pages/new_user/widgets/action_buttons.dart';
-import 'package:persistencia_datos/pages/register/register_page.dart';
+import 'package:covserver/pages/get_started/get_started_page.dart';
+import 'package:covserver/pages/new_user/widgets/action_buttons.dart';
 
-import 'package:persistencia_datos/pages/new_user/widgets/page_index_viewer.dart';
-import 'package:persistencia_datos/widgets/violet_background.dart';
+import 'package:covserver/pages/new_user/widgets/page_index_viewer.dart';
+import 'package:covserver/widgets/violet_background.dart';
 
 class NewUserPage extends StatefulWidget {
   @override
@@ -35,7 +34,7 @@ class _NewUserPageState extends State<NewUserPage> {
           ),
           PageView(
             controller: controller,
-            children: _selectedPages,
+            children: _selectedPages as List<Widget>,
             scrollDirection: Axis.horizontal,
             onPageChanged: (int index) {
               setState(() {
@@ -49,6 +48,3 @@ class _NewUserPageState extends State<NewUserPage> {
     );
   }
 }
-
-// ignore: must_be_immutable
-

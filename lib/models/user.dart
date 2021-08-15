@@ -1,12 +1,11 @@
-import 'package:flutter/cupertino.dart';
-
 class User {
-  int id;
-  String name;
-  String lastName;
-  String email;
+  int? id;
+  String? name;
+  String? lastName;
+  String? email;
   String psw;
   String gender;
+  String? healthCondition;
   bool isDarkTheme;
 
   User({
@@ -16,7 +15,9 @@ class User {
     this.email,
     this.psw = '',
     this.gender = 'male',
+    this.healthCondition,
     this.isDarkTheme = false,
+    password,
   });
   factory User.fromJson(Map<String, dynamic> json) {
     return User(

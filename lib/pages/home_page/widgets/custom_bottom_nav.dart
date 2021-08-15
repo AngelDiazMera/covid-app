@@ -1,28 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:persistencia_datos/config/theme/theme.dart';
+import 'package:covserver/config/theme.dart';
 
 class CustomButtonNavigationBar extends StatelessWidget {
   final Function onItemTapped;
   final int selectedIndex;
 
   const CustomButtonNavigationBar(
-      {Key key, @required this.onItemTapped, @required this.selectedIndex})
+      {Key? key, required this.onItemTapped, required this.selectedIndex})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 15),
+      margin: EdgeInsets.all(15),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(15), topRight: Radius.circular(15)),
         boxShadow: [
-          BoxShadow(color: Colors.black12, spreadRadius: 0, blurRadius: 15),
+          BoxShadow(color: Colors.black12, spreadRadius: 10, blurRadius: 15),
         ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+        borderRadius: BorderRadius.circular(15),
         child: BottomNavigationBar(
           showUnselectedLabels: false,
           selectedItemColor: Theme.of(context).brightness == Brightness.dark
@@ -33,7 +30,7 @@ class CustomButtonNavigationBar extends StatelessWidget {
               ? applicationColors['background_dark_2']
               : applicationColors['background_light_2'],
           currentIndex: selectedIndex,
-          onTap: onItemTapped,
+          onTap: onItemTapped as void Function(int)?,
           items: [
             BottomNavigationBarItem(
               icon: Icon(
