@@ -55,7 +55,7 @@ class SymptomsCard extends StatelessWidget {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  symptom.description,
+                  symptom.description!,
                   style: TextStyle(fontSize: 14),
                 )
               ],

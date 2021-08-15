@@ -1,3 +1,4 @@
+import 'package:covserver/pages/symptoms/symptoms_page.dart';
 import 'package:covserver/services/providers/new_user_provider.dart';
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
@@ -136,7 +137,7 @@ class _HomePageState extends State<HomePage> {
     if (newUserHandler.isNew && myUser!.email == '') return NewUserPage();
     _getDataByAPI();
     _selectedPages = <Widget>[
-      InfectedPage(),
+      SymptomsPage(),
       MyAccountPage(changeToDarkMode: widget.changeToDarkMode),
       SettingsPage(),
     ];

@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 
 import 'package:covserver/services/firebase/push_notification_service.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'config/theme.dart';
 
@@ -81,15 +82,16 @@ class _MyAppState extends State<MyApp> {
         // Routes definition
         initialRoute: '/',
         routes: getApplicationRoutes(context),
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('en', 'US'), // English, no country code
+          const Locale('es', 'ES'), // Spanish, no country code
+        ],
       ),
-
-      // localizationsDelegates: [
-      //   S.delegate,
-      //   GlobalWidgetsLocalizations.delegate,
-      //   GlobalMaterialLocalizations.delegate,
-      //   GlobalCupertinoLocalizations.delegate,
-      // ],
-      // supportedLocales: S.delegate.supportedLocales,
     );
   }
 }

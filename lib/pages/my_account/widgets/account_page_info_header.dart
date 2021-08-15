@@ -32,28 +32,6 @@ class _AccountPageInfoHeaderState extends State<AccountPageInfoHeader> {
     });
   }
 
-  Future reloadDelayed(int duration, NeedHcUpdate needUpd) async {
-    // if (makeRequest) return false;
-    // makeRequest = true;
-    // return new Future.delayed(Duration(seconds: duration), () async {
-    //   bool newUpdate = await Preferences.myPrefs.getNeedHCUpdate();
-    //   bool needReload = newUpdate == needUpd.isUpdateNeeded;
-    //   if (needReload) print('Necesita actualizar ($newUpdate)');
-    //   needUpd.isUpdateNeeded = newUpdate;
-
-    //   if (needUpd.isUpdateNeeded) {
-    //     print('Mostrando diálgo');
-    //     showDialog(
-    //       barrierDismissible: false,
-    //       context: context,
-    //       builder: (context) => AlertNoInfection(),
-    //     );
-    //   }
-    //   makeRequest = false;
-    //   return needReload;
-    // });
-  }
-
   void _loadHC(HealthCondition hc, NeedHcUpdate needUpd) async {
     if (hasAlertShown) return;
     hc.healthCondition = await Preferences.myPrefs.getHealthCondition();
@@ -110,11 +88,11 @@ class _AccountPageInfoHeaderState extends State<AccountPageInfoHeader> {
       children: [
         SizedBox(height: 15),
         Text(
-          myUser.name ?? '',
+          myUser.name?.split(' ')[0] ?? '',
           style: textStyle,
         ),
         Text(
-          myUser.lastName ?? '',
+          myUser.lastName?.split(' ')[0] ?? '',
           style: textStyle,
         ),
         SizedBox(height: 15),

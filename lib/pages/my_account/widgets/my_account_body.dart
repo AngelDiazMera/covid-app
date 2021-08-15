@@ -41,11 +41,11 @@ class MyAccountBody extends StatelessWidget {
             CovidKnowMore(
                 asset: "assets/mexico.png",
                 url: "https://coronavirus.gob.mx/",
-                description: "Consulta el portal informativo nacional"),
+                description: "Portal informativo nacional"),
             CovidKnowMore(
                 asset: "assets/conacyt.png",
                 url: "https://datos.covid-19.conacyt.mx/#DOView",
-                description: "Consulta el portal informativo CONACYT"),
+                description: "Portal informativo CONACYT"),
             CovidKnowMore(
                 asset: "assets/facemask_guy.png",
                 url:

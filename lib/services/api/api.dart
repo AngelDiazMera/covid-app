@@ -58,13 +58,25 @@ class Api {
     return http.get(Uri.parse('$baseURL$url'), headers: _headers);
   }
 
-  /// custom update method of http
+  /// custom PATCH update method of http
   static Future<http.Response> update(String url,
       {Object? body, Encoding? encoding}) async {
     await _loadToken();
     return http.patch(
       Uri.parse('$baseURL$url'),
       body: jsonEncode(body),
+      headers: _headers,
+      encoding: encoding,
+    );
+  }
+
+  /// custom DELETE update method of http
+  static Future<http.Response> delete(String url,
+      {Object? body, Encoding? encoding}) async {
+    await _loadToken();
+    return http.delete(
+      Uri.parse('$baseURL$url'),
+      body: jsonEncode(body ?? {}),
       headers: _headers,
       encoding: encoding,
     );

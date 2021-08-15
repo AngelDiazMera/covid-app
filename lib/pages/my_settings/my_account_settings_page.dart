@@ -7,7 +7,7 @@ import 'package:covserver/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:covserver/pages/my_settings/widgets/settings_form.dart';
 
-import 'package:covserver/pages/my_settings/widgets/settings_header.dart';
+import 'package:covserver/widgets/settings_header.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);

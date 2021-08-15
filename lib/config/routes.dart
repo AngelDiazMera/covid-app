@@ -1,5 +1,6 @@
 import 'package:covserver/pages/qr_scanner/general_code_scan_page.dart';
-import 'package:covserver/pages/symptoms_temporal/symptoms_page.dart';
+import 'package:covserver/pages/recomendation/recomedaciones_symptom_page.dart';
+import 'package:covserver/pages/symptoms/symptoms_page.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 
@@ -27,6 +28,7 @@ Map<String, WidgetBuilder> getApplicationRoutes(BuildContext context) {
     '/signin': (BuildContext context) => LoginPage(),
     '/infected': (_) => InfectedPage(),
     '/qr': (_) => GeneralCodeScan(),
-    '/symptoms_register': (_) => SymptomsPage()
+    '/symptoms_register': (_) => SymptomsPage(fullHeight: true),
+    '/recommendations': (_) => RecommendationPage(),
   };
 }

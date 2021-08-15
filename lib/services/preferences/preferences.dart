@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:covserver/models/symptoms_user.dart';
 import 'package:covserver/models/user.dart';
-import 'package:covserver/pages/infected/widgets/checked_value.dart';
+import 'package:covserver/pages/symptoms/widgets/checked_value.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Preferences {
@@ -94,62 +94,34 @@ class Preferences {
     prefs.setBool('needHCUpdate', isNeeded);
   }
 
-  ///Get an Symptom as a preference
-  Future<CheckedSymptoms> getMyChecked() async {
+  Future<List<String>> getSymptoms() async {
     SharedPreferences prefs = await this.prefs;
-    CheckedSymptoms newChecked = CheckedSymptoms(
-      fever: prefs.getBool('fever') ?? false,
-      dryCough: prefs.getBool('dry cough') ?? false,
-      fatigue: prefs.getBool('fatigue') ?? false,
-      soreThroat: prefs.getBool('sore throat') ?? false,
-      diarrhoea: prefs.getBool('diarrhoea') ?? false,
-      conjuctivitis: prefs.getBool('conjuctivitis') ?? false,
-      headache: prefs.getBool('headache') ?? false,
-      lossSenseOfSmell: prefs.getBool('loss of sense of smell') ?? false,
-      lossColourInFingers: prefs.getBool('loss of colour in fingers') ?? false,
-      difficultyBreathing: prefs.getBool('difficulty breathing') ?? false,
-      chestPainOrPressure: prefs.getBool('chest pain or pressure') ?? false,
-      inabilityToSpeak: prefs.getBool('inability to speak') ?? false,
-    );
-    return newChecked;
+    return prefs.getStringList('symptoms') ?? [];
   }
 
-  /// Saves an Check Symptom as a preference
-  Future<void> setChecked(String key, dynamic val) async {
+  Future<void> setSymptoms(List<String> symptoms,
+      {String? remarks, String? symptomsDate}) async {
     SharedPreferences prefs = await this.prefs;
-    prefs.setBool(key, val);
+    prefs.setStringList('symptoms', symptoms);
+    prefs.setString('symptomsDate', symptomsDate ?? '');
+    prefs.setString('remarks', remarks ?? '');
+    prefs.setBool('isCovid', false);
+    prefs.remove('covidDate');
   }
 
-  /// Saves an Symptom User as a preference
-  Future<SymptomsUser> saveSymptom(SymptomsUser newSymptom) async {
+  Future<void> setCovid(bool isCovid, String covidDate) async {
     SharedPreferences prefs = await this.prefs;
-    prefs.setStringList('symptoms', newSymptom.symptoms);
-    prefs.setString('remarks', newSymptom.remarks);
-    prefs.setString('symptomsDate', newSymptom.symptomsDate.toString());
-    print('Guardado Sintomas');
-    return newSymptom;
+    prefs.setBool('isCovid', isCovid);
+    prefs.setString('covidDate', covidDate);
+    prefs.setString('healthCondition', 'infected');
   }
 
-  /// Get an Symptom User as a preference
-  Future<SymptomsUser> getMySymptom() async {
+  Future<void> deleteCovid() async {
     SharedPreferences prefs = await this.prefs;
-    SymptomsUser newSymptom = SymptomsUser(
-      symptoms: prefs.getStringList('symptoms') ?? [],
-      remarks: prefs.getString('remarks') ?? '',
-      symptomsDate: DateTime.tryParse(prefs.getString('symptomsDate') ?? ''),
-      isCovid: prefs.getBool('isCovid') ?? false,
-      covidDate: DateTime.tryParse(prefs.getString('covidDate') ?? ''),
-    );
-    print('REGRESANDO SINTOMAS: $newSymptom');
-    return newSymptom;
-  }
-
-  /// Saves an Covid User as a preference
-  Future<SymptomsUser> saveCovid(SymptomsUser newCovid) async {
-    SharedPreferences prefs = await this.prefs;
-    prefs.setBool('isCovid', newCovid.isCovid);
-    prefs.setString('covidDate', newCovid.covidDate.toString());
-    print('Guardado Covid');
-    return newCovid;
+    prefs.remove('isCovid');
+    prefs.remove('covidDate');
+    prefs.remove('symptomsDate');
+    prefs.remove('remarks');
+    prefs.setString('healthCondition', 'healthy');
   }
 }
