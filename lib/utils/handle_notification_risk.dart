@@ -17,7 +17,7 @@ void handleNotificationRisk(BuildContext context, HealthCondition hc) async {
   if (cancel) print('Se canceló la alarma anterior');
   // Dates to handle 14 dyas
   DateTime today = DateTime.now();
-  DateTime later = today.add(Duration(seconds: 5));
+  DateTime later = today.add(Duration(minutes: 5)); // CHANGE TO 14 DAYS
   // Start the alarm
   AndroidAlarmManager.oneShotAt(
       later, _alarmId, PushNotificationService.fireDelayedNotification);

@@ -1,3 +1,4 @@
+import 'package:covserver/services/preferences/preferences.dart';
 import 'package:covserver/services/providers/new_user_provider.dart';
 import 'package:covserver/utils/hash_value.dart';
 import 'package:flutter/material.dart';
@@ -135,6 +136,7 @@ class _LoginFormState extends State<LoginForm> {
     // If everything is ok
     if (signedUser != null) {
       await MyUser.mine.savePrefs(signedUser);
+      await Preferences.myPrefs.setHealthCondition(signedUser.healthCondition!);
       newUserHandler.isNew = false;
       Navigator.pop(context);
     }

@@ -4,6 +4,7 @@ import 'package:covserver/config/theme.dart';
 import 'package:covserver/pages/qr_scanner/widgets/alert_code_fount.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class QRScanView extends StatefulWidget {
   @override
@@ -17,6 +18,19 @@ class _QRScanViewState extends State<QRScanView> {
 
   String code = ''; // Code found
   bool loading = false; // If it's doing the request
+
+  bool hasPermission = false;
+
+  void _askForPermission() async {
+    bool isGranted = await Permission.camera.request().isGranted;
+    setState(() => hasPermission = isGranted);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _askForPermission();
+  }
 
   @override
   void dispose() {
@@ -74,7 +88,11 @@ class _QRScanViewState extends State<QRScanView> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            buildQrView(context),
+            hasPermission
+                ? buildQrView(context)
+                : Container(
+                    color: applicationColors['background_dark_1'],
+                  ),
             Positioned(bottom: 10, child: buildResult()),
             Positioned(top: 10, child: buildControlButtons())
           ],
@@ -101,7 +119,6 @@ class _QRScanViewState extends State<QRScanView> {
   void onQRViewCreated(QRViewController controller) {
     setState(() => this.controller = controller);
 
-    // Listen qr scan
     controller.scannedDataStream.listen((barcode) {
       RegExp codeRegEx = RegExp(r'[M,V]{1}-\w+-\d{4}');
 
@@ -112,7 +129,7 @@ class _QRScanViewState extends State<QRScanView> {
         final matchedCode = matches.elementAt(0).group(0);
         setState(() => code = matchedCode ?? '');
       }
-    });
+    }, onError: (err) => print('ERROR CON EL QR'));
   }
 
   Widget buildResult() => Container(

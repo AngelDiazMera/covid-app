@@ -1,16 +1,17 @@
-import 'package:flutter/material.dart';
-// import 'package:flutter_icons/flutter_icons.dart';
 import 'package:covserver/config/theme.dart';
+import 'package:flutter/material.dart';
 
 class SettingsHeader extends StatelessWidget {
   final void Function()? doneCallback;
   final String name;
   final String doneButtonLabel;
+  final bool needGoBack;
 
   SettingsHeader({
     Key? key,
     this.doneCallback,
     this.doneButtonLabel = '',
+    this.needGoBack = false,
     required this.name,
   }) : super(key: key);
 
@@ -39,12 +40,22 @@ class SettingsHeader extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                this.name,
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+              this.needGoBack
+                  ? IconButton(
+                      onPressed: () => Navigator.pop(context),
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: applicationColors['background_light_1'],
+                      ))
+                  : Container(),
+              Expanded(
+                child: Text(
+                  this.name,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
               ),
               this.doneCallback != null
                   ? TextButton(

@@ -12,7 +12,7 @@ class _RecommendationPageBodyState extends State<RecommendationPageBody> {
     return ListView(
       children: [
         Container(
-          margin: EdgeInsets.only(right: 35, left: 35, top: 15),
+          margin: EdgeInsets.only(right: 25, left: 25, top: 15),
           child: Column(
             children: [
               RecommendationsList(

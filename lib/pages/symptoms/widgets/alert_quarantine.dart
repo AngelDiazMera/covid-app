@@ -62,6 +62,7 @@ class _AlertQuarantineState extends State<AlertQuarantine> {
     setState(() {
       finish = true;
       loading = false;
+      hcState = 'risk';
     });
   }
 
@@ -89,31 +90,29 @@ class _AlertQuarantineState extends State<AlertQuarantine> {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     )
                   ]
-                // If is infected
-                : reqError
+                : finish
                     ? [
-                        Text(
-                            'Hubo un problema con la actualización. Inténtalo más tarde.')
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Excelente',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20),
+                            ),
+                            Text('El estado se ha actualizado con éxito.',
+                                style: TextStyle(
+                                    color: applicationColors['font_light'],
+                                    fontSize: 18)),
+                          ],
+                        )
                       ]
-                    : finish
+                    : reqError
                         ? [
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  'Excelente',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                ),
-                                Text('El estado se ha actualizado con éxito.',
-                                    style: TextStyle(
-                                        color: applicationColors['font_light'],
-                                        fontSize: 18)),
-                              ],
-                            )
+                            Text(
+                                'Hubo un problema con la actualización. Inténtalo más tarde.')
                           ]
-                        : hcState == 'infected'
+                        : hcState == 'risk'
                             ? [
                                 Text(
                                   'Lo sentimos',
@@ -125,52 +124,71 @@ class _AlertQuarantineState extends State<AlertQuarantine> {
                                   height: 15,
                                 ),
                                 Text(
-                                  'Usted ya se encuentra contagiado de Covid-19 y no puede registrar el riesgo.',
+                                  'Usted ya se encuentra en riesgo.',
                                   style: TextStyle(
                                       fontSize: 19,
                                       color: applicationColors['font_light']),
                                 )
                               ]
-                            // If is healthy or in risk
-                            : [
-                                Text(
-                                  'Información',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                RichText(
-                                  text: TextSpan(
-                                    text:
-                                        'Al marcar esta opción, la aplicación te pondrá en ',
-                                    style: TextStyle(
-                                        color: applicationColors['font_light'],
-                                        fontSize: 19),
-                                    children: [
-                                      TextSpan(
-                                          text: 'estado de riesgo ',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold)),
-                                      TextSpan(
+                            : hcState == 'healthy'
+                                ? [
+                                    Text(
+                                      'Información',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    RichText(
+                                      text: TextSpan(
                                         text:
-                                            ' durante las siguientes dos semanas.',
+                                            'Al marcar esta opción, la aplicación te pondrá en ',
+                                        style: TextStyle(
+                                            color:
+                                                applicationColors['font_light'],
+                                            fontSize: 19),
+                                        children: [
+                                          TextSpan(
+                                              text: 'estado de riesgo ',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold)),
+                                          TextSpan(
+                                            text:
+                                                ' durante las siguientes dos semanas.',
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                CustomTextFormField(
-                                  label: 'Comentarios',
-                                  keyboardType: TextInputType.text,
-                                  onChanged: _remarksOnChange,
-                                  initialValue: remarks,
-                                  icon: Icons.comment,
-                                ),
-                              ],
+                                    ),
+                                    CustomTextFormField(
+                                      label: 'Comentarios',
+                                      keyboardType: TextInputType.text,
+                                      onChanged: _remarksOnChange,
+                                      initialValue: remarks,
+                                      icon: Icons.comment,
+                                    )
+                                  ]
+                                : [
+                                    Text(
+                                      'Lo sentimos',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text(
+                                      'Usted ya se encuentra contagiado de Covid-19 y no puede registrar el riesgo.',
+                                      style: TextStyle(
+                                          fontSize: 19,
+                                          color:
+                                              applicationColors['font_light']),
+                                    )
+                                  ],
       ),
-      actions: reqError || finish || hcState == 'infected'
+      actions: reqError || finish
           ? [
               TextButton(
                 onPressed: () {
@@ -185,33 +203,50 @@ class _AlertQuarantineState extends State<AlertQuarantine> {
                 ),
               ),
             ]
-          : [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context, 'CANCEL');
-                },
-                child: Text(
-                  "Cancelar",
-                  style: TextStyle(
-                    color: applicationColors['font_light']!.withOpacity(0.75),
-                    fontSize: 16,
+          : hcState == 'healthy'
+              ? [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, 'CANCEL');
+                    },
+                    child: Text(
+                      "Cancelar",
+                      style: TextStyle(
+                        color:
+                            applicationColors['font_light']!.withOpacity(0.75),
+                        fontSize: 16,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              TextButton(
-                onPressed: () async {
-                  await _makeRequest(hc);
-                  handleNotificationRisk(context, hc);
-                },
-                child: Text(
-                  "Está bien",
-                  style: TextStyle(
-                    color: applicationColors['medium_purple'],
-                    fontSize: 16,
+                  TextButton(
+                    onPressed: () async {
+                      await _makeRequest(hc);
+                      handleNotificationRisk(context, hc);
+                    },
+                    child: Text(
+                      "Está bien",
+                      style: TextStyle(
+                        color: applicationColors['medium_purple'],
+                        fontSize: 16,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ],
+                ]
+              : [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, 'CANCEL');
+                    },
+                    child: Text(
+                      "Está bien",
+                      style: TextStyle(
+                        color:
+                            applicationColors['font_light']!.withOpacity(0.75),
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ],
     );
   }
 

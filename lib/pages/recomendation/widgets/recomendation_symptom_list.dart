@@ -20,8 +20,9 @@ class _RecommendationsList extends State<RecommendationsList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 325,
-      margin: EdgeInsets.only(top: 15, bottom: 15),
+      width: double.infinity,
+      padding: EdgeInsets.all(15),
+      margin: EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
         color: Theme.of(context).brightness == Brightness.dark
             ? applicationColors['background_dark_2']
@@ -34,7 +35,7 @@ class _RecommendationsList extends State<RecommendationsList> {
       child: Row(
         children: [
           Container(
-            margin: EdgeInsets.all(15),
+            margin: EdgeInsets.only(right: 15),
             width: 65,
             height: 65,
             decoration: BoxDecoration(
@@ -45,22 +46,18 @@ class _RecommendationsList extends State<RecommendationsList> {
                   : Colors.black12,
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(right: 5, top: 5, bottom: 5),
-            width: 200,
+          Flexible(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: double.infinity,
-                  child: Text(
-                    widget.title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? applicationColors['lila']
-                          : applicationColors['light_purple'],
-                    ),
+                Text(
+                  widget.title,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? applicationColors['lila']
+                        : applicationColors['light_purple'],
                   ),
                 ),
                 SizedBox(height: 2),
@@ -71,7 +68,7 @@ class _RecommendationsList extends State<RecommendationsList> {
                 )
               ],
             ),
-          )
+          ),
         ],
       ),
     );

@@ -56,6 +56,7 @@ Future<User?> signIn(String email, String password, {Function? onError}) async {
         lastName: resMap['user']['lastName'],
         gender: resMap['user']['gender'],
         email: resMap['user']['email'],
+        healthCondition: resMap['user']['healthCondition'],
       );
       await Preferences.myPrefs.setToken(resMap['token']);
       return newUser;

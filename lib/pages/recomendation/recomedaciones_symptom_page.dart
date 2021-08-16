@@ -9,7 +9,7 @@ class RecommendationPage extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(85),
-        child: SettingsHeader(name: 'Recomendaciones'),
+        child: SettingsHeader(name: 'Recomendaciones', needGoBack: true),
       ),
       body: RecommendationPageBody(),
     );
