@@ -45,9 +45,9 @@ class _QRScanViewState extends State<QRScanView> {
     // To prevent camera to stop in Android and iOS
     if (Platform.isAndroid) {
       await controller!.pauseCamera();
-      setState(() => code = '');
+      // setState(() => code = '');
     }
-    controller!.resumeCamera();
+    await controller!.resumeCamera();
   }
 
   Future<bool> _restartQRSearch() async {
