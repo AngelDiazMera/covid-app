@@ -1,13 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.covserver">
+    <!-- Fingerprint permission -->
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
     <!-- Internet permission -->
-   <uses-permission android:name="android.permission.INTERNET" />
-
-   <!-- Camera permission -->
-   <uses-permission android:name="android.permission.CAMERA" />
-   <!-- Android alarm manager -->
-   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-   <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Camera permission -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- Android alarm manager -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
    <application
         android:label="CovServer"
