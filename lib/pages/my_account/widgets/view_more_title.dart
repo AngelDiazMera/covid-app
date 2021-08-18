@@ -4,9 +4,9 @@ import 'package:flutter/rendering.dart';
 
 class ViewMoreTitle extends StatelessWidget {
   final String title;
-  final Function onPressed;
+  final Function? onPressed;
 
-  const ViewMoreTitle({Key? key, required this.title, required this.onPressed})
+  const ViewMoreTitle({Key? key, required this.title, this.onPressed})
       : super(key: key);
 
   @override
@@ -20,19 +20,21 @@ class ViewMoreTitle extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          TextButton(
-            onPressed: onPressed as void Function()?,
-            child: Text(
-              'Ver todos',
-              style: TextStyle(
-                  color: themeMode.toString() == 'ThemeMode.dark'
-                      ? Colors.white54
-                      : Colors.black45),
-            ),
-            style: TextButton.styleFrom(primary: Colors.black26),
-          ),
+          this.onPressed != null
+              ? TextButton(
+                  onPressed: onPressed as void Function()?,
+                  child: Text(
+                    'Ver todos',
+                    style: TextStyle(
+                        color: themeMode.toString() == 'ThemeMode.dark'
+                            ? Colors.white54
+                            : Colors.black45),
+                  ),
+                  style: TextButton.styleFrom(primary: Colors.black26),
+                )
+              : Container(),
         ],
       ),
     );

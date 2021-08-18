@@ -1,3 +1,4 @@
+import 'package:covserver/pages/my_account/widgets/recommendations_list.dart';
 import 'package:flutter/material.dart';
 
 import 'package:covserver/data/symptoms.dart';
@@ -29,6 +30,7 @@ class MyAccountBody extends StatelessWidget {
           children: _drawSymptoms() as List<Widget>,
         ),
       ),
+      ViewMoreTitle(title: 'Enlaces de interés'),
       SizedBox(
         height: 180,
         child: CarouselSlider(
@@ -55,6 +57,12 @@ class MyAccountBody extends StatelessWidget {
           options: CarouselOptions(autoPlay: true),
         ),
       ),
+      ViewMoreTitle(
+        title: 'Recomendaciones',
+        onPressed: () => launchURL(
+            'https://www.who.int/es/emergencies/diseases/novel-coronavirus-2019/advice-for-public/when-and-how-to-use-masks'),
+      ),
+      RecommendationsList(),
       SizedBox(height: 85)
     ];
   }

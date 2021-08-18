@@ -19,7 +19,7 @@ class _RecommendationPageBodyState extends State<RecommendationPageBody> {
                 title: 'Lavarse las manos',
                 recomendation:
                     'Con agua y jabón por un tiempo mínimo de 40 a 60 segundos o bien usar un gel desinfectante a base de alcohol al 70%.',
-                asset: 'assets/washing-hands.png',
+                asset: 'assets/wash-hands.png',
               ),
               RecommendationsList(
                 title: 'Mantener el distanciamiento físico',
@@ -37,7 +37,7 @@ class _RecommendationPageBodyState extends State<RecommendationPageBody> {
                 title: 'Quédate en casa si sus síntomas lo permiten',
                 recomendation:
                     'Esto te ayudará a protegerte y a proteger a otras personas de posibles infecciones por el coronavirus COVID-19 u otros virus',
-                asset: 'assets/stay-home.png',
+                asset: 'assets/stay-at-home.png',
               ),
               RecommendationsList(
                 title: 'Busca atención médica',

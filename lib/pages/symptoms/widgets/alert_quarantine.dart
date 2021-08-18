@@ -5,6 +5,7 @@ import 'package:covserver/services/preferences/preferences.dart';
 import 'package:covserver/services/providers/health_condition_provider.dart';
 import 'package:covserver/utils/handle_notification_risk.dart';
 import 'package:covserver/widgets/custom_text_form_field.dart';
+import 'package:covserver/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -83,13 +84,7 @@ class _AlertQuarantineState extends State<AlertQuarantine> {
         children:
             // While getting prefs
             loading
-                ? [
-                    Text(
-                      'Cargando...',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    )
-                  ]
+                ? [Loader()]
                 : finish
                     ? [
                         Column(
@@ -188,65 +183,68 @@ class _AlertQuarantineState extends State<AlertQuarantine> {
                                     )
                                   ],
       ),
-      actions: reqError || finish
-          ? [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context, 'CANCEL');
-                },
-                child: Text(
-                  "Está bien",
-                  style: TextStyle(
-                    color: applicationColors['font_light']!.withOpacity(0.75),
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            ]
-          : hcState == 'healthy'
+      actions: loading
+          ? []
+          : reqError || finish
               ? [
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context, 'CANCEL');
                     },
                     child: Text(
-                      "Cancelar",
+                      "Está bien",
                       style: TextStyle(
                         color:
                             applicationColors['font_light']!.withOpacity(0.75),
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      await _makeRequest(hc);
-                      handleNotificationRisk(context, hc);
-                    },
-                    child: Text(
-                      "Está bien",
-                      style: TextStyle(
-                        color: applicationColors['medium_purple'],
                         fontSize: 16,
                       ),
                     ),
                   ),
                 ]
-              : [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context, 'CANCEL');
-                    },
-                    child: Text(
-                      "Está bien",
-                      style: TextStyle(
-                        color:
-                            applicationColors['font_light']!.withOpacity(0.75),
-                        fontSize: 16,
+              : hcState == 'healthy'
+                  ? [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context, 'CANCEL');
+                        },
+                        child: Text(
+                          "Cancelar",
+                          style: TextStyle(
+                            color: applicationColors['font_light']!
+                                .withOpacity(0.75),
+                            fontSize: 16,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ],
+                      TextButton(
+                        onPressed: () async {
+                          await _makeRequest(hc);
+                          handleNotificationRisk(context, hc);
+                        },
+                        child: Text(
+                          "Está bien",
+                          style: TextStyle(
+                            color: applicationColors['medium_purple'],
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ]
+                  : [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context, 'CANCEL');
+                        },
+                        child: Text(
+                          "Está bien",
+                          style: TextStyle(
+                            color: applicationColors['font_light']!
+                                .withOpacity(0.75),
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
     );
   }
 

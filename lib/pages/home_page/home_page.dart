@@ -1,5 +1,6 @@
 import 'package:covserver/pages/symptoms/symptoms_page.dart';
 import 'package:covserver/services/providers/new_user_provider.dart';
+import 'package:covserver/widgets/init_dev_dialog.dart';
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -86,11 +87,14 @@ class _HomePageState extends State<HomePage> {
 
     print('ES NUEVO USUARIO? $isNew');
 
-    if (!isNew) {
+    if (!isNew)
       await _getDataByAPI();
-    } else {
-      setState(() => _loading = false);
-      setState(() => _isNew = true);
+    else {
+      setState(() {
+        _loading = false;
+        _isNew = true;
+      });
+      showDialog(context: context, builder: (context) => InitDevDialog());
     }
   }
 
@@ -181,14 +185,16 @@ class _HomePageState extends State<HomePage> {
         child: Align(
           alignment: Alignment.bottomCenter,
           child: CustomButtonNavigationBar(
-            onItemTapped: (int index) => setState(() {
-              _selectedIndex = index;
-              controller.animateToPage(
-                index,
-                duration: Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
-              );
-            }),
+            onItemTapped: (int index) {
+              setState(() {
+                _selectedIndex = index;
+                controller.animateToPage(
+                  index,
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
+              });
+            },
             selectedIndex: _selectedIndex,
           ),
         ),
@@ -221,9 +227,11 @@ class _HomePageState extends State<HomePage> {
           minimumSize: Size.fromHeight(50),
         ),
         icon: Icon(icon, size: 26),
-        label: Text(
-          text,
-          style: TextStyle(fontSize: 20),
+        label: Flexible(
+          child: Text(
+            text,
+            style: TextStyle(fontSize: 20),
+          ),
         ),
         onPressed: onClicked,
       );

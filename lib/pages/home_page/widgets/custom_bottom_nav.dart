@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:covserver/config/theme.dart';
 
-class CustomButtonNavigationBar extends StatelessWidget {
-  final Function onItemTapped;
+class CustomButtonNavigationBar extends StatefulWidget {
+  final void Function(int) onItemTapped;
   final int selectedIndex;
 
   const CustomButtonNavigationBar(
       {Key? key, required this.onItemTapped, required this.selectedIndex})
       : super(key: key);
+
+  @override
+  _CustomButtonNavigationBarState createState() =>
+      _CustomButtonNavigationBarState();
+}
+
+class _CustomButtonNavigationBarState extends State<CustomButtonNavigationBar> {
+  int currentIndex = 1;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() => currentIndex = widget.selectedIndex);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +44,11 @@ class CustomButtonNavigationBar extends StatelessWidget {
           backgroundColor: Theme.of(context).brightness == Brightness.dark
               ? applicationColors['background_dark_2']
               : applicationColors['background_light_2'],
-          currentIndex: selectedIndex,
-          onTap: onItemTapped as void Function(int)?,
+          currentIndex: currentIndex,
+          onTap: (int index) => setState(() {
+            widget.onItemTapped(index);
+            currentIndex = index;
+          }),
           items: [
             BottomNavigationBarItem(
               icon: Icon(
