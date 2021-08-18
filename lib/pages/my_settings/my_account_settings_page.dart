@@ -83,6 +83,10 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   List<Widget> _drawSettingsBody(BuildContext context) {
+    Color helperColor = Theme.of(context).brightness == Brightness.dark
+        ? Colors.white30
+        : Colors.black38;
+
     return <Widget>[
       Container(
         margin: EdgeInsets.symmetric(horizontal: 0),
@@ -101,11 +105,14 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Row(
           children: [
             SizedBox(width: 15),
-            Icon(Icons.work,
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white30
-                    : Colors.black38),
+            Icon(Icons.info_outline_rounded, color: helperColor),
             SizedBox(width: 20),
+            Flexible(
+              child: Text(
+                'Los campos que se queden vacíos, no serán alterados a no ser que ingrese un nuevo valor.',
+                style: TextStyle(color: helperColor),
+              ),
+            )
           ],
         ),
       )

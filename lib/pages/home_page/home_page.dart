@@ -1,11 +1,14 @@
 import 'package:covserver/pages/symptoms/symptoms_page.dart';
 import 'package:covserver/services/providers/new_user_provider.dart';
+import 'package:covserver/widgets/init_dev_dialog.dart';
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:local_auth/local_auth.dart';
 
 import 'package:covserver/services/api/requests.dart';
 import 'package:covserver/services/auth/my_user.dart';
+import 'package:covserver/services/fingerprint_auth/local_auth.dart';
 import 'package:covserver/models/user.dart';
 import 'package:covserver/config/theme.dart';
 
@@ -35,6 +38,8 @@ class _HomePageState extends State<HomePage> {
   static List<Widget> _selectedPages = <Widget>[];
   // State variables of the widget
   bool _loading = true; // When data is retrieved, changes to false
+  bool _hasBiometrics = false;
+  bool _isNew = false;
   User? myUser; // Stored user
 
   bool _requestMade = false;
@@ -84,8 +89,23 @@ class _HomePageState extends State<HomePage> {
 
     if (!isNew)
       await _getDataByAPI();
-    else
-      setState(() => _loading = false);
+    else {
+      setState(() {
+        _loading = false;
+        _isNew = true;
+      });
+      showDialog(context: context, builder: (context) => InitDevDialog());
+    }
+  }
+
+  // Checks if the user has biometrics
+  _checkBiometrics() async {
+    final hasBiometrics = await LocalAuthApi.hasBiometrics();
+    if (hasBiometrics == true) {
+      setState(() => _hasBiometrics = true);
+    } else {
+      setState(() => _hasBiometrics = false);
+    }
   }
 
   /// BUILD method
@@ -94,8 +114,14 @@ class _HomePageState extends State<HomePage> {
     final newUserHandler = Provider.of<NewUserHandler>(context);
 
     if (!_loading) {
-      return _drawHomeBody(context, newUserHandler);
+      _checkBiometrics();
+      if (_hasBiometrics && !_isNew) {
+        return _drawFingerAuth(context, newUserHandler);
+      } else {
+        return _drawHomeBody(context, newUserHandler);
+      }
     }
+
     return Scaffold(
       body: Stack(
         children: [
@@ -148,11 +174,7 @@ class _HomePageState extends State<HomePage> {
           controller: controller,
           scrollDirection: Axis.horizontal,
           children: _selectedPages,
-          onPageChanged: (int index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
+          onPageChanged: (int index) => setState(() => _selectedIndex = index),
         ),
         _drawNavigation(controller)
       ]),
@@ -176,5 +198,41 @@ class _HomePageState extends State<HomePage> {
             selectedIndex: _selectedIndex,
           ),
         ),
+      );
+
+  Widget _drawFingerAuth(BuildContext context, NewUserHandler newUserHandler) =>
+      authButton(
+        text: 'Presiona aquí para ingresar tu huella',
+        icon: Icons.lock_open,
+        onClicked: () async {
+          final isAuthenticated = await LocalAuthApi.fingerprintAuth();
+          if (isAuthenticated) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (c) => _drawHomeBody(context, newUserHandler)),
+            );
+          }
+        },
+      );
+
+  Widget authButton({
+    required String text,
+    required IconData icon,
+    required VoidCallback onClicked,
+  }) =>
+      ElevatedButton.icon(
+        style: ElevatedButton.styleFrom(
+          primary: applicationColors['medium_purple'],
+          minimumSize: Size.fromHeight(50),
+        ),
+        icon: Icon(icon, size: 26),
+        label: Flexible(
+          child: Text(
+            text,
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
+        onPressed: onClicked,
       );
 }
