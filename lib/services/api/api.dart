@@ -19,7 +19,7 @@ class Api {
 
   Api._internal();
   // Base url to make requests
-  static String baseURL = 'https://covserverbackend.herokuapp.com/';
+  static String baseURL = 'https://covserverbackend.herokuapp.com';
   // Headers for the requests
   static Map<String, String> _headers = {
     'Content-type': 'application/json',
