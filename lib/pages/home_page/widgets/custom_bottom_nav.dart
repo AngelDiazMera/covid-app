@@ -26,6 +26,9 @@ class _CustomButtonNavigationBarState extends State<CustomButtonNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.selectedIndex != currentIndex)
+      setState(() => currentIndex = widget.selectedIndex);
+
     return Container(
       margin: EdgeInsets.all(15),
       decoration: BoxDecoration(
