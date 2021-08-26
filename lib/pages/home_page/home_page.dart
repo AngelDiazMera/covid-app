@@ -1,10 +1,9 @@
-import 'package:covserver/pages/symptoms/symptoms_page.dart';
+import 'package:covserver/pages/history/history_page.dart';
 import 'package:covserver/services/providers/new_user_provider.dart';
 import 'package:covserver/widgets/init_dev_dialog.dart';
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:local_auth/local_auth.dart';
 
 import 'package:covserver/services/api/requests.dart';
 import 'package:covserver/services/auth/my_user.dart';
@@ -16,7 +15,6 @@ import 'package:covserver/pages/my_account/my_account.dart';
 import 'package:covserver/pages/new_user/new_user_page.dart';
 import 'package:covserver/pages/home_page/widgets/custom_bottom_nav.dart';
 import 'package:covserver/pages/home_page/widgets/alert_no_internet.dart';
-import 'package:covserver/pages/infected/infected_page.dart';
 import 'package:covserver/widgets/violet_background.dart';
 import 'package:provider/provider.dart';
 
@@ -102,7 +100,7 @@ class _HomePageState extends State<HomePage> {
   _checkBiometrics() async {
     final hasBiometrics = await LocalAuthApi.hasBiometrics();
     if (hasBiometrics == true) {
-      setState(() => _hasBiometrics = true);
+      // setState(() => _hasBiometrics = true);
     } else {
       setState(() => _hasBiometrics = false);
     }
@@ -163,7 +161,8 @@ class _HomePageState extends State<HomePage> {
     if (newUserHandler.isNew && myUser!.email == '') return NewUserPage();
     _getDataByAPI();
     _selectedPages = <Widget>[
-      SymptomsPage(),
+      // SymptomsPage(),
+      HistoryPage(),
       MyAccountPage(changeToDarkMode: widget.changeToDarkMode),
       SettingsPage(),
     ];

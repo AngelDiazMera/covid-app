@@ -7,7 +7,7 @@ import 'package:covserver/services/providers/health_condition_provider.dart';
 import 'package:covserver/widgets/settings_header.dart';
 import 'package:covserver/widgets/super_fab.dart';
 import 'package:flutter/material.dart';
-import 'package:covserver/pages/symptoms/widgets/text_symptom.dart';
+import 'package:covserver/widgets/text_symptom.dart';
 import 'package:covserver/pages/symptoms/widgets/symptoms_form.dart';
 import 'package:provider/provider.dart';
 
