@@ -1,4 +1,3 @@
-import 'package:covserver/config/theme.dart';
 import 'package:covserver/models/symptoms_user.dart';
 import 'package:covserver/pages/symptoms/widgets/alert_covid_register.dart';
 import 'package:covserver/pages/symptoms/widgets/alert_periodic_record.dart';

@@ -1,5 +1,6 @@
 import 'package:covserver/config/theme.dart';
 import 'package:covserver/models/history_model.dart';
+import 'package:covserver/pages/symptom_history/symptom_history.dart';
 import 'package:flutter/material.dart';
 
 class NewRegisterButton extends StatelessWidget {
@@ -24,7 +25,10 @@ class NewRegisterButton extends StatelessWidget {
         ),
         onPrimary: applicationColors['font_light']!.withOpacity(0.75),
       ),
-      onPressed: this.onPressed,
+      onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SymptomHistory(history: history))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

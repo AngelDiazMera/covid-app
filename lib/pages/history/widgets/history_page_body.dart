@@ -2,6 +2,7 @@ import 'package:covserver/config/theme.dart';
 import 'package:covserver/models/history_model.dart';
 import 'package:covserver/services/database/db.dart';
 import 'package:covserver/services/providers/history_provider.dart';
+import 'package:covserver/widgets/recommendations_button.dart';
 import 'package:covserver/widgets/text_symptom.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -34,19 +35,6 @@ class _HistoryPageBodyState extends State<HistoryPageBody> {
     });
   }
 
-  Widget _buildRecomButton() => TextButton(
-      onPressed: () {},
-      child: Text(
-        'Ver recomendaciones',
-        style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-            color: applicationColors['medium_purple']),
-      ),
-      style: TextButton.styleFrom(
-        primary: applicationColors['background_dark_2'],
-      ));
-
   Widget _buildEmpty() {
     return Container(
       margin: EdgeInsets.all(35),
@@ -65,7 +53,7 @@ class _HistoryPageBodyState extends State<HistoryPageBody> {
                 fontSize: 16,
               ),
             ),
-            _buildRecomButton()
+            RecommendationsButton()
           ],
         ),
       ),
@@ -91,7 +79,7 @@ class _HistoryPageBodyState extends State<HistoryPageBody> {
       )
       ..add(SizedBox(height: 15)));
 
-    body.add(_buildRecomButton());
+    body.add(RecommendationsButton());
 
     return ListView(
       padding: EdgeInsets.only(top: 25, left: 35, right: 35, bottom: 85),
