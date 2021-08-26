@@ -26,8 +26,8 @@ class CovidKnowMore extends StatelessWidget {
           begin: Alignment.bottomRight,
           end: Alignment.topLeft,
           colors: [
-            Color.fromRGBO(57, 72, 235, 1),
-            Color.fromRGBO(99, 109, 240, 1),
+            Color.fromRGBO(126, 56, 183, 1),
+            Color.fromRGBO(102, 49, 167, 1),
           ],
         ),
         borderRadius: BorderRadius.circular(15),
@@ -57,7 +57,7 @@ class CovidKnowMore extends StatelessWidget {
                   TextButton(
                     style: TextButton.styleFrom(
                         primary: Colors.white,
-                        backgroundColor: Color.fromRGBO(53, 66, 235, 1)),
+                        backgroundColor: Color.fromRGBO(90, 45, 156, 1)),
                     onPressed: () => launchURL(url),
                     child: Text(
                       'Saber más',
