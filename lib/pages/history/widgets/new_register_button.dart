@@ -1,20 +1,19 @@
 import 'package:covserver/config/theme.dart';
+import 'package:covserver/models/history_model.dart';
 import 'package:flutter/material.dart';
 
 class NewRegisterButton extends StatelessWidget {
   final void Function() onPressed;
-  final DateTime time;
-  final String risk;
+  final HistoryModel history;
 
   const NewRegisterButton(
-      {Key? key,
-      required this.onPressed,
-      required this.time,
-      required this.risk})
+      {Key? key, required this.onPressed, required this.history})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var splitedDate = this.history.time.toString().split(' ');
+
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         elevation: 0,
@@ -35,13 +34,13 @@ class NewRegisterButton extends StatelessWidget {
               Row(children: [
                 Icon(Icons.calendar_today_rounded),
                 SizedBox(width: 5),
-                Text('24/08/2021')
+                Text(splitedDate[0])
               ]),
               SizedBox(height: 5),
               Row(children: [
                 Icon(Icons.watch_later_outlined),
                 SizedBox(width: 5),
-                Text('18:13 p.m.')
+                Text(splitedDate[1].substring(0, 5))
               ])
             ],
           ),
@@ -51,23 +50,11 @@ class NewRegisterButton extends StatelessWidget {
                 Icons.radio_button_checked_rounded,
               ),
               SizedBox(width: 5),
-              Text('Sin síntomas'),
+              Text(this.history.parsedStatus),
             ],
           )
         ],
       ),
     );
-    // return Ink(
-    //   decoration: ShapeDecoration(
-    //     shape: RoundedRectangleBorder(
-    //       borderRadius: BorderRadius.circular(18),
-    //     ),
-    //     color: Colors.amber,
-    //   ),
-    //   child: IconButton(
-    //     onPressed: () {},
-    //     icon: Icon(Icons.add),
-    //   ),
-    // );
   }
 }

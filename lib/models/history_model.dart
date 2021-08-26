@@ -4,6 +4,15 @@ class HistoryModel {
   String status; // none, risk, infected
   String symptoms; // symptom1, symptom2, etc...
 
+  String get parsedStatus {
+    Map<String, String> parser = {
+      'none': 'Sin síntomas',
+      'risk': 'En riesgo',
+      'infected': 'Contagiado',
+    };
+    return parser[status]!;
+  }
+
   HistoryModel({
     this.id,
     required this.time,
@@ -22,7 +31,7 @@ class HistoryModel {
 
   Map<String, dynamic> toJson() => {
         'id': this.id,
-        'time': this.time.toUtc(),
+        'time': this.time.toUtc().toString(),
         'status': this.status,
         'symptoms': this.symptoms,
       };

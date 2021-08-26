@@ -13,6 +13,8 @@ class HealthCondition with ChangeNotifier {
     return _parser[_healthCondition] ?? 'Sin riesgo';
   }
 
+  String get notParsed => _healthCondition;
+
   set healthCondition(String hc) {
     _healthCondition = hc;
     notifyListeners();

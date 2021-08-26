@@ -1,8 +1,11 @@
 import 'package:covserver/config/theme.dart';
+import 'package:covserver/models/history_model.dart';
 import 'package:covserver/models/symptoms_user.dart';
 import 'package:covserver/services/api/requests_symptom.dart';
 import 'package:covserver/services/preferences/preferences.dart';
 import 'package:covserver/services/providers/health_condition_provider.dart';
+import 'package:covserver/services/providers/history_provider.dart';
+import 'package:covserver/utils/handle_history_save.dart';
 import 'package:covserver/utils/handle_notification_risk.dart';
 import 'package:covserver/widgets/custom_text_form_field.dart';
 import 'package:covserver/widgets/loader.dart';
@@ -35,7 +38,7 @@ class _AlertQuarantineState extends State<AlertQuarantine> {
     });
   }
 
-  Future<void> _makeRequest(HealthCondition hc) async {
+  Future<void> _makeRequest(HealthCondition hc, HistoryProvider hp) async {
     if (loading) return;
     setState(() => loading = true);
 
@@ -45,8 +48,16 @@ class _AlertQuarantineState extends State<AlertQuarantine> {
       sympUs.symptomsDate = widget.symptomsUser.symptomsDate;
     }
 
-    bool updatedSymp =
-        await saveSymptoms(newSymptom: sympUs, healthCondition: 'risk');
+    ////////////////////////////
+    HistoryModel? history =
+        await handleHistorySave(widget.symptomsUser, 'risk');
+    if (history == null) return;
+    hp.addRegister(history);
+    ////////////////////////////
+
+    // TODO: checar esta implementación
+    bool updatedSymp = true;
+    //await saveSymptoms(newSymptom: sympUs, healthCondition: 'risk');
 
     if (!updatedSymp) {
       setState(() {
@@ -56,9 +67,9 @@ class _AlertQuarantineState extends State<AlertQuarantine> {
       return;
     }
 
-    Preferences.myPrefs.setSymptoms(widget.symptomsUser.symptoms,
-        remarks: remarks,
-        symptomsDate: widget.symptomsUser.symptomsDate?.toUtc().toString());
+    // Preferences.myPrefs.setSymptoms(widget.symptomsUser.symptoms,
+    //     remarks: remarks,
+    //     symptomsDate: widget.symptomsUser.symptomsDate?.toUtc().toString());
 
     setState(() {
       finish = true;
@@ -77,6 +88,7 @@ class _AlertQuarantineState extends State<AlertQuarantine> {
   @override
   Widget build(BuildContext context) {
     final hc = Provider.of<HealthCondition>(context);
+    final hp = Provider.of<HistoryProvider>(context);
 
     return AlertDialog(
       content: Column(
@@ -189,7 +201,7 @@ class _AlertQuarantineState extends State<AlertQuarantine> {
               ? [
                   TextButton(
                     onPressed: () {
-                      Navigator.pop(context, 'CANCEL');
+                      Navigator.of(context).popUntil(ModalRoute.withName('/'));
                     },
                     child: Text(
                       "Está bien",
@@ -218,7 +230,7 @@ class _AlertQuarantineState extends State<AlertQuarantine> {
                       ),
                       TextButton(
                         onPressed: () async {
-                          await _makeRequest(hc);
+                          await _makeRequest(hc, hp);
                           handleNotificationRisk(context, hc);
                         },
                         child: Text(

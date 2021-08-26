@@ -1,11 +1,12 @@
 import 'package:covserver/config/theme.dart';
-import 'package:covserver/data/symptoms.dart';
+import 'package:covserver/models/history_model.dart';
 import 'package:covserver/models/symptoms_user.dart';
 import 'package:covserver/services/api/requests.dart';
 import 'package:covserver/services/api/requests_symptom.dart';
 import 'package:covserver/services/preferences/preferences.dart';
 import 'package:covserver/services/providers/health_condition_provider.dart';
-import 'package:covserver/widgets/custom_form.dart';
+import 'package:covserver/services/providers/history_provider.dart';
+import 'package:covserver/utils/handle_history_save.dart';
 import 'package:covserver/widgets/custom_text_form_field.dart';
 import 'package:covserver/widgets/date_picker_form.dart';
 import 'package:covserver/widgets/loader.dart';
@@ -36,7 +37,7 @@ class _AlertCovidRegisterState extends State<AlertCovidRegister> {
   String remarks = '';
   final _controllerCovid = TextEditingController();
 
-  Future<void> _makeRequest(HealthCondition hc) async {
+  Future<void> _makeRequest(HealthCondition hc, HistoryProvider hp) async {
     if (loading) return;
     setState(() => loading = true);
 
@@ -47,8 +48,15 @@ class _AlertCovidRegisterState extends State<AlertCovidRegister> {
       sympUs.symptomsDate = widget.symptomsUser.symptomsDate;
     }
 
-    bool updatedSymp =
-        await saveSymptoms(newSymptom: sympUs, healthCondition: 'infected');
+    ////////////////////////////
+    HistoryModel? history =
+        await handleHistorySave(widget.symptomsUser, 'infected');
+    if (history == null) return;
+    hp.addRegister(history);
+    ////////////////////////////
+
+    bool updatedSymp = true;
+    /*await saveSymptoms(newSymptom: sympUs, healthCondition: 'infected');
 
     if (!updatedSymp) {
       setState(() {
@@ -56,7 +64,7 @@ class _AlertCovidRegisterState extends State<AlertCovidRegister> {
         loading = false;
       });
       return;
-    }
+    }*/
 
     await notifyInfected(
         anonym: false,
@@ -107,6 +115,7 @@ class _AlertCovidRegisterState extends State<AlertCovidRegister> {
   Widget build(BuildContext context) {
     // print(widget.symptomsUser);
     final hc = Provider.of<HealthCondition>(context);
+    final hp = Provider.of<HistoryProvider>(context);
 
     // TODO: VALIDAR SI YA ESTÁ INFECTADO
 
@@ -275,7 +284,7 @@ class _AlertCovidRegisterState extends State<AlertCovidRegister> {
                                 );
                                 return;
                               }
-                              await _makeRequest(hc);
+                              await _makeRequest(hc, hp);
                               // widget.onAccepted();
                               // Navigator.pop(context);
                             },

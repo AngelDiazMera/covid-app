@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:covserver/models/history.dart';
+import 'package:covserver/models/history_model.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -24,7 +24,7 @@ class DBProvider {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     final path = join(documentsDirectory.path,
         'CovServer_history.db'); // Para unir pedazos del path
-    print(path);
+    print('PATH de la BD: $path');
     // Crear nase de datos
     return await openDatabase(
       path,
@@ -52,10 +52,11 @@ class DBProvider {
     return resMascota;
   }
 
-  Future<List<Map<String, dynamic>>> getCompleteHistory() async {
+  Future<List<HistoryModel>> getCompleteHistory() async {
     final db = await database;
     final res = await db.rawQuery('''SELECT * FROM History''');
-    return res.isNotEmpty ? res : [];
+    final models = res.map((elem) => new HistoryModel.fromJson(elem)).toList();
+    return models.isNotEmpty ? models : [];
   }
 
   // DELETE
@@ -66,13 +67,13 @@ class DBProvider {
   }
 
   //DELETE
-  Future<int> deleteBeforeThisMonth(int id) async {
+  Future<int> deleteBeforeThisMonth() async {
     var monthBefore = DateTime.now().subtract(Duration(days: 31));
 
     final db = await database;
     final res = await db.delete('History',
         where: 'date(History.time) <= Date(?)',
-        whereArgs: [monthBefore.toUtc()]);
+        whereArgs: ['${monthBefore.toUtc()}']);
     return res;
   }
 

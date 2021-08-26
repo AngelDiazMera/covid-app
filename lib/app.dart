@@ -1,5 +1,6 @@
 import 'package:covserver/config/routes.dart';
 import 'package:covserver/services/providers/health_condition_provider.dart';
+import 'package:covserver/services/providers/history_provider.dart';
 import 'package:covserver/services/providers/need_hc_update_provider.dart';
 import 'package:covserver/services/providers/new_user_provider.dart';
 import 'package:covserver/widgets/alert_no_infection.dart';
@@ -67,6 +68,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => HealthCondition()),
         ChangeNotifierProvider(create: (context) => NeedHcUpdate()),
         ChangeNotifierProvider(create: (context) => NewUserHandler()),
+        ChangeNotifierProvider(create: (context) => HistoryProvider()),
       ],
       child: MaterialApp(
         // General

@@ -1,4 +1,5 @@
 import 'package:covserver/pages/history/history_page.dart';
+import 'package:covserver/services/database/db.dart';
 import 'package:covserver/services/providers/new_user_provider.dart';
 import 'package:covserver/widgets/init_dev_dialog.dart';
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
@@ -113,6 +114,7 @@ class _HomePageState extends State<HomePage> {
 
     if (!_loading) {
       _checkBiometrics();
+      DBProvider.db.deleteBeforeThisMonth();
       if (_hasBiometrics && !_isNew) {
         return _drawFingerAuth(context, newUserHandler);
       } else {

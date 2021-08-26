@@ -1,6 +1,7 @@
 import 'package:covserver/config/theme.dart';
 import 'package:covserver/models/symptoms_user.dart';
 import 'package:covserver/pages/symptoms/widgets/alert_covid_register.dart';
+import 'package:covserver/pages/symptoms/widgets/alert_periodic_record.dart';
 import 'package:covserver/pages/symptoms/widgets/alert_quarantine.dart';
 import 'package:covserver/services/preferences/preferences.dart';
 import 'package:covserver/services/providers/health_condition_provider.dart';
@@ -31,7 +32,7 @@ class _SymptomsPageState extends State<SymptomsPage> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(85),
-        child: SettingsHeader(name: 'Síntomas'),
+        child: SettingsHeader(name: 'Síntomas', needGoBack: true),
       ),
       body: SafeArea(
         child: Stack(
@@ -71,31 +72,6 @@ class _SymptomsPageState extends State<SymptomsPage> {
                   children: [
                     ActionButton(
                       title: Text(
-                        'Ver recomendaciones',
-                        style: TextStyle(fontSize: 15),
-                      ),
-                      onPressed: () =>
-                          Navigator.pushNamed(context, '/recommendations'),
-                      icon: Icon(Icons.library_books),
-                    ),
-                    ActionButton(
-                      title: Text(
-                        'Ponerme en cuarentena',
-                        style: TextStyle(fontSize: 15),
-                      ),
-                      onPressed: () {
-                        showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (context) => AlertQuarantine(
-                            symptomsUser: _symptomsUser,
-                          ),
-                        );
-                      }, //{setState(() => saveSymptoms = true)},
-                      icon: Icon(Icons.timelapse_rounded),
-                    ),
-                    ActionButton(
-                      title: Text(
                         'Estoy contagiado',
                         style: TextStyle(fontSize: 15),
                       ),
@@ -113,6 +89,38 @@ class _SymptomsPageState extends State<SymptomsPage> {
                       },
                       // Navigator.pushNamed(context, '/register_covid'),
                       icon: Icon(Icons.sick),
+                    ),
+                    ActionButton(
+                      title: Text(
+                        'Me siento en riesgo',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      onPressed: () {
+                        showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (context) => AlertQuarantine(
+                            symptomsUser: _symptomsUser,
+                          ),
+                        );
+                      }, //{setState(() => saveSymptoms = true)},
+                      icon: Icon(Icons.timelapse_rounded),
+                    ),
+                    ActionButton(
+                      title: Text(
+                        'Registro periódico',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      onPressed: () {
+                        showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (context) => AlertPeriodicRecord(
+                            symptomsUser: _symptomsUser,
+                          ),
+                        );
+                      },
+                      icon: Icon(Icons.save_rounded),
                     ),
                   ],
                 ),
