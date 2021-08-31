@@ -54,7 +54,7 @@ dev_dependencies:
 
 # run: flutter pub run flutter_native_splash:create
 flutter_native_splash:
-  color: "#5560E9"
+  color: "#6631A7"
   image: assets/native_screen_logo.png
   android: true
   ios: true
