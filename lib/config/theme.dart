@@ -14,24 +14,24 @@ Map<String, Color> applicationColors = <String, Color>{
   'font_light': Color.fromRGBO(38, 38, 38, 1),
   'yellow_light': Color.fromRGBO(252, 227, 196, 1),
   //Common
-  'dark_purple': Color.fromRGBO(53, 66, 235, 1),
-  'medium_purple': Color.fromRGBO(57, 72, 235, 1),
-  'light_purple': Color.fromRGBO(99, 109, 240, 1),
-  'lila': Color.fromRGBO(129, 137, 243, 1),
+  'dark_purple': Color.fromRGBO(90, 45, 156, 1),
+  'medium_purple': Color.fromRGBO(102, 49, 167, 1),
+  'light_purple': Color.fromRGBO(126, 56, 183, 1),
+  'lila': Color.fromRGBO(161, 103, 201, 1),
   'transparent': Color.fromRGBO(0, 0, 0, 0),
   'gray': Color.fromRGBO(235, 87, 101, 1),
 };
 
 var lightThemeData = new ThemeData(
-    primaryColor: Colors.blue,
+    primaryColor: Color.fromRGBO(102, 49, 167, 1),
     textTheme: new TextTheme(
         button: TextStyle(color: Colors.white70),
         bodyText2: TextStyle(color: applicationColors['font_light'])),
     brightness: Brightness.light,
-    accentColor: Colors.blue);
+    accentColor: Color.fromRGBO(102, 49, 167, 1));
 
 var darkThemeData = ThemeData(
-    primaryColor: Colors.blue,
+    primaryColor: Color.fromRGBO(102, 49, 167, 1),
     textTheme: new TextTheme(button: TextStyle(color: Colors.black54)),
     brightness: Brightness.dark,
-    accentColor: Colors.blue);
+    accentColor: Color.fromRGBO(102, 49, 167, 1));

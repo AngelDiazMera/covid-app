@@ -25,8 +25,8 @@ class SettingsHeader extends StatelessWidget {
             begin: Alignment.bottomRight,
             end: Alignment.topLeft,
             colors: [
-              Color.fromRGBO(57, 72, 235, 1),
-              Color.fromRGBO(99, 109, 240, 1),
+              Color.fromRGBO(102, 49, 167, 1),
+              Color.fromRGBO(126, 56, 183, 1),
             ],
           ),
           borderRadius: BorderRadius.only(

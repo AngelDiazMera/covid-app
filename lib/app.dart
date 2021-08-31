@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
     // Define the theme of the elments of the OS
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: Color.fromRGBO(53, 66, 235, 1),
+        statusBarColor: Color.fromRGBO(126, 56, 183, 1),
         systemNavigationBarColor: Colors.black87,
         statusBarBrightness: Brightness.light,
       ),

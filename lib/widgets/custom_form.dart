@@ -83,8 +83,8 @@ class _CustomFormState extends State<CustomForm> {
               end: Alignment.topLeft,
               stops: [0.3, 1],
               colors: [
-                Color.fromRGBO(250, 250, 250, 0.7),
-                Color.fromRGBO(250, 250, 250, 0.5)
+                Color.fromRGBO(126, 56, 183, 1),
+                Color.fromRGBO(102, 49, 167, 1),
               ],
             ),
             borderRadius: BorderRadius.circular(15),
