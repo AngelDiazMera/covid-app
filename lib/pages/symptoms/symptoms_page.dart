@@ -2,6 +2,7 @@ import 'package:covserver/models/symptoms_user.dart';
 import 'package:covserver/pages/symptoms/widgets/alert_covid_register.dart';
 import 'package:covserver/pages/symptoms/widgets/alert_periodic_record.dart';
 import 'package:covserver/pages/symptoms/widgets/alert_quarantine.dart';
+import 'package:covserver/pages/symptoms/widgets/alert_restablish.dart';
 import 'package:covserver/services/preferences/preferences.dart';
 import 'package:covserver/services/providers/health_condition_provider.dart';
 import 'package:covserver/widgets/loader.dart';
@@ -87,6 +88,21 @@ class _SymptomsPageState extends State<SymptomsPage> {
                   },
                   distance: 125.0,
                   children: [
+                    ActionButton(
+                      danger: true,
+                      title: Text(
+                        'Restablecer estado de salud',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      onPressed: () {
+                        showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (context) => AlertRestablish(),
+                        );
+                      }, //{setState(() => saveSymptoms = true)},
+                      icon: Icon(Icons.restart_alt_rounded),
+                    ),
                     ActionButton(
                       title: Text(
                         'Estoy contagiado',

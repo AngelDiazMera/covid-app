@@ -2,7 +2,6 @@ import 'package:covserver/config/theme.dart';
 import 'package:covserver/models/history_model.dart';
 import 'package:covserver/models/symptoms_user.dart';
 import 'package:covserver/services/api/requests.dart';
-import 'package:covserver/services/api/requests_symptom.dart';
 import 'package:covserver/services/preferences/preferences.dart';
 import 'package:covserver/services/providers/health_condition_provider.dart';
 import 'package:covserver/services/providers/history_provider.dart';
@@ -92,30 +91,6 @@ class _AlertCovidRegisterState extends State<AlertCovidRegister> {
     });
   }
 
-  Future<void> _cancelRequest(HealthCondition hc) async {
-    if (loading) return;
-    setState(() => loading = true);
-
-    // bool updatedSymp = await deleteSymptoms();
-
-    // if (!updatedSymp) {
-    //   setState(() {
-    //     reqError = true;
-    //     loading = false;
-    //   });
-    //   return;
-    // }
-
-    Preferences.myPrefs.deleteCovid();
-    Preferences.myPrefs.setNeedHCUpdate(false);
-
-    hc.healthCondition = 'healthy';
-    setState(() {
-      finish = true;
-      loading = false;
-    });
-  }
-
   @override
   void initState() {
     super.initState();
@@ -128,7 +103,7 @@ class _AlertCovidRegisterState extends State<AlertCovidRegister> {
     final hc = Provider.of<HealthCondition>(context);
     final hp = Provider.of<HistoryProvider>(context);
 
-    // TODO: VALIDAR SI YA ESTÁ INFECTADO
+    // TODO: VALIDAR SI YA ESTÁ CONTAGIADO
 
     return AlertDialog(
       content: loading // If it's loading
@@ -150,8 +125,7 @@ class _AlertCovidRegisterState extends State<AlertCovidRegister> {
                   ],
                 )
               : hc.healthCondition == 'Contagiado'
-                  ? Text(
-                      'Usted ya se encuentra contagiado por Covid 19, ¿Desea reiniciar su estado?',
+                  ? Text('Usted ya se encuentra contagiado por Covid 19.',
                       style: TextStyle(
                           color: applicationColors['font_light'], fontSize: 18))
                   : reqError
@@ -258,7 +232,7 @@ class _AlertCovidRegisterState extends State<AlertCovidRegister> {
                       ? [
                           TextButton(
                             onPressed: () async {
-                              await _cancelRequest(hc);
+                              // await _cancelRequest(hc);
                               Navigator.pop(context);
                             },
                             child: Text(

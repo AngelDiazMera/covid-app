@@ -12,7 +12,7 @@ class CalendarDialog extends StatelessWidget {
 
     List<Widget> columnBody = [
       Text(
-          'Entre la fecha de visita de usted o el infectado y dos horas después.')
+          'Entre la fecha de visita de usted o el contagiado y dos horas después.')
     ];
     eachDates.forEach((date) {
       List<String> splDate = date.split(' ');

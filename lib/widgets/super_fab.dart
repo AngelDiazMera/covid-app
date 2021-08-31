@@ -173,7 +173,7 @@ class _ExpandingActionButton extends StatelessWidget {
       builder: (context, child) {
         final offset = Offset.fromDirection(
           90 * (pi / 180.0),
-          progress.value * maxDistance * directionInDegrees / 5 +
+          progress.value * maxDistance * directionInDegrees / 7 +
               65 * progress.value,
         );
         return Positioned(
@@ -199,11 +199,13 @@ class ActionButton extends StatelessWidget {
     this.onPressed,
     required this.icon,
     required this.title,
+    this.danger = false,
   }) : super(key: key);
 
   final VoidCallback? onPressed;
   final Widget icon;
   final Widget title;
+  final bool danger;
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +227,9 @@ class ActionButton extends StatelessWidget {
         Material(
           shape: const CircleBorder(),
           clipBehavior: Clip.antiAlias,
-          color: applicationColors['light_purple'],
+          color: this.danger
+              ? applicationColors['gray']
+              : applicationColors['light_purple'],
           elevation: 4.0,
           child: IconTheme.merge(
             data: theme.accentIconTheme,

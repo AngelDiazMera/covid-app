@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
           builder: (context) => AlertNoInfection(),
         );
       // Show the snackbar into this context
-      // final snackBar = SnackBar(content: Text('Hubo un infectado'));
+      // final snackBar = SnackBar(content: Text('Hubo un contagiado'));
       // messengerKey.currentState.showSnackBar(snackBar);
     });
   }

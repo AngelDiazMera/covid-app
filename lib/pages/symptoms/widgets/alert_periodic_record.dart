@@ -100,19 +100,20 @@ class _AlertPeriodicRecordState extends State<AlertPeriodicRecord> {
                   : RichText(
                       text: TextSpan(children: [
                       TextSpan(
-                          text: 'El registro se almacenará en estado ',
+                          text:
+                              'El registro se almacenará en el estado actual (',
                           style: TextStyle(
                               color: applicationColors['font_light'],
                               fontSize: 18)),
                       TextSpan(
-                          text: 'sin riesgo',
+                          text: hc.healthCondition.toLowerCase(),
                           style: TextStyle(
                               color: applicationColors['font_light'],
                               fontSize: 18,
                               fontWeight: FontWeight.bold)),
                       TextSpan(
                           text:
-                              ' con los síntomas que haya seleccionado, ¿Desea continuar?.',
+                              ') con los síntomas que haya seleccionado, ¿Desea continuar?.',
                           style: TextStyle(
                               color: applicationColors['font_light'],
                               fontSize: 18))

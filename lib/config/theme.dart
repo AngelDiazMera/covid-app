@@ -18,7 +18,8 @@ Map<String, Color> applicationColors = <String, Color>{
   'medium_purple': Color.fromRGBO(57, 72, 235, 1),
   'light_purple': Color.fromRGBO(99, 109, 240, 1),
   'lila': Color.fromRGBO(129, 137, 243, 1),
-  'transparent': Color.fromRGBO(0, 0, 0, 0)
+  'transparent': Color.fromRGBO(0, 0, 0, 0),
+  'gray': Color.fromRGBO(235, 87, 101, 1),
 };
 
 var lightThemeData = new ThemeData(

@@ -22,7 +22,7 @@ class GetStartedPage extends StatelessWidget {
           ),
           SizedBox(height: 15),
           Text(
-            'Tu nuevo asistente de observación de infectados por Covid-19',
+            'Tu nuevo asistente de observación de contagios por Covid-19',
             style: TextStyle(color: Colors.white, fontSize: 16),
             textAlign: TextAlign.center,
           ),
