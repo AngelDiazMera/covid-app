@@ -95,7 +95,7 @@ class Preferences {
   }
 
   Future<bool> canMakeHistory() async {
-    return true;
+    // return true;
     SharedPreferences prefs = await this.prefs;
     DateTime today = DateTime.now();
 
