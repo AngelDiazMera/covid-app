@@ -36,21 +36,21 @@ Future<bool> saveSymptoms({
 }
 
 /// Save symtoms on server's database
-Future<bool> deleteSymptoms({
-  Function? onError,
-}) async {
-  try {
-    http.Response response = await Api.delete('/symptoms/mine');
+// Future<bool> deleteSymptoms({
+//   Function? onError,
+// }) async {
+//   try {
+//     http.Response response = await Api.delete('/symptoms/mine');
 
-    Map resMap = json.decode(response.body);
-    print(resMap);
-    // When the user logged successfully
-    if (response.statusCode == 200) return true;
+//     Map resMap = json.decode(response.body);
+//     print(resMap);
+//     // When the user logged successfully
+//     if (response.statusCode == 200) return true;
 
-    // Otherwise, onError will be called
-    if (onError != null) onError(json.decode(response.body)['msg']);
-  } catch (error) {
-    if (onError != null) onError('Ocurrió un problema con el servidor: $error');
-  }
-  return false;
-}
+//     // Otherwise, onError will be called
+//     if (onError != null) onError(json.decode(response.body)['msg']);
+//   } catch (error) {
+//     if (onError != null) onError('Ocurrió un problema con el servidor: $error');
+//   }
+//   return false;
+// }

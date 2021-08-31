@@ -82,7 +82,7 @@ class _LoginFormState extends State<LoginForm> {
             onPressed: () =>
                 _isRequesting ? null : _signIn(context, newUserHandler),
             child: Text(
-              'Ingresar',
+              _isRequesting ? 'Cargando...' : 'Ingresar',
               style: TextStyle(fontSize: 14),
             ),
             style: TextButton.styleFrom(

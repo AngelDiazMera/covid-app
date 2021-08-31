@@ -41,25 +41,11 @@ class _AlertQuarantineState extends State<AlertQuarantine> {
   Future<void> _makeRequest(HealthCondition hc, HistoryProvider hp) async {
     if (loading) return;
     setState(() => loading = true);
-
-    SymptomsUser sympUs = SymptomsUser(remarks: remarks, isCovid: false);
-    if (areSympEmpty) {
-      sympUs.symptoms = widget.symptomsUser.symptoms;
-      sympUs.symptomsDate = widget.symptomsUser.symptomsDate;
-    }
-
-    ////////////////////////////
-    HistoryModel? history =
-        await handleHistorySave(widget.symptomsUser, 'risk');
-    if (history == null) return;
-    hp.addRegister(history);
-    ////////////////////////////
-
-    // TODO: checar esta implementación
-    bool updatedSymp = true;
-    //await saveSymptoms(newSymptom: sympUs, healthCondition: 'risk');
-
-    if (!updatedSymp) {
+    // verify if the user has exceeded 3 attempts per day limit
+    var isAvailable = await Preferences.myPrefs.canMakeHistory();
+    if (!isAvailable) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Sólo puede hacer 3 registros por día.')));
       setState(() {
         reqError = true;
         loading = false;
@@ -67,13 +53,37 @@ class _AlertQuarantineState extends State<AlertQuarantine> {
       return;
     }
 
+    SymptomsUser sympUs = SymptomsUser(remarks: remarks, isCovid: false);
+    if (areSympEmpty) {
+      sympUs.symptoms = widget.symptomsUser.symptoms;
+      sympUs.symptomsDate = widget.symptomsUser.symptomsDate;
+    }
+
+    //await saveSymptoms(newSymptom: sympUs, healthCondition: 'risk');
+
+    // Call to endpoint. If call is successful, saves on the database
+    // and returns an HistoryModel instance. Else, return null;
+    HistoryModel? history =
+        await handleHistorySave(widget.symptomsUser, 'risk');
+    if (history == null) {
+      setState(() {
+        reqError = true;
+        loading = false;
+      });
+      return;
+    }
+    // Global state update
+    hp.addRegister(history);
+
     // Preferences.myPrefs.setSymptoms(widget.symptomsUser.symptoms,
     //     remarks: remarks,
     //     symptomsDate: widget.symptomsUser.symptomsDate?.toUtc().toString());
 
+    // End of the call
     setState(() {
       finish = true;
       loading = false;
+      reqError = false;
       hcState = 'risk';
     });
   }

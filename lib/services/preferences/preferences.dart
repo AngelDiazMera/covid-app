@@ -94,6 +94,26 @@ class Preferences {
     prefs.setBool('needHCUpdate', isNeeded);
   }
 
+  Future<bool> canMakeHistory() async {
+    SharedPreferences prefs = await this.prefs;
+    DateTime today = DateTime.now();
+
+    int attempts = prefs.getInt('historyAttempts') ?? 0;
+    if (attempts < 3) {
+      prefs.setString('lastHistoryAttemptDate', today.toUtc().toString());
+      prefs.setInt('historyAttempts', attempts + 1);
+      return true;
+    }
+    var queryDay = DateTime.parse(
+        prefs.getString('lastHistoryAttemptDate') ?? today.toUtc().toString());
+    print('COMPARANDO DIAS: ${today.day} con ${queryDay.day}');
+    if (today.day != queryDay.day) {
+      prefs.setInt('historyAttempts', 0);
+      return canMakeHistory();
+    }
+    return false;
+  }
+
   Future<List<String>> getSymptoms() async {
     SharedPreferences prefs = await this.prefs;
     return prefs.getStringList('symptoms') ?? [];

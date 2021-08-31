@@ -40,6 +40,17 @@ class _AlertCovidRegisterState extends State<AlertCovidRegister> {
   Future<void> _makeRequest(HealthCondition hc, HistoryProvider hp) async {
     if (loading) return;
     setState(() => loading = true);
+    // verify if the user has exceeded 3 attempts per day limit
+    var isAvailable = await Preferences.myPrefs.canMakeHistory();
+    if (!isAvailable) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Sólo puede hacer 3 registros por día.')));
+      setState(() {
+        reqError = true;
+        loading = false;
+      });
+      return;
+    }
 
     SymptomsUser sympUs =
         SymptomsUser(covidDate: covidDate, remarks: remarks, isCovid: true);
@@ -48,35 +59,35 @@ class _AlertCovidRegisterState extends State<AlertCovidRegister> {
       sympUs.symptomsDate = widget.symptomsUser.symptomsDate;
     }
 
-    ////////////////////////////
+    // Call to endpoint. If call is successful, saves on the database
+    // and returns an HistoryModel instance. Else, return null;
     HistoryModel? history =
         await handleHistorySave(widget.symptomsUser, 'infected');
-    if (history == null) return;
-    hp.addRegister(history);
-    ////////////////////////////
-
-    bool updatedSymp = true;
-    /*await saveSymptoms(newSymptom: sympUs, healthCondition: 'infected');
-
-    if (!updatedSymp) {
+    if (history == null) {
       setState(() {
         reqError = true;
         loading = false;
       });
       return;
-    }*/
+    }
+    // Global state update
+    hp.addRegister(history);
 
+    // Notify to group
     await notifyInfected(
         anonym: false,
         symptomsDate: covidDate!,
         onError: (String error) => print(error));
-
+    // Set covid
     Preferences.myPrefs.setCovid(true, covidDate!.toUtc().toString());
     Preferences.myPrefs.setNeedHCUpdate(false);
 
+    // Global state update
     hc.healthCondition = 'infected';
+    // End of the call
     setState(() {
       finish = true;
+      reqError = false;
       loading = false;
     });
   }
@@ -85,15 +96,15 @@ class _AlertCovidRegisterState extends State<AlertCovidRegister> {
     if (loading) return;
     setState(() => loading = true);
 
-    bool updatedSymp = await deleteSymptoms();
+    // bool updatedSymp = await deleteSymptoms();
 
-    if (!updatedSymp) {
-      setState(() {
-        reqError = true;
-        loading = false;
-      });
-      return;
-    }
+    // if (!updatedSymp) {
+    //   setState(() {
+    //     reqError = true;
+    //     loading = false;
+    //   });
+    //   return;
+    // }
 
     Preferences.myPrefs.deleteCovid();
     Preferences.myPrefs.setNeedHCUpdate(false);

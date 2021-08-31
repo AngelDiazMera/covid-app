@@ -4,6 +4,7 @@ import 'package:covserver/pages/symptoms/widgets/alert_periodic_record.dart';
 import 'package:covserver/pages/symptoms/widgets/alert_quarantine.dart';
 import 'package:covserver/services/preferences/preferences.dart';
 import 'package:covserver/services/providers/health_condition_provider.dart';
+import 'package:covserver/widgets/loader.dart';
 import 'package:covserver/widgets/settings_header.dart';
 import 'package:covserver/widgets/super_fab.dart';
 import 'package:flutter/material.dart';
@@ -23,10 +24,27 @@ class SymptomsPage extends StatefulWidget {
 class _SymptomsPageState extends State<SymptomsPage> {
   SymptomsUser _symptomsUser = new SymptomsUser();
   bool saveSymptoms = false;
+  bool loading = true;
+
+  void _init() async {
+    List<String> temp = await Preferences.myPrefs.getSymptoms();
+    setState(() {
+      _symptomsUser.symptoms = temp;
+      loading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _init();
+  }
 
   @override
   Widget build(BuildContext context) {
     final hc = Provider.of<HealthCondition>(context);
+
+    if (loading) return Scaffold();
 
     return Scaffold(
       appBar: PreferredSize(

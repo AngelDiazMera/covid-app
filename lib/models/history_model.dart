@@ -6,7 +6,7 @@ class HistoryModel {
 
   String get parsedStatus {
     Map<String, String> parser = {
-      'none': 'Sin síntomas',
+      'none': 'Riesgo bajo',
       'risk': 'En riesgo',
       'infected': 'Contagiado',
     };

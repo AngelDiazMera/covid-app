@@ -34,25 +34,22 @@ class SymptomForm extends StatefulWidget {
 }
 
 class _SymptomFormState extends State<SymptomForm> {
-  SymptomsUser _symptomsUser = SymptomsUser();
   CheckedSymptoms checkedSymptoms = CheckedSymptoms();
   bool loading = false;
   bool connectionFailed = false;
   String fechaSymptom = '';
 
   final _controllerSymptom = TextEditingController();
-  List<String> symptoms = [];
+  // List<String> symptoms = [];
   String symptomsDate = '';
-
-  void _init() async {
-    List<String> temp = await Preferences.myPrefs.getSymptoms();
-    setState(() => symptoms = temp);
-  }
 
   @override
   void initState() {
+    // symptoms = List<String>.from(widget.symptomsUser.symptoms);
+
+    // print('DE FORM init: ${widget.symptomsUser.symptoms}');
     super.initState();
-    _init();
+    // print(widget.symptomsUser.symptoms);
   }
 
   List<Widget> _drawBody() {
@@ -62,15 +59,15 @@ class _SymptomFormState extends State<SymptomForm> {
         .map<Widget>((symptom) => CheckBoxListTile(
             symptom: symptom.name,
             image: symptom.asset,
-            checked: symptoms.contains(symptom.name),
+            checked: widget.symptomsUser.symptoms.contains(symptom.name),
             onChanged: (bool? value) {
               setState(() {
                 if (value!)
-                  symptoms.add(symptom.name);
+                  widget.symptomsUser.symptoms.add(symptom.name);
                 else
-                  symptoms.remove(symptom.name);
-                widget.symptomsUser.symptoms = symptoms;
-                Preferences.myPrefs.setSymptoms(symptoms);
+                  widget.symptomsUser.symptoms.remove(symptom.name);
+
+                Preferences.myPrefs.setSymptoms(widget.symptomsUser.symptoms);
                 // Preferences.myPrefs
                 //     .setChecked(checkedSymptoms.nameFever, value);
               });
@@ -109,11 +106,11 @@ class _SymptomFormState extends State<SymptomForm> {
   Widget build(BuildContext context) {
     List<Widget> columnBody = _drawBody();
 
-    if (widget.trigger) {
-      Preferences.myPrefs.setSymptoms(symptoms, symptomsDate: symptomsDate);
-      print('$symptoms, $symptomsDate');
-      widget.setTrigger(false);
-    }
+    // if (widget.trigger) {
+    //   Preferences.myPrefs.setSymptoms(symptoms, symptomsDate: symptomsDate);
+    //   print('$symptoms, $symptomsDate');
+    //   widget.setTrigger(false);
+    // }
 
     return Container(
       margin: EdgeInsets.only(
