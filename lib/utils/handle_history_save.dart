@@ -2,18 +2,12 @@ import 'package:covserver/models/history_model.dart';
 import 'package:covserver/models/symptoms_user.dart';
 import 'package:covserver/services/api/requests_symptom.dart';
 import 'package:covserver/services/database/db.dart';
-import 'package:covserver/services/preferences/preferences.dart';
-import 'package:timezone/timezone.dart' as tz;
-
-import 'package:flutter/material.dart';
+import 'package:covserver/utils/date_modifiers.dart';
 
 Future<HistoryModel?> handleHistorySave(
     SymptomsUser symptomsUser, String status) async {
   var sympStr = '${symptomsUser.symptoms}';
-  var time = DateTime.now();
-
-  var mexicoCity = tz.getLocation('America/Mexico_City');
-  var tztime = tz.TZDateTime.from(time, mexicoCity);
+  var tztime = getToday();
 
   HistoryModel history = new HistoryModel(
       time: tztime,

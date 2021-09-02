@@ -29,7 +29,11 @@ class _SymptomsPageState extends State<SymptomsPage> {
 
   void _init() async {
     List<String> temp = await Preferences.myPrefs.getSymptoms();
+    String? symptomsDate = await Preferences.myPrefs.getSymptomsDate();
     setState(() {
+      _symptomsUser.symptomsDate = symptomsDate != null && symptomsDate != ''
+          ? DateTime.parse(symptomsDate)
+          : null;
       _symptomsUser.symptoms = temp;
       loading = false;
     });

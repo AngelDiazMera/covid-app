@@ -3,7 +3,6 @@ import 'package:covserver/services/api/requests.dart';
 import 'package:covserver/services/firebase/push_notification_service.dart';
 import 'package:covserver/services/preferences/preferences.dart';
 import 'package:covserver/services/providers/health_condition_provider.dart';
-import 'package:covserver/services/providers/need_hc_update_provider.dart';
 import 'package:flutter/material.dart';
 
 /// Handle the tap action of a user into the button 'Estoy en riesgo'.

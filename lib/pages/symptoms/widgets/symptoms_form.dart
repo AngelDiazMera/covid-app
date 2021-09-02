@@ -43,8 +43,28 @@ class _SymptomFormState extends State<SymptomForm> {
   // List<String> symptoms = [];
   String symptomsDate = '';
 
+  String formatDate(DateTime? picked) {
+    if (picked == null) return '';
+    const dateParser = [
+      'enero',
+      'febrero',
+      'marzo',
+      'abril',
+      'mayo',
+      'junio',
+      'julio',
+      'agosto',
+      'septiembre',
+      'octubre',
+      'noviembre',
+      'diciembre'
+    ];
+    return '${picked.day} de ${dateParser[picked.month - 1]} del ${picked.year}';
+  }
+
   @override
   void initState() {
+    _controllerSymptom.text = formatDate(widget.symptomsUser.symptomsDate);
     // symptoms = List<String>.from(widget.symptomsUser.symptoms);
 
     // print('DE FORM init: ${widget.symptomsUser.symptoms}');
@@ -68,6 +88,15 @@ class _SymptomFormState extends State<SymptomForm> {
                   widget.symptomsUser.symptoms.remove(symptom.name);
 
                 Preferences.myPrefs.setSymptoms(widget.symptomsUser.symptoms);
+
+                if (widget.symptomsUser.symptoms.length == 0) {
+                  setState(() => widget.symptomsUser.symptomsDate = null);
+                  _controllerSymptom.text = '';
+                } else {
+                  DateTime today = DateTime.now();
+                  setState(() => widget.symptomsUser.symptomsDate = today);
+                  _controllerSymptom.text = this.formatDate(today);
+                }
                 // Preferences.myPrefs
                 //     .setChecked(checkedSymptoms.nameFever, value);
               });
@@ -122,20 +151,6 @@ class _SymptomFormState extends State<SymptomForm> {
   }
 
   void _selectDateSymptoms(BuildContext context) async {
-    const dateParser = [
-      'enero',
-      'febrero',
-      'marzo',
-      'abril',
-      'mayo',
-      'junio',
-      'julio',
-      'agosto',
-      'septiembre',
-      'octubre',
-      'noviembre',
-      'diciembre'
-    ];
     DateTime today = DateTime.now();
     DateTime? picked = await showDatePicker(
       context: context,
@@ -147,12 +162,13 @@ class _SymptomFormState extends State<SymptomForm> {
 
     if (picked != null) {
       setState(() {
-        String formatDate =
-            '${picked.day} de ${dateParser[picked.month - 1]} del ${picked.year}';
+        String formatDate = this.formatDate(picked);
+        widget.symptomsUser.symptomsDate = picked;
         symptomsDate = picked.toUtc().toString();
         widget.updateDate(picked);
         _controllerSymptom.text = formatDate;
       });
+      Preferences.myPrefs.setSymptomsDate(picked);
     }
   }
 }

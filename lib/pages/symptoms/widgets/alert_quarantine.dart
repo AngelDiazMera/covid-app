@@ -22,7 +22,7 @@ class AlertQuarantine extends StatefulWidget {
 }
 
 class _AlertQuarantineState extends State<AlertQuarantine> {
-  String hcState = '';
+  String hcState = 'healthy';
   bool loading = true;
   bool reqError = false;
   bool finish = false;
@@ -147,8 +147,26 @@ class _AlertQuarantineState extends State<AlertQuarantine> {
                                       color: applicationColors['font_light']),
                                 )
                               ]
-                            : hcState == 'healthy'
+                            : hcState == 'infected'
                                 ? [
+                                    Text(
+                                      'Lo sentimos',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text(
+                                      'Usted ya se encuentra contagiado de Covid-19 y no puede registrar el riesgo.',
+                                      style: TextStyle(
+                                          fontSize: 19,
+                                          color:
+                                              applicationColors['font_light']),
+                                    )
+                                  ]
+                                : [
                                     Text(
                                       'Información',
                                       style: TextStyle(
@@ -185,24 +203,6 @@ class _AlertQuarantineState extends State<AlertQuarantine> {
                                       initialValue: remarks,
                                       icon: Icons.comment,
                                     )
-                                  ]
-                                : [
-                                    Text(
-                                      'Lo sentimos',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                    SizedBox(
-                                      height: 15,
-                                    ),
-                                    Text(
-                                      'Usted ya se encuentra contagiado de Covid-19 y no puede registrar el riesgo.',
-                                      style: TextStyle(
-                                          fontSize: 19,
-                                          color:
-                                              applicationColors['font_light']),
-                                    )
                                   ],
       ),
       actions: loading
@@ -223,8 +223,23 @@ class _AlertQuarantineState extends State<AlertQuarantine> {
                     ),
                   ),
                 ]
-              : hcState == 'healthy'
+              : hcState == 'risk' || hcState == 'infected'
                   ? [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context, 'CANCEL');
+                        },
+                        child: Text(
+                          "Está bien",
+                          style: TextStyle(
+                            color: applicationColors['font_light']!
+                                .withOpacity(0.75),
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ]
+                  : [
                       TextButton(
                         onPressed: () {
                           Navigator.pop(context, 'CANCEL');
@@ -247,21 +262,6 @@ class _AlertQuarantineState extends State<AlertQuarantine> {
                           "Está bien",
                           style: TextStyle(
                             color: applicationColors['medium_purple'],
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ]
-                  : [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context, 'CANCEL');
-                        },
-                        child: Text(
-                          "Está bien",
-                          style: TextStyle(
-                            color: applicationColors['font_light']!
-                                .withOpacity(0.75),
                             fontSize: 16,
                           ),
                         ),

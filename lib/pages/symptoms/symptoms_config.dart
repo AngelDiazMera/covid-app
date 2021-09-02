@@ -18,7 +18,7 @@ List<Symptom> symptomsList = [
       asset: 'assets/difficulty-breathing.png',
       name: 'Dificultad para respirar'),
   Symptom(asset: 'assets/fever.png', name: 'Dolor o presión en el pecho'),
-  Symptom(asset: 'assets/chest-pain-or-pressure.png', name: 'Fiebre'),
+  // Symptom(asset: 'assets/chest-pain-or-pressure.png', name: 'Fiebre'),
   Symptom(
       asset: 'assets/inability-to speak.png',
       name: 'Incapacidad para hablar o moverse'),

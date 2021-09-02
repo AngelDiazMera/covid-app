@@ -37,9 +37,10 @@ class _MyAppState extends State<MyApp> {
     PushNotificationService.messageStream.listen((message) {
       print('Se ha recibido un mensaje $message');
       // Push to the infected page with the args of the push notification
-      if (message['type'] == 'visit_infection')
-        navigatorKey.currentState?.pushNamed('/infected', arguments: message);
-
+      if (message['type'] == 'visit_infection' ||
+          message['type'] == 'member_infection') {
+        navigatorKey.currentState!.pushNamed('/infected', arguments: message);
+      }
       if (message['type'] == 'time_finished')
         showDialog(
           barrierDismissible: false,

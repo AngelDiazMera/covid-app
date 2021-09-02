@@ -74,7 +74,7 @@ class _AlertCovidRegisterState extends State<AlertCovidRegister> {
 
     // Notify to group
     await notifyInfected(
-        anonym: false,
+        anonym: isAnonymReq,
         symptomsDate: covidDate!,
         onError: (String error) => print(error));
     // Set covid

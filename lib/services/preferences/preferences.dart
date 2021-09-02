@@ -115,6 +115,16 @@ class Preferences {
     return false;
   }
 
+  Future<void> setSymptomsDate(DateTime date) async {
+    SharedPreferences prefs = await this.prefs;
+    prefs.setString('symptomsDate', '${date.toUtc()}');
+  }
+
+  Future<String?> getSymptomsDate() async {
+    SharedPreferences prefs = await this.prefs;
+    return prefs.getString('symptomsDate');
+  }
+
   Future<List<String>> getSymptoms() async {
     SharedPreferences prefs = await this.prefs;
     return prefs.getStringList('symptoms') ?? [];
