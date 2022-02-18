@@ -1,5 +1,4 @@
 <h1>
-  <img alt="covserver" src="https://user-images.githubusercontent.com/47422372/154617937-b4946741-701e-4918-b8fa-50833aadb09f.png" width="30" />
   Covserver
 </h1>
 
