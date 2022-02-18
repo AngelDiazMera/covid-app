@@ -1,4 +1,13 @@
-# Covserver
+<h1>
+  <img alt="covserver" src="https://user-images.githubusercontent.com/47422372/154617937-b4946741-701e-4918-b8fa-50833aadb09f.png" width="30" />
+  Covserver
+</h1>
+
+<p>
+  <img alt="Flutter" src="https://img.shields.io/badge/-Flutter-02569B?style=for-the-badge&logo=Flutter&logoColor=white" />
+  <img alt="Dart" src="https://img.shields.io/badge/-Dart-0175C2?style=for-the-badge&logo=Dart&logoColor=white" />
+  <img alt="Firebase" src="https://img.shields.io/badge/-Firebase-ffc70f?style=for-the-badge&logo=Firebase&logoColor=white" />
+</p>
 
 Flutter application to warn of possible Covid 19 infections with people with whom you could have been in contact.
 
