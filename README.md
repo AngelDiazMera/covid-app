@@ -36,7 +36,7 @@ Pull requests are allowed ;)
 
   Angel Díaz | Antonio Rosas | Rodrigo Cruz | Shaden Narvaez | Johan Maye
   :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-  [![](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/AngelDiazMera/) | [![](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Antonio152/) | [![](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/rodrigocrz/) | [![](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Shadenn/) | [![](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Johan07032000/)
+  [![](https://img.shields.io/badge/AngelDiazMera-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/AngelDiazMera/) | [![](https://img.shields.io/badge/Antonio152-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Antonio152/) | [![](https://img.shields.io/badge/rodrigocrz-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/rodrigocrz/) | [![](https://img.shields.io/badge/Shadenn-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Shadenn/) | [![](https://img.shields.io/badge/Johan07032000-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Johan07032000/)
 </div>
 
 ## License
